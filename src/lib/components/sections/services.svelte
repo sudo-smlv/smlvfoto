@@ -18,6 +18,11 @@
 		return Boolean(p.deliveryDays) && !p.features.some((f) => f.includes(p.deliveryDays));
 	}
 
+	// Extras and travel costs share one small card; a two-way switch picks which list is shown.
+	const lists = $derived([t.extras, t.travel].filter((l) => l.items.length));
+	let listIndex = $state(0);
+	const shownList = $derived(lists[Math.min(listIndex, lists.length - 1)]);
+
 	function onKey(e: KeyboardEvent) {
 		const n = srv.packages.length;
 		if (e.key === 'ArrowDown' || e.key === 'ArrowRight') picked = (activeIndex + 1) % n;
@@ -44,9 +49,9 @@
 			<p class="text-milk/75 max-w-md text-[0.95rem]">{t.subheading}</p>
 		</header>
 
-		<div class="mt-6 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-6">
+		<div class="mt-6 grid grid-cols-[minmax(0,1fr)] gap-5 lg:mt-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-x-6 lg:gap-y-4">
 			<!-- package list -->
-			<div role="tablist" aria-label={t.heading} aria-orientation="vertical" class="grid grid-cols-[minmax(0,1fr)] gap-3" tabindex="-1" onkeydown={onKey}>
+			<div role="tablist" aria-label={t.heading} aria-orientation="vertical" class="grid grid-cols-[minmax(0,1fr)] gap-2.5" tabindex="-1" onkeydown={onKey}>
 				{#each srv.packages as p, i (i)}
 					{@const selected = i === activeIndex}
 					{@const popular = p === srv.popular}
@@ -59,13 +64,13 @@
 						tabindex={selected ? 0 : -1}
 						onclick={() => (picked = i)}
 						class={[
-							'ticket group relative flex min-h-[clamp(4.25rem,9.5svh,5.25rem)] items-center justify-between gap-3 rounded-2xl px-5 py-4 text-left sm:gap-4 sm:px-6 transition-colors [--hole:9px]',
+							'ticket group relative flex min-h-[clamp(3.75rem,7.6svh,4.75rem)] items-center justify-between gap-3 rounded-2xl px-5 py-3 text-left sm:gap-4 sm:px-6 lg:py-2 transition-colors [--hole:9px]',
 							selected ? (popular ? 'bg-honey text-bark' : 'bg-paper text-bark') : 'bg-fir-soft/70 text-milk hover:bg-fir-soft'
 						]}
 					>
 						<span class="flex min-w-0 flex-col">
 							<span class="flex items-center gap-2">
-								<span class={['font-display min-w-0 text-xl leading-tight sm:text-2xl', selected ? '' : 'text-milk']}>{p.name}</span>
+								<span class={['font-display min-w-0 text-xl leading-tight sm:text-2xl lg:text-[clamp(1.25rem,2.9svh,1.5rem)]', selected ? '' : 'text-milk']}>{p.name}</span>
 								{#if popular}
 									<span class={['rounded-full px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wide uppercase', selected ? 'bg-bark text-honey-light' : 'bg-honey text-bark']}>{p.label}</span>
 								{/if}
@@ -84,7 +89,7 @@
 					id="pkg-panel"
 					role="tabpanel"
 					aria-labelledby="pkg-tab-{activeIndex}"
-					class={['relative flex flex-col rounded-[2rem] p-7 sm:p-8', popular ? 'bg-honey text-bark' : 'bg-paper text-bark']}
+					class={['relative flex flex-col rounded-[2rem] p-7 sm:p-8 lg:row-span-2 lg:px-8 lg:py-6', popular ? 'bg-honey text-bark' : 'bg-paper text-bark']}
 				>
 					{#key activeIndex}
 						<div class="flex h-full flex-col" in:fade={{ duration: 200 }}>
@@ -99,18 +104,23 @@
 								<div class="flex flex-col sm:items-end">
 									<span class="font-display text-[3.25rem] leading-none">€{srv.formatter.format(active.price.amount)}</span>
 									<span class={['mt-1 text-xs font-semibold', popular ? 'text-bark/70' : 'text-bark-soft']}>{t.priceUnit}</span>
+									{#if active.priceChf}
+										<span class={['mt-0.5 text-xs font-semibold tracking-wide', popular ? 'text-bark/70' : 'text-bark-soft']}>
+											{t.chfLabel ? `${t.chfLabel}: ` : ''}CHF {srv.formatter.format(active.priceChf)}
+										</span>
+									{/if}
 								</div>
 							</div>
 
-							<p class={['mt-3 max-w-2xl text-[0.95rem]', popular ? 'text-bark/80' : 'text-bark-soft']}>{active.description}</p>
+							<p class={['mt-3 max-w-2xl text-[0.95rem] lg:text-sm', popular ? 'text-bark/80' : 'text-bark-soft']}>{active.description}</p>
 
-							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2', popular ? 'border-bark/15' : 'border-line']}>
+							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2 lg:gap-y-1.5 lg:text-sm', popular ? 'border-bark/15' : 'border-line']}>
 								{#each active.features as feature, fi (fi)}
 									<li class="flex gap-2.5">{@render check(popular ? 'text-bark' : 'text-honey-ink')}<span>{feature}</span></li>
 								{/each}
 							</ul>
 
-							<div class="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5">
+							<div class="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5 lg:pt-4">
 								<span class="font-hand text-xl">{deliveryNotListed(active) ? active.deliveryDays : t.coverage}</span>
 								<button
 									type="button"
@@ -122,6 +132,35 @@
 							</div>
 						</div>
 					{/key}
+				</div>
+			{/if}
+
+			<!-- extras & travel costs -->
+			{#if shownList}
+				<div class="border-milk/15 rounded-2xl border px-5 py-4 lg:col-start-1 lg:self-start">
+					<div class="flex flex-wrap gap-2" role="group">
+						{#each lists as list, li (li)}
+							<button
+								type="button"
+								aria-pressed={shownList === list}
+								onclick={() => (listIndex = li)}
+								class={[
+									'min-h-9 rounded-full px-4 text-sm font-semibold transition-colors',
+									shownList === list ? 'bg-milk text-bark' : 'text-milk/75 hover:text-milk'
+								]}
+							>
+								{list.heading}
+							</button>
+						{/each}
+					</div>
+					<ul class="mt-2 flex flex-col">
+						{#each shownList.items as item, ii (ii)}
+							<li class="border-milk/10 flex items-baseline justify-between gap-4 border-t py-1.5 text-sm leading-snug first:border-t-0">
+								<span class="text-milk/85">{item.title}</span>
+								<span class="text-honey-light shrink-0 font-semibold whitespace-nowrap">{item.price}</span>
+							</li>
+						{/each}
+					</ul>
 				</div>
 			{/if}
 		</div>

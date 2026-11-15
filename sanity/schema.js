@@ -256,6 +256,55 @@
         { name: 'coverage', title: 'Строка справа от заголовка', type: 'localeString' },
         { name: 'popularBadge', title: 'Плашка популярного пакета', type: 'localeString' },
         { name: 'priceUnit', title: 'Подпись под ценой', type: 'localeString' },
+        { name: 'chfLabel', title: 'Подпись к цене в франках (например «Швейцария»)', type: 'localeString' },
+        {
+          name: 'extras',
+          title: 'Дополнительно к пакету',
+          type: 'object',
+          fields: [
+            { name: 'heading', title: 'Заголовок (кнопка-переключатель)', type: 'localeString' },
+            {
+              name: 'items',
+              title: 'Строки',
+              type: 'array',
+              of: [
+                {
+                  name: 'priceLine',
+                  title: 'Строка',
+                  type: 'object',
+                  fields: [
+                    { name: 'title', title: 'Что', type: 'localeString' },
+                    { name: 'price', title: 'Цена (текстом, например +40 €)', type: 'localeString' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'travel',
+          title: 'Выезд',
+          type: 'object',
+          fields: [
+            { name: 'heading', title: 'Заголовок (кнопка-переключатель)', type: 'localeString' },
+            {
+              name: 'items',
+              title: 'Строки',
+              type: 'array',
+              of: [
+                {
+                  name: 'priceLine',
+                  title: 'Строка',
+                  type: 'object',
+                  fields: [
+                    { name: 'title', title: 'Что', type: 'localeString' },
+                    { name: 'price', title: 'Цена (текстом, например +40 €)', type: 'localeString' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
         {
           name: 'packages',
           title: 'Пакеты (порядок как здесь)',
@@ -269,6 +318,7 @@
                 { name: 'title', title: 'Название в списке редактора', type: 'string' },
                 { name: 'packageId', title: 'Код пакета (латиницей, не меняйте без необходимости)', type: 'string' },
                 { name: 'price', title: 'Цена, €', type: 'number' },
+                { name: 'priceChf', title: 'Цена для Швейцарии, CHF (пусто — не показывать)', type: 'number' },
                 { name: 'popular', title: 'Выделить как самый популярный', type: 'boolean' },
                 { name: 'name', title: 'Название', type: 'localeString' },
                 { name: 'label', title: 'Метка (МИНИ, ХИТ…)', type: 'localeString' },

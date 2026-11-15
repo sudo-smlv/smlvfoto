@@ -47,9 +47,13 @@ export type HomeDoc = {
 		coverage?: string;
 		popularBadge?: string;
 		priceUnit?: string;
+		chfLabel?: string;
+		extras?: PriceList;
+		travel?: PriceList;
 		packages?: {
 			packageId?: string;
 			price?: number;
+			priceChf?: number;
 			popular?: boolean;
 			name?: string;
 			label?: string;
@@ -289,6 +293,15 @@ export type PortfolioStory = {
 
 export type PackageId = string;
 
+type PriceList = { heading?: string; items?: { title?: string; price?: string }[] };
+
+const priceList = (list: PriceList | undefined) => ({
+	heading: s(list?.heading),
+	items: (list?.items ?? [])
+		.filter((i) => i.title)
+		.map((i) => ({ title: s(i.title), price: s(i.price) }))
+});
+
 /** Builds the dictionary the components read (`i18n.content`) for one language. */
 export function buildContent(home: HomeDoc) {
 	const { hero = {}, about = {}, portfolio = {}, services = {}, locations = {}, photobooks = {} } = home;
@@ -376,6 +389,9 @@ export function buildContent(home: HomeDoc) {
 			coverage: s(services.coverage),
 			popularBadge: s(services.popularBadge),
 			priceUnit: s(services.priceUnit),
+			chfLabel: s(services.chfLabel),
+			extras: priceList(services.extras),
+			travel: priceList(services.travel),
 			packages: (services.packages ?? []).map((p) => ({
 				id: s(p.packageId) as PackageId,
 				name: s(p.name),
@@ -383,6 +399,7 @@ export function buildContent(home: HomeDoc) {
 				tagline: s(p.tagline),
 				description: s(p.description),
 				price: { amount: p.price ?? 0, currency: 'EUR' as const },
+				priceChf: p.priceChf ?? null,
 				features: p.features ?? [],
 				deliveryDays: s(p.deliveryDays),
 				popular: Boolean(p.popular),
