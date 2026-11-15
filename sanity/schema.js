@@ -258,6 +258,19 @@
         { name: 'priceUnit', title: 'Подпись под ценой', type: 'localeString' },
         { name: 'chfLabel', title: 'Подпись к цене в франках (например «Швейцария»)', type: 'localeString' },
         {
+          name: 'seasons',
+          title: 'Времена года для {season}',
+          description: 'В названиях и текстах пакетов {season} заменяется словом текущего сезона (Зима — декабрь–февраль, Весна — март–май, Лето — июнь–август, Осень — сентябрь–ноябрь). Например «{season} мини» → «Осенняя мини».',
+          type: 'object',
+          options: { collapsible: true, collapsed: true },
+          fields: [
+            { name: 'winter', title: 'Зима', type: 'localeString' },
+            { name: 'spring', title: 'Весна', type: 'localeString' },
+            { name: 'summer', title: 'Лето', type: 'localeString' },
+            { name: 'autumn', title: 'Осень', type: 'localeString' },
+          ],
+        },
+        {
           name: 'extras',
           title: 'Дополнительно к пакету',
           type: 'object',

@@ -48,6 +48,7 @@ export type HomeDoc = {
 		popularBadge?: string;
 		priceUnit?: string;
 		chfLabel?: string;
+		seasons?: Partial<Record<Season, string>>;
 		extras?: PriceList;
 		travel?: PriceList;
 		packages?: {
@@ -293,6 +294,17 @@ export type PortfolioStory = {
 
 export type PackageId = string;
 
+type Season = 'winter' | 'spring' | 'summer' | 'autumn';
+
+/** Current season in Freiburg (meteorological: winter = Dec–Feb, and so on). */
+function currentSeason(now = new Date()): Season {
+	const month = Number(new Intl.DateTimeFormat('en', { month: 'numeric', timeZone: 'Europe/Berlin' }).format(now));
+	if (month === 12 || month <= 2) return 'winter';
+	if (month <= 5) return 'spring';
+	if (month <= 8) return 'summer';
+	return 'autumn';
+}
+
 type PriceList = { heading?: string; items?: { title?: string; price?: string }[] };
 
 const priceList = (list: PriceList | undefined) => ({
@@ -309,6 +321,9 @@ export function buildContent(home: HomeDoc) {
 	const form = contact.form ?? {};
 	const email = contact.email ?? {};
 	const texts = strings(portfolio.texts, PORTFOLIO_TEXT_KEYS);
+	// "{season}" in package texts becomes the current season's word, e.g. "{season} мини" → "Осенняя мини".
+	const seasonWord = s(services.seasons?.[currentSeason()]);
+	const withSeason = (value: string | undefined) => fill(s(value), { season: seasonWord });
 
 	const stories: PortfolioStory[] = (portfolio.stories ?? []).map((story) => {
 		const cover = img(story.cover);
@@ -394,16 +409,16 @@ export function buildContent(home: HomeDoc) {
 			travel: priceList(services.travel),
 			packages: (services.packages ?? []).map((p) => ({
 				id: s(p.packageId) as PackageId,
-				name: s(p.name),
+				name: withSeason(p.name),
 				label: s(p.label),
-				tagline: s(p.tagline),
-				description: s(p.description),
+				tagline: withSeason(p.tagline),
+				description: withSeason(p.description),
 				price: { amount: p.price ?? 0, currency: 'EUR' as const },
 				priceChf: p.priceChf ?? null,
-				features: p.features ?? [],
+				features: (p.features ?? []).map(withSeason),
 				deliveryDays: s(p.deliveryDays),
 				popular: Boolean(p.popular),
-				cta: s(p.cta)
+				cta: withSeason(p.cta)
 			}))
 		},
 		locations: {
