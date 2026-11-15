@@ -8,7 +8,7 @@
 
 	const navItems = $derived([
 		{ id: 'about', label: content.nav.about },
-		...(content.portfolio.items.length ? [{ id: 'portfolio', label: content.nav.portfolio }] : []),
+		{ id: 'portfolio', label: content.nav.portfolio },
 		{ id: 'services', label: content.nav.services },
 		{ id: 'locations', label: content.nav.locations },
 		{ id: 'photobooks', label: content.nav.photobooks },
@@ -99,7 +99,7 @@
 		</div>
 
 		<div class="text-milk/75 relative mt-20 flex flex-col items-center justify-between gap-2 text-sm sm:flex-row">
-			<span>© {year} {site.name}. {t.rights}</span>
+			<span>© {year} {site.shortName}. {t.rights}</span>
 			<span class="font-hand text-milk text-xl">{t.madeWith}</span>
 		</div>
 	</div>

@@ -32,8 +32,8 @@
 							class="h-[clamp(180px,calc(100svh-38.5rem),420px)] w-full object-cover"
 						/>
 						<!-- stamp -->
-						<div class="ticket bg-paper absolute top-3 right-3 flex w-20 flex-col items-center rounded-md px-2 py-2.5 text-center [--hole:5px]">
-							<span class="text-xl leading-none" aria-hidden="true">{item.icon}</span>
+						<div class="ticket bg-paper absolute top-3 right-3 flex w-20 flex-col items-center gap-1 rounded-md px-2 py-2.5 text-center [--hole:5px]">
+							<span class="text-xl leading-[1.15]" aria-hidden="true">{item.icon}</span>
 							<span class="font-display text-bark text-lg leading-none">{item.number}</span>
 							<span class="text-bark-soft text-[0.6rem] font-bold tracking-[0.14em] uppercase">
 								{item.type === 'NATURE' ? t.locationLabels.nature : t.locationLabels.urban}

@@ -44,9 +44,9 @@
 			<p class="text-milk/75 max-w-md text-[0.95rem]">{t.subheading}</p>
 		</header>
 
-		<div class="mt-6 grid gap-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-6">
+		<div class="mt-6 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-6">
 			<!-- package list -->
-			<div role="tablist" aria-label={t.heading} aria-orientation="vertical" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1" tabindex="-1" onkeydown={onKey}>
+			<div role="tablist" aria-label={t.heading} aria-orientation="vertical" class="grid grid-cols-[minmax(0,1fr)] gap-3" tabindex="-1" onkeydown={onKey}>
 				{#each srv.packages as p, i (i)}
 					{@const selected = i === activeIndex}
 					{@const popular = p === srv.popular}
@@ -59,20 +59,20 @@
 						tabindex={selected ? 0 : -1}
 						onclick={() => (picked = i)}
 						class={[
-							'ticket group relative flex min-h-[clamp(4.25rem,9.5svh,5.25rem)] items-center justify-between gap-4 rounded-2xl px-6 py-4 text-left transition-colors [--hole:9px]',
+							'ticket group relative flex min-h-[clamp(4.25rem,9.5svh,5.25rem)] items-center justify-between gap-3 rounded-2xl px-5 py-4 text-left sm:gap-4 sm:px-6 transition-colors [--hole:9px]',
 							selected ? (popular ? 'bg-honey text-bark' : 'bg-paper text-bark') : 'bg-fir-soft/70 text-milk hover:bg-fir-soft'
 						]}
 					>
 						<span class="flex min-w-0 flex-col">
 							<span class="flex items-center gap-2">
-								<span class={['font-display text-2xl leading-tight', selected ? '' : 'text-milk']}>{p.name}</span>
+								<span class={['font-display min-w-0 text-xl leading-tight sm:text-2xl', selected ? '' : 'text-milk']}>{p.name}</span>
 								{#if popular}
 									<span class={['rounded-full px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wide uppercase', selected ? 'bg-bark text-honey-light' : 'bg-honey text-bark']}>{p.label}</span>
 								{/if}
 							</span>
 							<span class={['truncate text-sm', selected ? 'text-bark/75' : 'text-milk/70']}>{p.tagline}</span>
 						</span>
-						<span class="font-display shrink-0 text-3xl">€{srv.formatter.format(p.price.amount)}</span>
+						<span class="font-display shrink-0 text-2xl sm:text-3xl">€{srv.formatter.format(p.price.amount)}</span>
 					</button>
 				{/each}
 			</div>

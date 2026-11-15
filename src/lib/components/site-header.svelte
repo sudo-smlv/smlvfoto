@@ -14,7 +14,7 @@
 
 	const sections = $derived([
 		{ id: 'about', label: content.nav.about },
-		...(content.portfolio.items.length ? [{ id: 'portfolio', label: content.nav.portfolio }] : []),
+		{ id: 'portfolio', label: content.nav.portfolio },
 		{ id: 'services', label: content.nav.services },
 		{ id: 'locations', label: content.nav.locations },
 		{ id: 'photobooks', label: content.nav.photobooks },
@@ -76,7 +76,7 @@
 			</span>
 		</button>
 
-		<ul class="hidden items-center gap-0.5 lg:flex">
+		<ul class="hidden items-center gap-0.5 xl:flex">
 			{#each sections as s (s.id)}
 				<li>
 					<button
@@ -113,7 +113,7 @@
 			</button>
 			<button
 				type="button"
-				class="border-line bg-paper flex size-11 items-center justify-center rounded-full border lg:hidden"
+				class="border-line bg-paper flex size-11 items-center justify-center rounded-full border xl:hidden"
 				aria-label={mobileOpen ? content.a11y.closeMenu : content.a11y.openMenu}
 				aria-expanded={mobileOpen}
 				onclick={() => (mobileOpen = !mobileOpen)}
@@ -131,7 +131,7 @@
 
 	{#if mobileOpen}
 		<div
-			class="bg-fir text-milk fixed inset-0 top-0 -z-10 overflow-y-auto px-6 pt-28 pb-10 lg:hidden"
+			class="bg-fir text-milk fixed inset-0 top-0 -z-10 overflow-y-auto px-6 pt-28 pb-10 xl:hidden"
 			transition:fade={{ duration: 200 }}
 		>
 			<ul class="flex flex-col gap-1">

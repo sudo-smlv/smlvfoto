@@ -137,7 +137,9 @@
 									</span>
 									<span class="flex flex-col px-1.5 pt-3 pb-4">
 										<span class="font-hand text-bark text-2xl leading-none">{story.caption}</span>
-										<span class="text-bark-soft mt-1.5 text-sm">{story.location} · {story.year}</span>
+										{#if story.location || story.year}
+											<span class="text-bark-soft mt-1.5 text-sm">{[story.location, story.year].filter(Boolean).join(' · ')}</span>
+										{/if}
 									</span>
 								</button>
 							</li>

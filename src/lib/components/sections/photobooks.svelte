@@ -46,7 +46,7 @@
 		one under the pointer widens; on phones it is a sideways-scrolling strip.
 	-->
 	<ul
-		class="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:px-8 lg:mt-10 lg:h-[clamp(260px,calc(100svh-28rem),520px)] lg:snap-none lg:gap-3 lg:overflow-visible lg:px-5 [&::-webkit-scrollbar]:hidden"
+		class="mt-8 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 sm:scroll-px-8 [scrollbar-width:none] sm:px-8 lg:mt-10 lg:h-[clamp(260px,calc(100svh-28rem),520px)] lg:snap-none lg:gap-3 lg:overflow-visible lg:px-5 [&::-webkit-scrollbar]:hidden"
 	>
 		{#each photos as photo, i (i)}
 			<li

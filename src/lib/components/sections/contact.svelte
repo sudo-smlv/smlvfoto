@@ -31,7 +31,7 @@
 </script>
 
 {#snippet channelList(compact = false)}
-	<ul class={compact ? 'grid gap-2.5 sm:grid-cols-3' : 'flex flex-wrap justify-center gap-3'}>
+	<ul class={compact ? 'grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3' : 'flex flex-wrap justify-center gap-3'}>
 		{#each channels as channel, i (i)}
 			<li>
 				<a
