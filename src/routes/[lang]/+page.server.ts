@@ -19,7 +19,7 @@ const ContactSchema = z.object({
 	contact: z.string().trim().min(3, 'required').max(120, 'tooLong'),
 	city: z.string().trim().max(80, 'tooLong').optional(),
 	package: z
-		.enum(['individual', 'moment', 'atmosphere', 'legacy'])
+		.enum(['mini', 'moment', 'atmosphere', 'legacy'])
 		.optional()
 		.or(z.literal('').transform(() => undefined)),
 	message: z.string().trim().max(1000, 'tooLong').optional(),

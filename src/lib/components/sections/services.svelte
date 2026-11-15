@@ -83,6 +83,13 @@
 							{srv.popular.deliveryDays}
 						</Badge>
 					</div>
+					{#if srv.popular.priceCH}
+						<p
+							class="-mt-4 font-mono text-[10px] tracking-[0.2em] text-background/55 uppercase sm:-mt-6 sm:text-xs"
+						>
+							{t.swissLabel}: CHF {srv.formatter.format(srv.popular.priceCH)}
+						</p>
+					{/if}
 
 					<ul class="flex flex-col gap-3 border-t border-background/20 pt-6 sm:gap-4 sm:pt-8">
 						{#each srv.popular.features as feature, i (i)}
@@ -142,6 +149,13 @@
 									{p.deliveryDays}
 								</Badge>
 							</div>
+							{#if p.priceCH}
+								<p
+									class="-mt-3 font-mono text-[10px] tracking-[0.2em] text-background/55 uppercase sm:-mt-5"
+								>
+									{t.swissLabel}: CHF {srv.formatter.format(p.priceCH)}
+								</p>
+							{/if}
 
 							<ul class="flex flex-col gap-2.5 border-t border-background/15 pt-4">
 								{#each p.features as feature (feature)}
@@ -164,6 +178,28 @@
 					</Card>
 				{/each}
 			</div>
+		</div>
+
+		<div class="mt-6 grid gap-6 sm:mt-8 sm:gap-8 lg:gap-px lg:grid-cols-2">
+			{#each [t.addons, t.travel] as block (block.heading)}
+				<div class="border border-background/20 p-6 sm:p-10 lg:border-0 lg:p-12">
+					<h3
+						class="font-mono text-[10px] tracking-[0.3em] text-background/55 uppercase sm:text-xs"
+					>
+						{block.heading}
+					</h3>
+					<dl class="mt-6 flex flex-col">
+						{#each block.items as item (item.name)}
+							<div
+								class="flex items-baseline justify-between gap-6 border-t border-background/15 py-3 text-sm sm:text-base"
+							>
+								<dt class="text-background/80">{item.name}</dt>
+								<dd class="shrink-0 font-serif text-background">{item.price}</dd>
+							</div>
+						{/each}
+					</dl>
+				</div>
+			{/each}
 		</div>
 	</div>
 </section>

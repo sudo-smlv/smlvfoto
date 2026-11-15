@@ -13,12 +13,13 @@ export type PortfolioStory = {
 };
 
 type Package = {
-	id: 'individual' | 'moment' | 'atmosphere' | 'legacy';
+	id: 'mini' | 'moment' | 'atmosphere' | 'legacy';
 	name: string;
 	label: string;
 	tagline: string;
 	description: string;
 	price: { amount: number; currency: 'EUR' };
+	priceCH?: number;
 	features: readonly string[];
 	deliveryDays: string;
 	popular?: boolean;
@@ -101,23 +102,42 @@ export const de = {
 
 		popularBadge: 'Beliebteste Wahl',
 		priceUnit: 'Festpreis',
+		swissLabel: 'Schweiz',
+		addons: {
+			heading: 'Extras zu jedem Paket',
+			items: [
+				{ name: 'Stimmungsvolles Video (Reel) zu „Moment“ oder „Weihnachts-Mini“', price: '+130 €' },
+				{ name: 'Premium Fotobuch 20×20 cm, einzeln bestellbar', price: 'ab 220 €' },
+				{ name: 'Gutschein für jedes Paket', price: 'zum Paketpreis' }
+			] as const
+		},
+		travel: {
+			heading: 'Anfahrt',
+			items: [
+				{ name: 'Freiburg & 30 km Umkreis', price: 'inklusive' },
+				{ name: 'Karlsruhe, Baden-Baden, Konstanz', price: '+40 €' },
+				{ name: 'Stuttgart, Heidelberg, Mannheim', price: '+60 €' },
+				{ name: 'Basel & Zürich', price: 'im CHF-Preis enthalten' }
+			] as const
+		},
 		packages: [
 			{
-				id: 'individual',
-				name: 'Individual',
-				label: 'MINI',
-				tagline: 'Street-Foto & Porträt',
+				id: 'mini',
+				name: 'Weihnachts-Mini',
+				label: 'SAISON',
+				tagline: 'Kurzes Weihnachtsshooting',
 				description:
-					'Ein kurzes individuelles Fotoshooting. Perfekt für die Auffrischung des Portfolios oder für Social Media.',
-				price: { amount: 100, currency: 'EUR' },
+					'Ein kurzes Familien-Weihnachtsshooting an einer festen Location in Freiburg. Ideal für Weihnachtskarten und als Geschenk für die Großeltern.',
+				price: { amount: 159, currency: 'EUR' },
 				features: [
-					'30 Minuten Shooting',
-					'10 Bilder in aufwendiger Magazin-Retusche',
-					'Alle gelungenen Bilder farbkorrigiert (30+ Stück)',
-					'Express-Bearbeitung — bis zu 7 Tage'
+					'30 Minuten Shooting an einer festen Location in Freiburg',
+					'10 bearbeitete Bilder in Magazin-Retusche',
+					'Persönliche Online-Galerie für 3 Monate',
+					'Termine im November & Dezember, auch als Gutschein',
+					'Express-Bearbeitung — bis zu 5 Tage'
 				],
-				deliveryDays: 'bis zu 7 Tage',
-				cta: '„Individual“ wählen'
+				deliveryDays: 'bis zu 5 Tage',
+				cta: '„Weihnachts-Mini“ wählen'
 			},
 			{
 				id: 'moment',
@@ -126,11 +146,11 @@ export const de = {
 				tagline: 'Kurzer Spaziergang',
 				description:
 					'Ideal für ein kurzes Fotoshooting mit der Familie, ein Geschwister-Fotoshooting oder ein entspanntes Paar-Fotoshooting in der Altstadt.',
-				price: { amount: 220, currency: 'EUR' },
+				price: { amount: 290, currency: 'EUR' },
+				priceCH: 390,
 				features: [
 					'1 Stunde Shooting an der gewählten Location',
-					'25 Bilder in aufwendiger Magazin-Retusche',
-					'Alle gelungenen Bilder farbkorrigiert (80+ Stück)',
+					'80+ bearbeitete Bilder, davon 25 in Magazin-Retusche',
 					'Persönliche Online-Galerie für 6 Monate',
 					'Stilberatung & 1 Location zur Auswahl',
 					'Express-Bearbeitung — bis zu 7 Tage'
@@ -145,11 +165,11 @@ export const de = {
 				tagline: 'Die komplette Familiengeschichte',
 				description:
 					'Ein professionelles Familienfotoshooting mit viel Zeit für Spiele mit den Kindern und echte Emotionen. Inklusive Outfit-Beratung und Locationwechsel.',
-				price: { amount: 380, currency: 'EUR' },
+				price: { amount: 450, currency: 'EUR' },
+				priceCH: 590,
 				features: [
-					'Bis zu 2 Stunden Shooting (Stadt + Natur / 2 Outfits)',
-					'50+ Bilder in aufwendiger Magazin-Retusche',
-					'Alle gelungenen Bilder farbkorrigiert (150+ Stück)',
+					'Bis zu 1,5 Stunden Shooting (2 Outfits, Locationwechsel möglich)',
+					'120+ bearbeitete Bilder, davon 40 in Magazin-Retusche',
 					'Ein stimmungsvolles Video (Reels / Stories)',
 					'Vollständige Online-Galerie für 1 Jahr',
 					'Hilfe bei der Outfitwahl & Nutzung des perfekten Sonnenuntergangslichts',
@@ -166,11 +186,11 @@ export const de = {
 				tagline: 'Familienfotoshooting + Premium Fotobuch',
 				description:
 					'Das All-Inclusive-Paket für eure Familienerinnerungen. Ein ausgiebiges Shooting und ein handgefertigtes Fotobuch als Erbstück für Generationen.',
-				price: { amount: 690, currency: 'EUR' },
+				price: { amount: 850, currency: 'EUR' },
+				priceCH: 990,
 				features: [
-					'Bis zu 3,5 Stunden Shooting (Stadt + Natur / 3–4 Outfits)',
-					'80+ Bilder in aufwendiger Magazin-Retusche',
-					'Alle gelungenen Bilder farbkorrigiert (250+ Stück)',
+					'Bis zu 2 Stunden Shooting (Stadt + Natur / 2–3 Outfits)',
+					'160+ bearbeitete Bilder, davon 60 in Magazin-Retusche',
 					'Premium Fotobuch 20×20 cm in Stoff/Leder mit individueller Prägung',
 					'Kostenloser Versand des Fotobuchs in ganz Europa',
 					'Serie von stimmungsvollen Videos (Reels / Stories)',
@@ -309,7 +329,7 @@ export const de = {
 	faq: {
 		heading: 'Häufig gestellte Fragen (FAQ)',
 		intro: 'Wenn ihr keine Antwort findet — schreibt mir einfach, wir besprechen die Details.',
-		coverage: '06 Antworten · Ich antworte innerhalb eines Tages',
+		coverage: '07 Antworten · Ich antworte innerhalb eines Tages',
 		sidebar: {
 			heading: 'Keine Antwort gefunden?',
 			body: 'Schreibt eure Frage in das Formular unten — ich antworte persönlich. Oder blättert durch die Fragen links, wahrscheinlich steht die Antwort bereits dort.'
@@ -322,15 +342,19 @@ export const de = {
 			},
 			{
 				q: 'Bietest du auch einen Gutschein für ein Familienfotoshooting an?',
-				a: 'Ja! Ein Gutschein für ein Familienfotoshooting ist das perfekte Geschenk, ideal auch für ein Familien-Weihnachtsshooting oder zum Muttertag. Schreibt mir einfach.'
+				a: 'Ja! Einen Gutschein gibt es für jedes Paket — vom „Weihnachts-Mini“ (159 €) bis „Legacy“ (850 €). Das perfekte Geschenk, ideal auch für ein Familien-Weihnachtsshooting oder zum Muttertag. Schreibt mir einfach.'
 			},
 			{
 				q: 'Wie lange dauert die Bearbeitung?',
-				a: '„Moment“ und „Atmosphäre“ werden innerhalb von 7 Tagen geliefert. Beim „Legacy“-Paket erhaltet ihr die ersten 5 Bilder in 24 Stunden, die komplette Galerie nach 10 Tagen und das Layout/Druck des Buches dauert etwa 2 Wochen.'
+				a: 'Das „Weihnachts-Mini“ erhaltet ihr innerhalb von 5 Tagen, „Moment“ und „Atmosphäre“ innerhalb von 7 Tagen. Beim „Legacy“-Paket erhaltet ihr die ersten 5 Bilder in 24 Stunden, die komplette Galerie nach 10 Tagen und das Layout/Druck des Buches dauert etwa 2 Wochen.'
 			},
 			{
 				q: 'Was passiert, wenn das Wetter schlecht ist?',
 				a: 'Für Outdoor-Shootings habe ich überdachte Ersatz-Locations (Cafés, Galerien, Hotels). Wenn wir das Shooting wegen des Wetters verschieben müssen — tun wir das kostenlos.'
+			},
+			{
+				q: 'Fallen Anfahrtskosten an?',
+				a: 'In Freiburg und im Umkreis von 30 km ist die Anfahrt inklusive. Für Karlsruhe, Baden-Baden und Konstanz berechne ich pauschal 40 €, für Stuttgart, Heidelberg und Mannheim 60 €. Für Basel und Zürich gelten die Preise in CHF — die Anfahrt ist dort bereits enthalten.'
 			},
 			{
 				q: 'Wie erfolgt der Versand des Fotobuchs?',

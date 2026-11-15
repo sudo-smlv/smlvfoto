@@ -13,12 +13,13 @@ export type PortfolioStory = {
 };
 
 type Package = {
-	id: 'individual' | 'moment' | 'atmosphere' | 'legacy';
+	id: 'mini' | 'moment' | 'atmosphere' | 'legacy';
 	name: string;
 	label: string;
 	tagline: string;
 	description: string;
 	price: { amount: number; currency: 'EUR' };
+	priceCH?: number;
 	features: readonly string[];
 	deliveryDays: string;
 	popular?: boolean;
@@ -101,23 +102,42 @@ export const en = {
 
 		popularBadge: 'Most Popular Choice',
 		priceUnit: 'fixed price',
+		swissLabel: 'Switzerland',
+		addons: {
+			heading: 'Add-ons for any package',
+			items: [
+				{ name: 'Atmospheric video (Reel) with "Moment" or "Christmas Mini"', price: '+€130' },
+				{ name: 'Premium 20×20 cm photobook, ordered separately', price: 'from €220' },
+				{ name: 'Gift voucher for any package', price: 'at package price' }
+			] as const
+		},
+		travel: {
+			heading: 'Travel',
+			items: [
+				{ name: 'Freiburg & 30 km around', price: 'included' },
+				{ name: 'Karlsruhe, Baden-Baden, Konstanz', price: '+€40' },
+				{ name: 'Stuttgart, Heidelberg, Mannheim', price: '+€60' },
+				{ name: 'Basel & Zurich', price: 'included in the CHF price' }
+			] as const
+		},
 		packages: [
 			{
-				id: 'individual',
-				name: 'Individual',
-				label: 'MINI',
-				tagline: 'Street Photo & Portrait',
+				id: 'mini',
+				name: 'Christmas Mini',
+				label: 'SEASONAL',
+				tagline: 'A Short Christmas Shoot',
 				description:
-					'A short individual photoshoot. Perfect for refreshing your portfolio or social media.',
-				price: { amount: 100, currency: 'EUR' },
+					'A short family Christmas photoshoot at a fixed location in Freiburg. Perfect for Christmas cards and as a gift for the grandparents.',
+				price: { amount: 159, currency: 'EUR' },
 				features: [
-					'30 minutes shooting',
-					'10 photos with high-end magazine retouching',
-					'All successful photos color-corrected (30+ pieces)',
-					'Delivery — up to 7 days'
+					'30 minutes shooting at a fixed location in Freiburg',
+					'10 edited photos with magazine retouching',
+					'Personal online gallery for 3 months',
+					'Dates in November & December, also available as a voucher',
+					'Express delivery — up to 5 days'
 				],
-				deliveryDays: 'up to 7 days',
-				cta: 'Choose "Individual"'
+				deliveryDays: 'up to 5 days',
+				cta: 'Choose "Christmas Mini"'
 			},
 			{
 				id: 'moment',
@@ -126,11 +146,11 @@ export const en = {
 				tagline: 'A Short Walk',
 				description:
 					'Perfect for a short family photoshoot, a sibling photoshoot, or a relaxed couples photoshoot in the old town.',
-				price: { amount: 220, currency: 'EUR' },
+				price: { amount: 290, currency: 'EUR' },
+				priceCH: 390,
 				features: [
 					'1 hour shooting at a chosen location',
-					'25 photos with high-end magazine retouching',
-					'All successful photos color-corrected (80+ pieces)',
+					'80+ edited photos, 25 of them with magazine retouching',
 					'Personal online gallery for 6 months',
 					'Style consultation & 1 location to choose from',
 					'Express delivery — up to 7 days'
@@ -145,11 +165,11 @@ export const en = {
 				tagline: 'The Complete Family Story',
 				description:
 					'A professional family photoshoot with plenty of time for playing with the kids and capturing real emotions. Includes outfit advice and a location change.',
-				price: { amount: 380, currency: 'EUR' },
+				price: { amount: 450, currency: 'EUR' },
+				priceCH: 590,
 				features: [
-					'Up to 2 hours shooting (City + Nature / 2 outfits)',
-					'50+ photos with high-end magazine retouching',
-					'All successful photos color-corrected (150+ pieces)',
+					'Up to 1.5 hours shooting (2 outfits, location change possible)',
+					'120+ edited photos, 40 of them with magazine retouching',
 					'An atmospheric video (Reels / Stories)',
 					'Full online gallery for 1 year',
 					'Help with outfit choices & shooting in perfect sunset light',
@@ -166,11 +186,11 @@ export const en = {
 				tagline: 'Family Photoshoot + Premium Photobook',
 				description:
 					'The all-inclusive package for your family memories. An extensive shooting and a handcrafted photobook as a family heirloom for generations.',
-				price: { amount: 690, currency: 'EUR' },
+				price: { amount: 850, currency: 'EUR' },
+				priceCH: 990,
 				features: [
-					'Up to 3.5 hours shooting (City + Nature / 3–4 outfits)',
-					'80+ photos with high-end magazine retouching',
-					'All successful photos color-corrected (250+ pieces)',
+					'Up to 2 hours shooting (City + Nature / 2–3 outfits)',
+					'160+ edited photos, 60 of them with magazine retouching',
 					'Premium 20×20 cm photobook in fabric/leather with custom embossing',
 					'Free delivery of the photobook across Europe',
 					'Series of atmospheric videos (Reels / Stories)',
@@ -309,7 +329,7 @@ export const en = {
 	faq: {
 		heading: 'Frequently Asked Questions (FAQ)',
 		intro: 'If you can’t find an answer — just message me, we can discuss the details.',
-		coverage: '06 answers · I reply within a day',
+		coverage: '07 answers · I reply within a day',
 		sidebar: {
 			heading: 'Didn’t find an answer?',
 			body: 'Write your question in the form below — I will answer personally. Or browse the questions on the left, the answer is likely already there.'
@@ -322,15 +342,19 @@ export const en = {
 			},
 			{
 				q: 'Do you also offer a gift voucher for a family photoshoot?',
-				a: 'Yes! A family photoshoot voucher is the perfect gift, also ideal for a Christmas family photoshoot or for Mother’s Day. Just send me a message.'
+				a: 'Yes! Vouchers are available for every package — from the "Christmas Mini" (€159) to "Legacy" (€850). The perfect gift, also ideal for a Christmas family photoshoot or for Mother’s Day. Just send me a message.'
 			},
 			{
 				q: 'How long does the editing take?',
-				a: '"Moment" and "Atmosphere" are delivered within 7 days. For the "Legacy" package, you receive the first 5 photos in 24 hours, the full gallery in 10 days, and the photobook layout/printing takes about 2 weeks.'
+				a: 'The "Christmas Mini" is delivered within 5 days, "Moment" and "Atmosphere" within 7 days. For the "Legacy" package, you receive the first 5 photos in 24 hours, the full gallery in 10 days, and the photobook layout/printing takes about 2 weeks.'
 			},
 			{
 				q: 'What happens if the weather is bad?',
 				a: 'For outdoor shoots, I have indoor backup locations (cafes, galleries, hotels). If we have to reschedule the shoot due to weather — we do it free of charge.'
+			},
+			{
+				q: 'Are there travel costs?',
+				a: 'Travel is included in Freiburg and within 30 km. For Karlsruhe, Baden-Baden and Konstanz I charge a flat €40, for Stuttgart, Heidelberg and Mannheim €60. For Basel and Zurich the CHF prices apply — travel is already included there.'
 			},
 			{
 				q: 'How is the photobook shipped?',
