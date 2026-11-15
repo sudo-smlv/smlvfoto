@@ -20,7 +20,7 @@
 
 		<div class="mt-6 grid gap-6 lg:grid-cols-2">
 			{#each t.items as item, i (i)}
-				<article class="{grounds[i % grounds.length]} relative flex flex-col rounded-[2rem] p-3 shadow-[0_30px_60px_-36px_rgb(46_36_25/0.5)]">
+				<article class="{grounds[i % grounds.length]} relative flex flex-col rounded-[2rem] p-3">
 					<div class="relative overflow-hidden rounded-[1.5rem]">
 						<img
 							src={item.image.src}
@@ -32,7 +32,7 @@
 							class="h-[clamp(180px,calc(100svh-38.5rem),420px)] w-full object-cover"
 						/>
 						<!-- stamp -->
-						<div class="ticket bg-paper absolute top-3 right-3 flex w-20 flex-col items-center rounded-md px-2 py-2.5 text-center shadow-md [--hole:5px]">
+						<div class="ticket bg-paper absolute top-3 right-3 flex w-20 flex-col items-center rounded-md px-2 py-2.5 text-center [--hole:5px]">
 							<span class="text-xl leading-none" aria-hidden="true">{item.icon}</span>
 							<span class="font-display text-bark text-lg leading-none">{item.number}</span>
 							<span class="text-bark-soft text-[0.6rem] font-bold tracking-[0.14em] uppercase">

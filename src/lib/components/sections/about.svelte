@@ -30,7 +30,7 @@
 				class="relative aspect-[4/5] w-full rounded-[46%_54%_42%_58%/55%_45%_55%_45%] object-cover object-[50%_30%]"
 			/>
 			<p
-				class="font-hand text-bark bg-paper absolute -right-2 bottom-6 rotate-[-4deg] rounded-full px-5 py-2 text-2xl shadow-[0_10px_24px_-14px_rgb(46_36_25/0.5)] sm:-right-8"
+				class="font-hand text-bark bg-paper absolute -right-2 bottom-6 rotate-[-4deg] rounded-full px-5 py-2 text-2xl border border-line sm:-right-8"
 			>
 				{t.caption}
 			</p>

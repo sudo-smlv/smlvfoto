@@ -40,7 +40,7 @@
 		<Dialog.Overlay class="bg-bark/55 fixed inset-0 z-50 backdrop-blur-sm" />
 		<Dialog.Content
 			escapeKeydownBehavior={gallery.activeStory ? 'ignore' : 'close'}
-			class="bg-milk text-bark fixed inset-0 z-50 flex flex-col overflow-hidden outline-none sm:inset-6 sm:rounded-[2rem] sm:shadow-2xl"
+			class="bg-milk text-bark fixed inset-0 z-50 flex flex-col overflow-hidden outline-none sm:inset-6 sm:rounded-[2rem]"
 		>
 			<!-- Header -->
 			<div class="border-line flex shrink-0 flex-col gap-4 border-b px-5 pt-5 pb-4 sm:px-10 sm:pt-8">
@@ -223,7 +223,7 @@
 									alt={gallery.activeStory.alt}
 									decoding="async"
 									in:fly={{ x: 24, duration: 260 }}
-									class="max-h-full max-w-full rounded-2xl object-contain shadow-2xl select-none"
+									class="max-h-full max-w-full rounded-2xl object-contain select-none"
 								/>
 							{/key}
 						</div>

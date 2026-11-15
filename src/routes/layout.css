@@ -187,7 +187,6 @@
 		width: 92px;
 		height: 26px;
 		background: color-mix(in srgb, var(--honey-light) 70%, transparent);
-		box-shadow: 0 1px 2px rgb(46 36 25 / 0.12);
 		mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent 0)
 			0 0 / 100% 100%;
 	}
@@ -196,9 +195,7 @@
 	.polaroid {
 		background: var(--paper);
 		padding: 10px 10px 0;
-		box-shadow:
-			0 1px 1px rgb(46 36 25 / 0.06),
-			0 14px 30px -10px rgb(46 36 25 / 0.28);
+		box-shadow: 0 0 0 1px var(--line);
 	}
 
 	/* Ticket with perforated side edges (price list). */

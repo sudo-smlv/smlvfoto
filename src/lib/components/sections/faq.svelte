@@ -24,7 +24,7 @@
 			<h2 id="faq-title" class="text-4xl leading-[1.05] lg:text-[clamp(2.25rem,5.4svh,3rem)]">{t.heading}</h2>
 			<p class="text-bark-soft text-lg">{t.intro}</p>
 
-			<div class="bg-paper relative mt-4 rotate-[-1.5deg] rounded-2xl p-7 shadow-[0_20px_40px_-26px_rgb(46_36_25/0.5)]">
+			<div class="bg-paper border-line relative mt-4 rotate-[-1.5deg] rounded-2xl border p-7">
 				<span class="tape -top-3 left-8 rotate-[-6deg]" aria-hidden="true"></span>
 				<p class="font-hand text-bark text-3xl leading-tight">{t.sidebar.heading}</p>
 				<p class="text-bark-soft mt-3">{t.sidebar.body}</p>

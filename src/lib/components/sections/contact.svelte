@@ -38,7 +38,7 @@
 					href={channel.href}
 					target={channel.external ? '_blank' : undefined}
 					rel={channel.external ? 'noopener noreferrer' : undefined}
-					class={['bg-paper hover:bg-honey group flex min-h-13 items-center gap-2.5 rounded-full py-1.5 pr-4 pl-1.5 shadow-[0_10px_24px_-16px_rgb(46_36_25/0.5)] transition-colors', !compact && channel.tilt]}
+					class={['bg-paper border-line hover:bg-honey hover:border-honey group flex min-h-13 items-center gap-2.5 rounded-full border py-1.5 pr-4 pl-1.5 transition-colors', !compact && channel.tilt]}
 				>
 					<span class="bg-fir text-milk flex size-10 shrink-0 items-center justify-center rounded-full" aria-hidden="true">
 						{#if i === 0}
@@ -92,8 +92,8 @@
 		</div>
 
 		<!-- the letter -->
-		<div class="bg-paper relative rounded-[2rem] shadow-[0_40px_80px_-44px_rgb(46_36_25/0.6)]" aria-live="polite">
-			<div class="ticket bg-blush absolute -top-6 right-6 w-24 rotate-[6deg] rounded-md p-2 shadow-md [--hole:5px] sm:right-10" aria-hidden="true">
+		<div class="bg-paper border-line relative rounded-[2rem] border" aria-live="polite">
+			<div class="ticket bg-blush absolute -top-6 right-6 w-24 rotate-[6deg] rounded-md p-2 [--hole:5px] sm:right-10" aria-hidden="true">
 				<img src={squareCrop(content.about.portrait, 200)} alt="" class="aspect-square w-full rounded-sm object-cover" />
 			</div>
 

@@ -52,7 +52,7 @@
 
 	{#if open}
 		<div
-			class="absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-2xl border border-line bg-paper p-1.5 text-bark shadow-[0_16px_40px_-20px_rgb(46_36_25/0.5)] outline-none animate-in fade-in-80 zoom-in-95"
+			class="absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-2xl border border-line bg-paper p-1.5 text-bark outline-none animate-in fade-in-80 zoom-in-95"
 			role="menu"
 		>
 			{#each languages as lang}

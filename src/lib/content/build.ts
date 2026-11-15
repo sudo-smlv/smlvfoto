@@ -301,7 +301,14 @@ export function buildContent(home: HomeDoc) {
 
 	const gallery = (photobooks.gallery ?? []).map((g) => {
 		const image = img(g.image);
-		return { src: image.src, alt: image.alt, caption: s(g.caption), size: g.size === 'featured' ? 'featured' : 'medium' };
+		return {
+			src: image.src,
+			alt: image.alt,
+			width: image.width,
+			height: image.height,
+			caption: s(g.caption),
+			size: g.size === 'featured' ? 'featured' : 'medium'
+		};
 	});
 
 	return {

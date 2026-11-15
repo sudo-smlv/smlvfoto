@@ -55,7 +55,7 @@
 				<button
 					type="button"
 					onclick={() => scrollTo('contact')}
-					class="group bg-honey text-bark inline-flex min-h-14 items-center gap-3 rounded-full py-2 pr-2 pl-7 text-base font-semibold shadow-[0_12px_30px_-12px_rgb(143_87_16/0.6)] transition-transform hover:-translate-y-0.5"
+					class="group bg-honey text-bark inline-flex min-h-14 items-center gap-3 rounded-full py-2 pr-2 pl-7 text-base font-semibold transition-transform hover:-translate-y-0.5"
 				>
 					{t.cta}
 					<span

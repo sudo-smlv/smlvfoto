@@ -57,7 +57,7 @@
 		class={cn(
 			'mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full border px-3 py-2 transition-all duration-500 sm:px-4',
 			scrolled
-				? 'border-line bg-paper/90 shadow-[0_10px_30px_-18px_rgb(46_36_25/0.45)] backdrop-blur-md'
+				? 'border-line bg-paper/90 backdrop-blur-md'
 				: 'border-transparent bg-transparent'
 		)}
 	>
