@@ -204,10 +204,36 @@ type UiTextKey =
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
 /** Replaces `{name}` placeholders, e.g. fill('Слайд {n}', { n: 2 }). */
+const PLURAL_ORDER: Record<number, Intl.LDMLPluralRule[]> = {
+	2: ['one', 'other'], // de, en: Shooting|Shootings
+	3: ['one', 'few', 'many'] // ru: съёмка|съёмки|съёмок
+};
+const pluralRules = {
+	2: new Intl.PluralRules('en'),
+	3: new Intl.PluralRules('ru')
+} as const;
+
+/**
+ * Fills `{name}` placeholders. A `{form|form}` or `{form|form|form}` block picks the word form
+ * for the number placed just before it, e.g. "{count} {съёмка|съёмки|съёмок}" → "4 съёмки".
+ */
 export function fill(template: string, values: Record<string, string | number>): string {
-	return template.replace(/\{(\w+)\}/g, (match, name: string) =>
-		name in values ? String(values[name]) : match
-	);
+	let lastNumber: number | undefined;
+	return template.replace(/\{([^{}]+)\}/g, (match, body: string) => {
+		if (body.includes('|')) {
+			const forms = body.split('|');
+			const order = PLURAL_ORDER[forms.length];
+			if (!order || lastNumber === undefined) return forms[forms.length - 1];
+			const rule = pluralRules[forms.length as 2 | 3].select(lastNumber);
+			const idx = order.indexOf(rule);
+			return forms[idx === -1 ? forms.length - 1 : idx];
+		}
+		if (!(body in values)) return match;
+		const value = values[body];
+		const n = Number(value);
+		if (value !== '' && Number.isFinite(n)) lastNumber = n;
+		return String(value);
+	});
 }
 
 const s = (value: string | undefined) => value ?? '';

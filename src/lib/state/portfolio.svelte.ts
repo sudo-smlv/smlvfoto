@@ -38,10 +38,6 @@ export class PortfolioGalleryState {
 	displayedStories = $derived(this.filteredStories.slice(0, this.visibleCount));
 	hasMore = $derived(this.visibleCount < this.filteredStories.length);
 
-	currentStoryIndex = $derived(
-		this.activeStory ? this.allStories.findIndex((s) => s.id === this.activeStory?.id) : -1
-	);
-
 	currentStoryImages = $derived.by(() => {
 		if (!this.activeStory) return [];
 		if (this.activeStory.images && this.activeStory.images.length > 0) {
@@ -84,50 +80,58 @@ export class PortfolioGalleryState {
 		this.activePhotoIndex = 0;
 	};
 
+	/** The lightbox walks through the stories of the chosen filter, not the whole portfolio. */
+	private get navStories(): PortfolioStory[] {
+		const list = this.filteredStories;
+		return list.some((s) => s.id === this.activeStory?.id) ? list : this.allStories;
+	}
+
+	private neighbour(step: 1 | -1): PortfolioStory | null {
+		const list = this.navStories;
+		if (!this.activeStory || list.length === 0) return null;
+		const idx = list.findIndex((s) => s.id === this.activeStory?.id);
+		return list[(idx + step + list.length) % list.length];
+	}
+
+	private static imagesOf(story: PortfolioStory): string[] {
+		return story.images && story.images.length > 0 ? story.images : [story.src];
+	}
+
 	prevPhoto = () => {
 		if (!this.activeStory) return;
 		if (this.activePhotoIndex > 0) {
 			this.activePhotoIndex -= 1;
-		} else {
-			const currentIdx = this.allStories.findIndex((s) => s.id === this.activeStory?.id);
-			const prevStoryIdx = currentIdx > 0 ? currentIdx - 1 : this.allStories.length - 1;
-			const prevStoryItem = this.allStories[prevStoryIdx];
-			const prevImages =
-				prevStoryItem.images && prevStoryItem.images.length > 0
-					? prevStoryItem.images
-					: [prevStoryItem.src];
-			this.activeStory = prevStoryItem;
-			this.activePhotoIndex = prevImages.length - 1;
+			return;
 		}
+		const prev = this.neighbour(-1);
+		if (!prev) return;
+		this.activeStory = prev;
+		this.activePhotoIndex = PortfolioGalleryState.imagesOf(prev).length - 1;
 	};
 
 	nextPhoto = () => {
 		if (!this.activeStory) return;
-		const totalPhotos = this.currentStoryImages.length;
-		if (this.activePhotoIndex < totalPhotos - 1) {
+		if (this.activePhotoIndex < this.currentStoryImages.length - 1) {
 			this.activePhotoIndex += 1;
-		} else {
-			const currentIdx = this.allStories.findIndex((s) => s.id === this.activeStory?.id);
-			const nextStoryIdx = currentIdx < this.allStories.length - 1 ? currentIdx + 1 : 0;
-			const nextStoryItem = this.allStories[nextStoryIdx];
-			this.activeStory = nextStoryItem;
-			this.activePhotoIndex = 0;
+			return;
 		}
+		const next = this.neighbour(1);
+		if (!next) return;
+		this.activeStory = next;
+		this.activePhotoIndex = 0;
 	};
 
 	prevStoryDirect = () => {
-		if (!this.activeStory) return;
-		const currentIdx = this.allStories.findIndex((s) => s.id === this.activeStory?.id);
-		const prevStoryIdx = currentIdx > 0 ? currentIdx - 1 : this.allStories.length - 1;
-		this.activeStory = this.allStories[prevStoryIdx];
+		const prev = this.neighbour(-1);
+		if (!prev) return;
+		this.activeStory = prev;
 		this.activePhotoIndex = 0;
 	};
 
 	nextStoryDirect = () => {
-		if (!this.activeStory) return;
-		const currentIdx = this.allStories.findIndex((s) => s.id === this.activeStory?.id);
-		const nextStoryIdx = currentIdx < this.allStories.length - 1 ? currentIdx + 1 : 0;
-		this.activeStory = this.allStories[nextStoryIdx];
+		const next = this.neighbour(1);
+		if (!next) return;
+		this.activeStory = next;
 		this.activePhotoIndex = 0;
 	};
 

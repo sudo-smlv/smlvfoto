@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Dialog } from 'bits-ui';
+	import { untrack } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { useI18n, type PortfolioStory } from '$lib/i18n.svelte';
 	import { fill } from '$lib/content/build';
@@ -20,11 +21,22 @@
 
 	const tilts = ['-rotate-[1.5deg]', 'rotate-[1.2deg]', '-rotate-[0.8deg]', 'rotate-[1.8deg]'];
 
+	// Every opening starts from "all shoots" (plus the story that was clicked, if any);
+	// closing the window also closes the viewer so it never reappears on the next opening.
+	let wasOpen = false;
 	$effect(() => {
-		if (open && initialStory) {
-			gallery.activeStory = initialStory;
-			gallery.activePhotoIndex = 0;
-		}
+		const isOpen = open;
+		const story = initialStory;
+		untrack(() => {
+			if (isOpen && !wasOpen) {
+				gallery.activeFilter = 'all';
+				gallery.activeStory = story;
+				gallery.activePhotoIndex = 0;
+			} else if (!isOpen) {
+				gallery.activeStory = null;
+			}
+			wasOpen = isOpen;
+		});
 	});
 
 	function bookShoot() {

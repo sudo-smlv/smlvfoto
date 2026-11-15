@@ -211,7 +211,7 @@
         {
           name: 'texts',
           title: 'Тексты кнопок и окна «Все истории»',
-          description: 'В фигурных скобках — подстановки, их не переводите: {n}, {count}, {total}, {current}.',
+          description: 'В фигурных скобках — подстановки, их не переводите: {n}, {count}, {total}, {current}. Формы слова через черту выбираются по числу перед ними: {съёмка|съёмки|съёмок} (1 / 2–4 / 5+), {shoot|shoots} (1 / много).',
           type: 'object',
           options: { collapsible: true, collapsed: true },
           fields: [
