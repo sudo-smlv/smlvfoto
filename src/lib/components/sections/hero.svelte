@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { focusCrop } from '$lib/actions/focus-crop';
 	import { useI18n } from '$lib/i18n.svelte';
 
 	const i18n = useI18n();
@@ -84,6 +85,10 @@
 				height={t.background.height}
 				fetchpriority="high"
 				decoding="async"
+				use:focusCrop={t.background.focus}
+				style:object-position={t.background.focus
+					? `${t.background.focus.x * 100}% ${t.background.focus.y * 100}%`
+					: undefined}
 				class={['absolute inset-0 h-full w-full object-cover object-center', !t.backgroundInColor && 'grayscale']}
 			/>
 		</div>
