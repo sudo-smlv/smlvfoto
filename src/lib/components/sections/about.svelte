@@ -46,20 +46,22 @@
 				<p class="font-display text-bark text-2xl leading-snug italic sm:text-[1.9rem]">{t.statement}</p>
 			</blockquote>
 
-			<dl class="mt-2 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
-				{#each t.stats as s, i (i)}
-					<div class="flex flex-col items-center gap-1 text-center">
-						<dt class="sr-only">{s.label}</dt>
-						<dd class="relative flex h-16 w-24 items-center justify-center">
-							<svg class="text-honey absolute inset-0 size-full" viewBox="0 0 100 62" fill="none" aria-hidden="true">
-								<path d={rings[i % rings.length]} stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-							</svg>
-							<span class="font-display text-bark relative text-4xl">{s.value}</span>
-						</dd>
-						<span class="text-bark-soft text-sm font-medium" aria-hidden="true">{s.label}</span>
-					</div>
-				{/each}
-			</dl>
+			{#if t.stats.length}
+				<dl class="mt-2 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
+					{#each t.stats as s, i (i)}
+						<div class="flex flex-col items-center gap-1 text-center">
+							<dt class="sr-only">{s.label}</dt>
+							<dd class="relative flex h-16 w-24 items-center justify-center">
+								<svg class="text-honey absolute inset-0 size-full" viewBox="0 0 100 62" fill="none" aria-hidden="true">
+									<path d={rings[i % rings.length]} stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+								</svg>
+								<span class="font-display text-bark relative text-4xl">{s.value}</span>
+							</dd>
+							<span class="text-bark-soft text-sm font-medium" aria-hidden="true">{s.label}</span>
+						</div>
+					{/each}
+				</dl>
+			{/if}
 		</div>
 	</div>
 </section>

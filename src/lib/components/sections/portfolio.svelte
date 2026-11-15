@@ -68,7 +68,9 @@
 				<p class="text-bark-soft">{t.intro}</p>
 			</div>
 			<div class="flex items-center gap-3">
-				<span class="font-hand text-bark-soft mr-2 hidden text-xl sm:inline">{t.metaYears}</span>
+				{#if t.metaYears.trim()}
+					<span class="font-hand text-bark-soft mr-2 hidden text-xl sm:inline">{t.metaYears}</span>
+				{/if}
 				{@render arrow(-1, atStart, t.prev)}
 				{@render arrow(1, atEnd, t.next)}
 			</div>
