@@ -41,26 +41,31 @@
 		</header>
 	</div>
 
-	<!-- gallery: whole photos, no cropping; scrolls sideways on narrow screens -->
+	<!--
+		Gallery across the full width. On laptops/desktops the photos share the row equally and the
+		one under the pointer widens; on phones it is a sideways-scrolling strip.
+	-->
 	<ul
-		class="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[max(1.25rem,calc((100vw-1400px)/2+2rem))] pb-2 [scrollbar-width:none] sm:px-[max(2rem,calc((100vw-1400px)/2+2rem))] lg:mt-10 lg:justify-center lg:gap-8 [&::-webkit-scrollbar]:hidden"
+		class="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:px-8 lg:mt-10 lg:h-[clamp(260px,calc(100svh-28rem),520px)] lg:snap-none lg:gap-3 lg:overflow-visible lg:px-5 [&::-webkit-scrollbar]:hidden"
 	>
 		{#each photos as photo, i (i)}
-			<li class="shrink-0 snap-start">
-				<figure class="flex flex-col gap-2">
-					<img
-						src={photo.src}
-						alt={photo.alt}
-						width={photo.width}
-						height={photo.height}
-						loading="lazy"
-						decoding="async"
-						class="h-[clamp(240px,calc(100svh-30rem),500px)] w-auto rounded-2xl"
-					/>
-					{#if photo.caption}
-						<figcaption class="font-hand text-bark text-xl">{photo.caption}</figcaption>
-					{/if}
-				</figure>
+			<li
+				class="group relative shrink-0 snap-start overflow-hidden rounded-2xl lg:shrink lg:flex-[1_1_0%] lg:transition-[flex-grow] lg:duration-500 lg:ease-out lg:hover:grow-[2.6]"
+			>
+				<img
+					src={photo.src}
+					alt={photo.alt}
+					width={photo.width}
+					height={photo.height}
+					loading="lazy"
+					decoding="async"
+					class="h-[clamp(240px,52svh,420px)] w-auto object-cover lg:h-full lg:w-full lg:transition-transform lg:duration-700 lg:group-hover:scale-[1.03]"
+				/>
+				{#if photo.caption}
+					<span class="font-hand bg-paper/90 text-bark absolute bottom-3 left-3 rounded-full px-4 py-1 text-xl whitespace-nowrap">
+						{photo.caption}
+					</span>
+				{/if}
 			</li>
 		{/each}
 	</ul>
