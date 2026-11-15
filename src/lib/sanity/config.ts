@@ -10,6 +10,31 @@ export const sanityConfig = {
 const CDN_MAX_WIDTH = 2400;
 
 /**
+ * A small square crop around the image's focal point (for avatars and stamps).
+ * `share` is the crop side as a fraction of the image's shorter side.
+ */
+export function squareCrop(
+	image: { src: string; width: number; height: number; focus?: { x: number; y: number } },
+	size: number,
+	share = 0.3
+): string {
+	if (!image.src.startsWith('https://cdn.sanity.io/')) return image.src;
+	const focus = image.focus ?? { x: 0.5, y: 0.35 };
+	const side = Math.round(Math.min(image.width, image.height) * share);
+	const clamp = (v: number, max: number) => Math.max(0, Math.min(Math.round(v), max));
+	const x = clamp(focus.x * image.width - side / 2, image.width - side);
+	const y = clamp(focus.y * image.height - side / 2, image.height - side);
+	const params = new URLSearchParams({
+		rect: `${x},${y},${side},${side}`,
+		w: String(size),
+		h: String(size),
+		fit: 'crop',
+		auto: 'format'
+	});
+	return `${image.src.split('?')[0]}?${params}`;
+}
+
+/**
  * Builds a Sanity CDN URL from an image asset reference such as
  * `image-<hash>-1600x1066-avif`, capped to a sensible width and served in the
  * best format the browser accepts.

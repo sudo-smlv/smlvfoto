@@ -5,7 +5,6 @@
 	const content = $derived(i18n.content);
 	const t = $derived(content.locations);
 
-	const tilts = ['lg:-rotate-[1.5deg]', 'lg:rotate-[1.5deg] lg:mt-20'];
 	const grounds = ['bg-blush', 'bg-sage'];
 </script>
 
@@ -20,9 +19,9 @@
 			<p class="font-hand text-bark-soft text-2xl">{t.coverage}</p>
 		</header>
 
-		<div class="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
+		<div class="mt-16 grid gap-10 lg:grid-cols-2">
 			{#each t.items as item, i (i)}
-				<article class="{grounds[i % grounds.length]} {tilts[i % tilts.length]} relative rounded-[2rem] p-3 shadow-[0_30px_60px_-36px_rgb(46_36_25/0.5)] sm:p-4">
+				<article class="{grounds[i % grounds.length]} relative flex flex-col rounded-[2rem] p-3 shadow-[0_30px_60px_-36px_rgb(46_36_25/0.5)] sm:p-4">
 					<div class="relative overflow-hidden rounded-[1.5rem]">
 						<img
 							src={item.image.src}
@@ -48,7 +47,7 @@
 						</div>
 					</div>
 
-					<div class="flex flex-col gap-4 px-3 pt-7 pb-5 sm:px-5">
+					<div class="flex flex-1 flex-col gap-4 px-3 pt-7 pb-5 sm:px-5">
 						<h3 class="text-3xl sm:text-4xl">{item.title}</h3>
 						<p class="font-hand text-honey-ink text-2xl leading-tight">{item.subtitle}</p>
 						<p class="text-bark-soft">{item.description}</p>
@@ -68,7 +67,7 @@
 						<button
 							type="button"
 							onclick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
-							class="text-bark decoration-honey-ink mt-2 inline-flex min-h-11 items-center gap-2 self-start font-semibold underline decoration-2 underline-offset-[6px]"
+							class="text-bark decoration-honey-ink mt-auto inline-flex min-h-11 items-center gap-2 self-start font-semibold underline decoration-2 underline-offset-[6px]"
 						>
 							{t.viewLocation}
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>

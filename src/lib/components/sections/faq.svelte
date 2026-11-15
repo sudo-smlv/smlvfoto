@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { useI18n } from '$lib/i18n.svelte';
+	import { squareCrop } from '$lib/sanity/config';
 
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
 	const site = $derived(i18n.site);
 	const t = $derived(content.faq);
-	const avatar = $derived(content.hero.card.src);
+	// Answers come "from" the photographer: her About portrait, cropped around the focal point set in Sanity.
+	const avatar = $derived(squareCrop(content.about.portrait, 96));
 
 	let openIndex = $state(0);
 
@@ -34,7 +36,6 @@
 					{t.cta}
 				</button>
 			</div>
-			<p class="font-hand text-bark-soft text-xl">{t.coverage}</p>
 		</div>
 
 		<ul class="flex flex-col gap-5">
@@ -65,7 +66,7 @@
 
 					{#if isOpen}
 						<div id="faq-answer-{i}" class="flex max-w-[92%] items-end gap-3 sm:max-w-[80%]" transition:slide={{ duration: 260 }}>
-							<img src={avatar} alt="" class="ring-paper size-10 shrink-0 rounded-full object-cover ring-2" />
+							<img src={avatar} alt="" class="ring-paper size-11 shrink-0 rounded-full object-cover ring-2" />
 							<div class="bg-honey/90 text-bark rounded-[1.6rem] rounded-bl-md px-6 py-4">
 								<p class="font-hand text-bark/70 text-lg leading-none">{site.shortName}</p>
 								<p class="mt-1.5 leading-relaxed">{item.a}</p>

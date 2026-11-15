@@ -7,8 +7,17 @@ export function isLocale(value: unknown): value is ContentLocale {
 	return typeof value === 'string' && (LOCALES as readonly string[]).includes(value);
 }
 
-/** A resolved image: CDN URL, original dimensions and alt text in one language. */
-export type CmsImage = { src: string; width: number; height: number; alt: string };
+/**
+ * A resolved image: CDN URL, original dimensions, alt text in one language and, when the editor
+ * set one in the Studio, the focal point (0–1 from the top-left corner).
+ */
+export type CmsImage = {
+	src: string;
+	width: number;
+	height: number;
+	alt: string;
+	focus?: { x: number; y: number };
+};
 
 function isLocalized(value: object): value is Record<ContentLocale, unknown> {
 	const keys = Object.keys(value).filter((k) => k !== '_type');
@@ -38,7 +47,12 @@ export function localize(value: unknown, lang: ContentLocale): unknown {
 	const asset = record.asset as { _ref?: string } | undefined;
 	if (asset?._ref) {
 		const alt = localize(record.alt, lang);
-		return { ...imageFromRef(asset._ref), alt: typeof alt === 'string' ? alt : '' } satisfies CmsImage;
+		const hotspot = record.hotspot as { x?: number; y?: number } | undefined;
+		const image: CmsImage = { ...imageFromRef(asset._ref), alt: typeof alt === 'string' ? alt : '' };
+		if (typeof hotspot?.x === 'number' && typeof hotspot?.y === 'number') {
+			image.focus = { x: hotspot.x, y: hotspot.y };
+		}
+		return image;
 	}
 
 	return Object.fromEntries(

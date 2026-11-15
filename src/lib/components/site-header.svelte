@@ -72,7 +72,7 @@
 			>
 			<span class="flex flex-col leading-none">
 				<span class="font-display text-xl font-semibold tracking-tight">{site.shortName}</span>
-				<span class="font-hand text-honey-ink -mt-0.5 text-[1.05rem]">{content.hero.card.body}</span>
+				<span class="font-hand text-honey-ink -mt-0.5 hidden text-[1.05rem] whitespace-nowrap sm:block">{content.hero.card.body}</span>
 			</span>
 		</button>
 

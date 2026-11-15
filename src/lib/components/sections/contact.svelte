@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { useI18n } from '$lib/i18n.svelte';
+	import { squareCrop } from '$lib/sanity/config';
 	import { createContactForm, type FormResult } from '$lib/state/contact.svelte';
 
 	type Props = { form: FormResult | null; data?: { prefill?: { package: string | null } } };
@@ -93,7 +94,7 @@
 		<!-- the letter -->
 		<div class="bg-paper relative rounded-[2rem] shadow-[0_40px_80px_-44px_rgb(46_36_25/0.6)]" aria-live="polite">
 			<div class="ticket bg-blush absolute -top-6 right-6 w-24 rotate-[6deg] rounded-md p-2 shadow-md [--hole:5px] sm:right-10" aria-hidden="true">
-				<img src={content.hero.card.src} alt="" class="aspect-[4/5] w-full rounded-sm object-cover" />
+				<img src={squareCrop(content.about.portrait, 200)} alt="" class="aspect-square w-full rounded-sm object-cover" />
 			</div>
 
 			<div class="rounded-[2rem] px-6 pt-10 pb-8 sm:px-12 sm:pt-14 sm:pb-12">
