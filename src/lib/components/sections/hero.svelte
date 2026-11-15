@@ -32,8 +32,6 @@
 		class="relative mx-auto grid h-full max-w-[1400px] grid-rows-[auto_minmax(0,1fr)] gap-6 px-5 pt-4 pb-6 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-1 lg:gap-12 lg:pt-6 lg:pb-8"
 	>
 		<div class="flex flex-col justify-center gap-6 lg:gap-8">
-			<p class="hand-note">{t.eyebrow}</p>
-
 			<h1
 				id="hero-title"
 				class="text-bark text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[clamp(3.5rem,6vw,5.6rem)] lg:leading-[0.98]"
@@ -78,7 +76,7 @@
 			</div>
 		</div>
 
-		<div class="bg-blush relative min-h-0 overflow-hidden rounded-t-[999px] rounded-b-[2rem] shadow-[0_40px_80px_-40px_rgb(46_36_25/0.55)] max-lg:rounded-t-[2rem]">
+		<div class="bg-blush relative min-h-0 overflow-hidden rounded-t-[999px] rounded-b-[2rem] max-lg:rounded-t-[2rem]">
 			<img
 				src={t.background.src}
 				alt={t.background.alt}

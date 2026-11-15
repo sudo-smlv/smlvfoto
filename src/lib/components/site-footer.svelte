@@ -94,7 +94,7 @@
 					{t.availability}
 				</p>
 				<p class="text-milk/70 text-sm"><span class="text-milk/60 block text-xs font-semibold tracking-[0.14em] uppercase">{t.basedInLabel}</span>{t.basedIn}</p>
-				<p class="text-milk/70 text-sm">{t.responseTime} · {t.timezone}</p>
+				<p class="text-milk/70 text-sm">{t.responseTime}</p>
 			</div>
 		</div>
 
