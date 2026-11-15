@@ -39,13 +39,25 @@
 				height="1350"
 				fetchpriority="high"
 				decoding="async"
-				class="absolute inset-0 h-full w-full object-cover grayscale"
+				class={['absolute inset-0 h-full w-full object-cover', !t.backgroundInColor && 'grayscale']}
 			/>
 
+			<!-- A colour photo is brighter, so it gets a slightly deeper shade behind the white text. -->
 			<div
-				class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/15"
+				class={[
+					'absolute inset-0 bg-gradient-to-r',
+					t.backgroundInColor
+						? 'from-black/75 via-black/40 to-black/10'
+						: 'from-black/70 via-black/35 to-black/15'
+				]}
 				aria-hidden="true"
 			></div>
+			{#if t.backgroundInColor}
+				<div
+					class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent"
+					aria-hidden="true"
+				></div>
+			{/if}
 
 			<div class="absolute inset-0 p-3 text-white sm:p-5 lg:p-8">
 				<span

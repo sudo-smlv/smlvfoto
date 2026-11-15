@@ -132,6 +132,7 @@
         { name: 'cta', title: 'Кнопка «Забронировать»', type: 'localeString' },
         { name: 'viewPortfolio', title: 'Кнопка «Смотреть портфолио»', type: 'localeString' },
         { name: 'backgroundImage', title: 'Фоновое фото', type: 'photo' },
+        { name: 'backgroundInColor', title: 'Показывать фоновое фото в цвете (выключено — чёрно-белое)', type: 'boolean' },
         { name: 'cardTitle', title: 'Карточка: заголовок', type: 'localeString' },
         { name: 'cardBody', title: 'Карточка: текст', type: 'localeString' },
         { name: 'cardImage', title: 'Карточка: фото', type: 'photo' },

@@ -16,6 +16,7 @@ export type HomeDoc = {
 		cta?: string;
 		viewPortfolio?: string;
 		backgroundImage?: CmsImage;
+		backgroundInColor?: boolean;
 		cardTitle?: string;
 		cardBody?: string;
 		cardImage?: CmsImage;
@@ -325,6 +326,7 @@ export function buildContent(home: HomeDoc) {
 			cta: s(hero.cta),
 			viewPortfolio: s(hero.viewPortfolio),
 			background: img(hero.backgroundImage),
+			backgroundInColor: Boolean(hero.backgroundInColor),
 			stat: s(hero.stat),
 			card: { title: s(hero.cardTitle), body: s(hero.cardBody), src: img(hero.cardImage).src }
 		},
