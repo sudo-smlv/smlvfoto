@@ -1,8 +1,10 @@
-import { site } from '$lib/config/site';
+import { getCms } from '$lib/server/cms';
+import { buildSite, type SettingsDoc } from '$lib/content/build';
+import { localize } from '$lib/content/localize';
 
 export const GET = async () => {
 	const languages = ['de', 'en', 'ru'];
-	const baseUrl = site.url;
+	const baseUrl = buildSite(localize((await getCms()).settings, 'de') as SettingsDoc).url;
 
 	const generateUrlNode = (path: string) => {
 		const links = languages.map(

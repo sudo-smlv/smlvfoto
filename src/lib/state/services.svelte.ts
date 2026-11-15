@@ -11,8 +11,9 @@ export class ServicesState {
 		return this.i18n.content.services.packages;
 	}
 	
-	popular = $derived(this.packages.find((p: any) => p.popular) ?? this.packages[1]);
-	others = $derived(this.packages.filter((p: any) => p.id !== this.popular.id));
+	// The package marked "popular" in Sanity is shown large; without one, the first package is.
+	popular = $derived(this.packages.find((p: any) => p.popular) ?? this.packages[0]);
+	others = $derived(this.packages.filter((p: any) => p !== this.popular));
 
 	formatter = $derived(new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 0 }));
 

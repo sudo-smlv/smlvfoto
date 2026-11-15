@@ -4,7 +4,7 @@
 	import { useI18n } from '$lib/i18n.svelte';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { site } from '$lib/config/site';
+	const site = $derived(i18n.site);
 	import { cn } from '$lib/utils';
 	import Menu from '@lucide/svelte/icons/menu';
 	import X from '@lucide/svelte/icons/x';

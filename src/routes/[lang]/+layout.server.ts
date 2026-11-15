@@ -1,15 +1,10 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import type { ContentLocale } from '$lib/i18n.svelte';
+import { isLocale } from '$lib/content/localize';
 
 export const load: LayoutServerLoad = ({ params }) => {
-	const lang = params.lang as ContentLocale;
-	
-	if (!['en', 'de', 'ru'].includes(lang)) {
+	if (!isLocale(params.lang)) {
 		error(404, 'Language not supported');
 	}
-	
-	return {
-		lang
-	};
+	return { lang: params.lang };
 };

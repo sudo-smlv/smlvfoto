@@ -21,14 +21,11 @@ export class PortfolioGalleryState {
 		return this.i18n.content.portfolio.items;
 	}
 
-	filterOptions = [
-		{ id: 'all', label: 'Все съёмки' }, // Ideally translated, but keeping as is
-		{ id: 'freiburg', label: 'Фрайбург' },
-		{ id: 'basel', label: 'Базель' },
-		{ id: 'baden-baden', label: 'Баден-Баден' },
-		{ id: 'schwarzwald', label: 'Шварцвальд' },
-		{ id: 'titisee', label: 'Озёра' }
-	] as const;
+	// Filters are edited in Sanity (Портфолио → Фильтры); "all" is always first.
+	get filterOptions(): { id: string; label: string }[] {
+		const portfolio = this.i18n.content.portfolio;
+		return [{ id: 'all', label: portfolio.texts.allFilter }, ...portfolio.filters];
+	}
 
 	filteredStories = $derived(
 		this.activeFilter === 'all'

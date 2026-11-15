@@ -6,6 +6,8 @@
 	import { useI18n, type PortfolioStory } from '$lib/i18n.svelte';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
+	const tx = $derived(content.portfolio.texts);
+	import { fill } from '$lib/content/build';
 	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 	import ChevronLeft from '@lucide/svelte/icons/chevron-left';
 	import ChevronRight from '@lucide/svelte/icons/chevron-right';
@@ -49,17 +51,17 @@
 				<div class="flex items-center justify-between gap-3 pr-8 sm:pr-10">
 					<div class="flex items-baseline gap-2 sm:gap-3">
 						<Dialog.Title class="font-serif text-lg sm:text-3xl font-medium tracking-tight">
-							Все истории
+							{tx.dialogTitle}
 						</Dialog.Title>
 						<Badge
 							variant="outline"
 							class="font-mono text-[9px] sm:text-xs px-2 py-0 sm:py-0.5 bg-background/80"
 						>
-							{gallery.filteredStories.length} съёмок
+							{fill(tx.shootCount, { count: gallery.filteredStories.length })}
 						</Badge>
 					</div>
 					<Dialog.Description class="sr-only">
-						{gallery.filteredStories.length} съёмок · Фотосессии и авторские серии
+						{fill(tx.shootCountLong, { count: gallery.filteredStories.length })}
 					</Dialog.Description>
 				</div>
 
@@ -67,7 +69,7 @@
 			<div
 				class="flex items-center gap-1.5 overflow-x-auto pb-0.5 pt-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap"
 			>
-				{#each gallery.filterOptions as f (f.id)}
+				{#each gallery.filterOptions as f, fi (fi)}
 					<Button
 						variant={gallery.activeFilter === f.id ? 'default' : 'outline'}
 						size="sm"
@@ -89,9 +91,9 @@
 		<div class="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 overscroll-contain">
 			{#if gallery.filteredStories.length === 0}
 				<div class="flex flex-col items-center justify-center py-20 text-center gap-3">
-					<p class="font-serif text-2xl text-muted-foreground">В этой категории пока нет кадров</p>
+					<p class="font-serif text-2xl text-muted-foreground">{tx.empty}</p>
 					<Button variant="outline" size="sm" onclick={() => (gallery.activeFilter = 'all')}>
-						Показать все истории
+						{tx.showAll}
 					</Button>
 				</div>
 			{:else}
@@ -143,13 +145,13 @@
 										class="inline-flex items-center gap-1 font-mono text-[10px] tracking-wider text-white bg-black/60 backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-full"
 									>
 										<Images class="size-3 text-white/90" />
-										<span>{photoCount} фото</span>
+										<span>{fill(tx.photoCount, { count: photoCount })}</span>
 									</span>
 								{:else}
 									<span
 										class="font-mono text-[9px] tracking-wider text-white/60 bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full"
 									>
-										1 фото
+										{fill(tx.photoCount, { count: 1 })}
 									</span>
 								{/if}
 							</div>
@@ -194,7 +196,10 @@
 							class="size-5 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground"
 						></div>
 						<p class="font-mono text-[10px] tracking-widest uppercase">
-							Загрузка историй ({gallery.displayedStories.length} из {gallery.filteredStories.length})...
+							{fill(tx.loading, {
+								count: gallery.displayedStories.length,
+								total: gallery.filteredStories.length
+							})}
 						</p>
 					</div>
 				{/if}
@@ -206,7 +211,7 @@
 			class="border-t border-border/40 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 bg-card/50"
 		>
 			<p class="text-xs text-muted-foreground text-center sm:text-left">
-				Понравился стиль? Забронируйте удобную дату для вашей истории.
+				{tx.ctaText}
 			</p>
 			<Button
 				size="sm"
@@ -219,7 +224,7 @@
 				}}
 			>
 				<Calendar data-icon="inline-start" class="mr-1.5 size-4" />
-				Забронировать съёмку
+				{tx.ctaButton}
 				<ArrowUpRight data-icon="inline-end" class="ml-1 size-3.5" />
 			</Button>
 		</div>
@@ -254,7 +259,10 @@
 						<span
 							class="text-[10px] sm:text-xs text-white/80 bg-white/15 px-2 py-0.5 rounded-full font-mono ml-2"
 						>
-							Кадр {gallery.activePhotoIndex + 1} из {gallery.currentStoryImages.length}
+							{fill(tx.frameOf, {
+								current: gallery.activePhotoIndex + 1,
+								total: gallery.currentStoryImages.length
+							})}
 						</span>
 					{/if}
 				</div>
@@ -269,7 +277,7 @@
 						class="text-white/80 hover:text-white hover:bg-white/10 text-xs h-8 px-2.5 font-mono cursor-pointer"
 						onclick={gallery.prevStoryDirect}
 					>
-						← Пред. съёмка
+						{tx.prevStory}
 					</Button>
 					<Button
 						variant="ghost"
@@ -277,7 +285,7 @@
 						class="text-white/80 hover:text-white hover:bg-white/10 text-xs h-8 px-2.5 font-mono cursor-pointer"
 						onclick={gallery.nextStoryDirect}
 					>
-						След. съёмка →
+						{tx.nextStory}
 					</Button>
 				</div>
 
@@ -287,7 +295,7 @@
 					class="border-white/30 bg-white/10 text-white hover:bg-white/20 text-xs hidden sm:inline-flex cursor-pointer"
 					onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (val) => open = val)}
 				>
-					Забронировать сюжет
+					{tx.bookStory}
 				</Button>
 				<Button
 					variant="ghost"
@@ -296,7 +304,7 @@
 					onclick={() => (gallery.activeStory = null)}
 				>
 					<X class="size-5" />
-					<span class="sr-only">Закрыть просмотр</span>
+					<span class="sr-only">{tx.closeViewer}</span>
 				</Button>
 			</div>
 		</div>
@@ -305,7 +313,7 @@
 		<div
 			class="relative flex items-center justify-between w-full flex-1 max-h-[65svh] sm:max-h-[72vh] my-auto overflow-hidden px-1 sm:px-6"
 			role="region"
-			aria-label="Просмотр фотографии"
+			aria-label={tx.viewerLabel}
 		>
 			<!-- Left Arrow Button -->
 			<button
@@ -315,7 +323,7 @@
 					e.stopPropagation();
 					gallery.prevPhoto();
 				}}
-				aria-label="Предыдущий кадр"
+				aria-label={tx.prevPhoto}
 			>
 				<ChevronLeft class="size-6 sm:size-7 pointer-events-none" />
 			</button>
@@ -343,7 +351,7 @@
 					e.stopPropagation();
 					gallery.nextPhoto();
 				}}
-				aria-label="Следующий кадр"
+				aria-label={tx.nextPhoto}
 			>
 				<ChevronRight class="size-6 sm:size-7 pointer-events-none" />
 			</button>
@@ -354,7 +362,7 @@
 			<div
 				class="flex items-center justify-center gap-2 py-2 overflow-x-auto max-w-full z-20 shrink-0"
 			>
-				{#each gallery.currentStoryImages as imgUrl, idx (imgUrl)}
+				{#each gallery.currentStoryImages as imgUrl, idx (idx)}
 					<button
 						type="button"
 						class="relative size-12 sm:size-14 rounded-md overflow-hidden border-2 transition-all duration-200 cursor-pointer p-0 shrink-0 {gallery.activePhotoIndex ===
@@ -363,7 +371,7 @@
 							: 'border-white/30 opacity-50 hover:opacity-100'}"
 						onclick={() => (gallery.activePhotoIndex = idx)}
 					>
-						<img src={imgUrl} alt="Миниатюра" class="h-full w-full object-cover" />
+						<img src={imgUrl} alt={tx.thumbnail} class="h-full w-full object-cover" />
 					</button>
 				{/each}
 			</div>
@@ -381,7 +389,10 @@
 						· {gallery.activeStory.category}
 					{/if}
 					{#if gallery.currentStoryImages.length > 1}
-						· Кадр {gallery.activePhotoIndex + 1} из {gallery.currentStoryImages.length}
+						· {fill(tx.frameOf, {
+							current: gallery.activePhotoIndex + 1,
+							total: gallery.currentStoryImages.length
+						})}
 					{/if}
 				</p>
 			</div>
@@ -391,7 +402,7 @@
 				class="bg-white text-black hover:bg-white/90 text-xs px-5 w-full sm:w-auto h-9 font-medium cursor-pointer"
 				onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (val) => open = val)}
 			>
-				Забронировать съёмку
+				{tx.ctaButton}
 				<ArrowUpRight data-icon="inline-end" class="ml-1.5 size-3.5" />
 			</Button>
 		</div>

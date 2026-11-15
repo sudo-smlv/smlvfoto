@@ -12,14 +12,14 @@
 	import { useI18n } from '$lib/i18n.svelte';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { site } from '$lib/config/site';
+	const site = $derived(i18n.site);
 	import { Separator } from '$lib/components/ui/separator';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
 
 	const pageUrl = $derived(`${site.url}/${data.lang}`);
-	const ogImageUrl = `${site.url}${site.ogImage}`;
+	const ogImageUrl = $derived(site.ogImage);
 	const ogLocale = $derived(
 		data.lang === 'de' ? 'de_DE' : data.lang === 'en' ? 'en_US' : 'ru_RU'
 	);
@@ -42,7 +42,7 @@
 			},
 			areaServed: ['Freiburg', 'Basel', 'Baden-Baden', 'Europe'],
 			sameAs: [site.instagram.url]
-		})
+		}).replace(/</g, '\\u003c') // texts come from the CMS: never let them close the <script> tag
 	);
 </script>
 

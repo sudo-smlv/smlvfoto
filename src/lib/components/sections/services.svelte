@@ -57,7 +57,7 @@
 						<p
 							class="font-mono text-[10px] tracking-[0.3em] text-background/55 uppercase sm:text-xs"
 						>
-							0{srv.packages.findIndex((x: any) => x.id === srv.popular.id) + 1} / {srv.popular.label}
+							0{srv.packages.indexOf(srv.popular) + 1} / {srv.popular.label}
 						</p>
 						<CardTitle
 							class="text-background font-serif text-5xl leading-[0.95] font-medium tracking-tight sm:text-6xl lg:text-7xl"
@@ -107,7 +107,7 @@
 			</Card>
 
 			<div class="flex flex-col gap-px">
-				{#each srv.others as p, i (p.id)}
+				{#each srv.others as p, i (i)}
 					<Card
 						class="bg-foreground text-background flex-1 gap-0 overflow-hidden rounded-none border-0 p-0 ring-0"
 					>
@@ -144,7 +144,7 @@
 							</div>
 
 							<ul class="flex flex-col gap-2.5 border-t border-background/15 pt-4">
-								{#each p.features as feature (feature)}
+								{#each p.features as feature, fi (fi)}
 									<li class="flex items-start gap-2.5 text-xs sm:text-sm">
 										<Check data-icon="inline-start" class="mt-0.5 shrink-0" />
 										<span class="text-background/80">{feature}</span>

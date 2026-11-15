@@ -22,6 +22,5 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Scratch & bot temp files
+# Scratch files
 /scratch
-/static/temp_bot

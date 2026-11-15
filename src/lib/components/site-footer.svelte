@@ -2,7 +2,7 @@
 	import { useI18n } from '$lib/i18n.svelte';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { site } from '$lib/config/site';
+	const site = $derived(i18n.site);
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import Instagram from '$lib/components/icons/instagram.svelte';
@@ -133,7 +133,7 @@
 						{t.columns.contacts}
 					</h3>
 					<ul class="flex flex-col gap-3">
-						{#each channels as channel (channel.label)}
+						{#each channels as channel, i (i)}
 							{@const Icon = channel.icon}
 							<li>
 								<a

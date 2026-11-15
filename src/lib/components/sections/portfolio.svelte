@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { useI18n, type PortfolioStory } from '$lib/i18n.svelte';
+	import { fill } from '$lib/content/build';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
 	import { AspectRatio } from '$lib/components/ui/aspect-ratio';
@@ -63,7 +64,7 @@
 				class="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground self-start md:self-end"
 			>
 				<span class="font-mono tracking-[0.2em] uppercase"
-					>{mainItems.length} из {t.items.length} историй</span
+					>{fill(t.texts.shownOfTotal, { count: mainItems.length, total: t.items.length })}</span
 				>
 				<span aria-hidden="true">·</span>
 				<span>{t.metaYears}</span>
@@ -74,7 +75,7 @@
 		<div
 			class="mt-10 sm:mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(0,180px)]"
 		>
-			{#each cols as col, i (col.item.src)}
+			{#each cols as col, i (i)}
 				<button
 					type="button"
 					class="group relative isolate overflow-hidden rounded-none bg-foreground {col.span} cursor-pointer text-left w-full p-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -103,7 +104,7 @@
 								class="inline-flex items-center gap-1 font-mono text-[10px] tracking-wider text-white/90 bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-0.5 rounded-full"
 							>
 								<Images class="size-3 text-white/90" />
-								<span>{col.item.images.length} фото</span>
+								<span>{fill(t.texts.photoCount, { count: col.item.images.length })}</span>
 							</span>
 						</div>
 					{/if}

@@ -1,27 +1,30 @@
 import { getContext, setContext } from 'svelte';
-import { en } from './content/en';
-import { de } from './content/de';
-import { ru } from './content/ru';
-import type { PortfolioStory, PackageId } from './content/en'; // types are identical
+import { buildContent, buildSite, type HomeDoc, type SettingsDoc } from './content/build';
+import type { ContentLocale } from './content/localize';
 
-export type ContentLocale = 'en' | 'de' | 'ru';
-export type { PortfolioStory, PackageId };
+export type { ContentLocale } from './content/localize';
+export type { Content, PackageId, PortfolioStory, SiteConfig } from './content/build';
 
-const dictionaries: Record<ContentLocale, typeof de> = { en: en as unknown as typeof de, de, ru: ru as unknown as typeof de };
+/** Localized CMS data passed from the root layout's server load. */
+export type CmsPageData = { lang: ContentLocale; home: HomeDoc; settings: SettingsDoc };
 
 const I18N_KEY = Symbol('i18n');
 
 class I18nState {
-	locale = $state<ContentLocale>('de');
+	#source: () => CmsPageData;
 
-	get content() {
-		return dictionaries[this.locale] || dictionaries['de'];
+	constructor(source: () => CmsPageData) {
+		this.#source = source;
 	}
+
+	locale = $derived.by(() => this.#source().lang);
+	content = $derived.by(() => buildContent(this.#source().home));
+	site = $derived.by(() => buildSite(this.#source().settings));
 }
 
-export function initI18n(initial: ContentLocale) {
-	const state = new I18nState();
-	state.locale = initial;
+/** Call once in the root layout with a getter for the layout data. */
+export function initI18n(source: () => CmsPageData) {
+	const state = new I18nState(source);
 	setContext(I18N_KEY, state);
 	return state;
 }

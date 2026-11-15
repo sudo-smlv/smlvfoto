@@ -2,7 +2,7 @@
 	import { useI18n } from '$lib/i18n.svelte';
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { site } from '$lib/config/site';
+	const site = $derived(i18n.site);
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Textarea } from '$lib/components/ui/textarea';
@@ -130,7 +130,7 @@
 							<EmptyDescription>{f.successHint}</EmptyDescription>
 						</EmptyHeader>
 						<EmptyContent class="flex flex-wrap justify-center gap-3">
-							{#each channels as channel (channel.label)}
+							{#each channels as channel, i (i)}
 								{@const Icon = channel.icon}
 								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 								<Button
@@ -215,7 +215,7 @@
 										{formState.selectedPackageLabel}
 									</SelectTrigger>
 									<SelectContent>
-										{#each formState.packageOptions as opt (opt.value)}
+										{#each formState.packageOptions as opt, i (i)}
 											<SelectItem value={opt.value} label={opt.label}>
 												{opt.label}
 											</SelectItem>
@@ -309,7 +309,7 @@
 					</p>
 
 					<ol class="flex flex-col">
-						{#each t.process as step, i (step.title)}
+						{#each t.process as step, i (i)}
 							<li class="flex items-start gap-4 sm:gap-5">
 								<span
 									class="bg-foreground text-background font-mono flex size-9 shrink-0 items-center justify-center rounded-none text-sm tabular-nums sm:size-10"
@@ -341,7 +341,7 @@
 					</h3>
 
 					<ul class="flex flex-col gap-3">
-						{#each channels as channel (channel.label)}
+						{#each channels as channel, i (i)}
 							{@const Icon = channel.icon}
 							<li>
 								<a

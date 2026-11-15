@@ -5,18 +5,12 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/stores';
 	import { initI18n } from '$lib/i18n.svelte';
-	import { site } from '$lib/config/site';
 
 	let { children, data } = $props();
 
-	// Initialize i18n with the current language from the URL parameter (or default to 'de')
-	const initialLang = ($page.params.lang as 'en' | 'de' | 'ru') || 'de';
-	const i18n = initI18n(initialLang);
-	
-	const currentLang = $derived(($page.params.lang as 'en' | 'de' | 'ru') || 'de');
-	$effect(() => {
-		i18n.locale = currentLang;
-	});
+	// Content and contacts come from Sanity via +layout.server.ts, already in the page's language.
+	const i18n = initI18n(() => data);
+	const site = $derived(i18n.site);
 </script>
 
 <svelte:head>

@@ -1,37 +1,47 @@
 import { z } from 'zod';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { site } from '$lib/config/site';
 import { env } from '$env/dynamic/private';
-import { en } from '$lib/content/en';
-import { de } from '$lib/content/de';
-import { ru } from '$lib/content/ru';
-import type { ContentLocale } from '$lib/i18n.svelte';
+import { getCms } from '$lib/server/cms';
+import { isLocale, localize } from '$lib/content/localize';
+import {
+	buildContent,
+	buildSite,
+	type Content,
+	type HomeDoc,
+	type SettingsDoc,
+	type SiteConfig
+} from '$lib/content/build';
 
-const dictionaries: Record<ContentLocale, typeof de> = { en: en as unknown as typeof de, de, ru: ru as unknown as typeof de };
-
-function getContent(lang?: string) {
-	return dictionaries[(lang as ContentLocale)] || dictionaries['de'];
+async function getContent(lang?: string): Promise<{ content: Content; site: SiteConfig }> {
+	const locale = isLocale(lang) ? lang : 'de';
+	const cms = await getCms();
+	return {
+		content: buildContent(localize(cms.home, locale) as HomeDoc),
+		site: buildSite(localize(cms.settings, locale) as SettingsDoc)
+	};
 }
 
-const ContactSchema = z.object({
-	name: z.string().trim().min(1, 'required').max(80, 'tooLong'),
-	contact: z.string().trim().min(3, 'required').max(120, 'tooLong'),
-	city: z.string().trim().max(80, 'tooLong').optional(),
-	package: z
-		.enum(['individual', 'moment', 'atmosphere', 'legacy'])
-		.optional()
-		.or(z.literal('').transform(() => undefined)),
-	message: z.string().trim().max(1000, 'tooLong').optional(),
-	consent: z.string().optional(),
-	hp: z.string().optional()
-});
+function contactSchema(packageIds: string[]) {
+	return z.object({
+		name: z.string().trim().min(1, 'required').max(80, 'tooLong'),
+		contact: z.string().trim().min(3, 'required').max(120, 'tooLong'),
+		city: z.string().trim().max(80, 'tooLong').optional(),
+		package: z
+			.string()
+			.optional()
+			.transform((v) => (v ? v : undefined))
+			.refine((v) => v === undefined || packageIds.includes(v), 'generic'),
+		message: z.string().trim().max(1000, 'tooLong').optional(),
+		consent: z.string().optional(),
+		hp: z.string().optional()
+	});
+}
 
 const ERROR_KEYS = new Set(['required', 'tooLong']);
 
-function localizeError(key: string | undefined, lang: string): string | undefined {
+function localizeError(key: string | undefined, content: Content): string | undefined {
 	if (!key) return undefined;
-	const content = getContent(lang);
 	const dict = content.contact.form.errors;
 	if (ERROR_KEYS.has(key) && key in dict) return dict[key as 'required' | 'tooLong'];
 	return dict.generic;
@@ -54,8 +64,8 @@ export const actions: Actions = {
 
 		const formData = await request.formData();
 		const data = Object.fromEntries(formData);
-		const parsed = ContactSchema.safeParse(data);
-		const content = getContent(params.lang);
+		const { content, site } = await getContent(params.lang);
+		const parsed = contactSchema(content.services.packages.map((p) => p.id)).safeParse(data);
 
 		if (data.hp && data.hp.toString().length > 0) {
 			return fail(400, { ok: false, formError: 'spam' });
@@ -66,7 +76,7 @@ export const actions: Actions = {
 			for (const issue of parsed.error.issues) {
 				const key = issue.path[0]?.toString();
 				if (!key) continue;
-				errors[key] = localizeError(issue.message, params.lang) ?? content.contact.form.errors.generic;
+				errors[key] = localizeError(issue.message, content) ?? content.contact.form.errors.generic;
 			}
 			if (!('consent' in errors) && data.consent !== 'on') {
 				errors.consent = content.contact.form.errors.consent;
@@ -106,7 +116,7 @@ ${parsed.data.message || '—'}
 `.trim();
 
 		await Promise.allSettled([
-			deliverLead({ subject, body, replyTo: parsed.data.contact, name: parsed.data.name }),
+			deliverLead({ subject, body, replyTo: parsed.data.contact, name: parsed.data.name, site }),
 			sendTelegramMessage(telegramMessage)
 		]);
 
@@ -119,7 +129,9 @@ async function deliverLead(args: {
 	body: string;
 	replyTo: string;
 	name: string;
+	site: SiteConfig;
 }): Promise<void> {
+	const { site } = args;
 	const smtp = env.SMTP_URL;
 	if (!smtp) {
 		console.info('[contact] SMTP not configured — logging lead', args);

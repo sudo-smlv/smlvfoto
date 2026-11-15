@@ -35,7 +35,7 @@
 		</header>
 
 		<div class="mt-16 flex flex-col gap-16 sm:mt-20 sm:gap-24 lg:gap-32">
-			{#each items as item, i (item.title)}
+			{#each items as item, i (i)}
 				{@const reverse = i % 2 === 1}
 				<article
 					class="group grid items-center gap-8 sm:gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-24"
@@ -74,7 +74,7 @@
 							class="absolute right-4 bottom-4 left-4 flex flex-wrap items-end justify-between gap-2 sm:right-6 sm:bottom-6 sm:left-6"
 						>
 							<div class="flex flex-wrap gap-1.5">
-								{#each item.tags as tag (tag)}
+								{#each item.tags as tag, ti (ti)}
 									<span
 										class="bg-foreground/70 text-background border-background/20 rounded-full border px-2 py-0.5 text-[10px] tracking-wider uppercase backdrop-blur sm:text-xs"
 									>
@@ -163,7 +163,7 @@
 		<dl
 			class="border-background/15 mt-16 grid grid-cols-2 divide-x divide-y divide-background/15 border-y sm:mt-20 sm:grid-cols-4 sm:divide-y-0"
 		>
-			{#each t.stats as stat (stat.label)}
+			{#each t.stats as stat, si (si)}
 				<div class="flex flex-col gap-1 px-4 py-5 sm:py-6">
 					<dt class="font-mono text-[10px] tracking-[0.25em] text-background/55 uppercase">
 						{stat.label}

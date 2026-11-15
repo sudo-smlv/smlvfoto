@@ -7,8 +7,9 @@
 
 	const t = $derived(content.photobooks);
 
-	const featured = t.gallery[0];
-	const filmstrip = [t.gallery[1], t.gallery[2], t.gallery[3]];
+	// First gallery photo is the large one, the next three form the strip below.
+	const featured = $derived(t.gallery[0] ?? t.hero);
+	const filmstrip = $derived(t.gallery.slice(1, 4));
 </script>
 
 <section id="photobooks" class="bg-background py-20 sm:py-32" aria-labelledby="photobooks-title">
@@ -59,7 +60,7 @@
 				</p>
 
 				<div class="flex flex-col">
-					{#each t.features as feature, i (feature.title)}
+					{#each t.features as feature, i (i)}
 						<div
 							class="flex flex-col gap-2 border-t border-foreground/10 py-6 first:border-t-0 first:pt-0 sm:py-7"
 						>
@@ -92,7 +93,7 @@
 		</div>
 
 		<div class="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-			{#each filmstrip as item, i (item.src)}
+			{#each filmstrip as item, i (i)}
 				<figure
 					class="group relative overflow-hidden rounded-xl bg-card border border-border/40 shadow-sm transition-all duration-300 hover:shadow-lg"
 				>
