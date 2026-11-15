@@ -1,0 +1,902 @@
+[
+ {
+  "_key": "3d287346ca1b",
+  "_type": "story",
+  "caption": {
+   "de": "Herbst im Schwarzwald",
+   "en": "Autumn in the Black Forest",
+   "ru": "Осень в Шварцвальде"
+  },
+  "category": {
+   "de": "Paarshooting",
+   "en": "Couple",
+   "ru": "Лавстори"
+  },
+  "city": "freiburg",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Paar in einem herbstlichen Park",
+    "en": "A couple in an autumn park",
+    "ru": "Пара в осеннем парке"
+   },
+   "asset": {
+    "_ref": "image-d54b5a91181adecc6b85b8cdc1e4e002dc625dd5-1066x1600-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "b487b3b167e1",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar in einem herbstlichen Park",
+     "en": "A couple in an autumn park",
+     "ru": "Пара в осеннем парке"
+    },
+    "asset": {
+     "_ref": "image-d54b5a91181adecc6b85b8cdc1e4e002dc625dd5-1066x1600-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "99fb297491eb",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar in einem herbstlichen Park",
+     "en": "A couple in an autumn park",
+     "ru": "Пара в осеннем парке"
+    },
+    "asset": {
+     "_ref": "image-d1cdab129caa5b51ef21d5ca7a56d5405943dc6b-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "a013b52e55a4",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar in einem herbstlichen Park",
+     "en": "A couple in an autumn park",
+     "ru": "Пара в осеннем парке"
+    },
+    "asset": {
+     "_ref": "image-cec65de8fdcc62403ffde08557e3feadd24ad2a9-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Freiburg",
+   "en": "Freiburg",
+   "ru": "Фрайбург"
+  },
+  "title": "Осень в Шварцвальде",
+  "year": "2024"
+ },
+ {
+  "_key": "f50a77efb151",
+  "_type": "story",
+  "caption": {
+   "de": "Spaziergang durch Basel",
+   "en": "A walk through Basel",
+   "ru": "Прогулка по Базелю"
+  },
+  "category": {
+   "de": "Stadt",
+   "en": "City",
+   "ru": "Город"
+  },
+  "city": "basel",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Porträt vor der Altstadt",
+    "en": "Portrait in the old town",
+    "ru": "Портрет на фоне старого города"
+   },
+   "asset": {
+    "_ref": "image-351eefed7988c59be201bcdb1a66b5579b687b9f-1066x1600-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "079666b22207",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt vor der Altstadt",
+     "en": "Portrait in the old town",
+     "ru": "Портрет на фоне старого города"
+    },
+    "asset": {
+     "_ref": "image-351eefed7988c59be201bcdb1a66b5579b687b9f-1066x1600-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "d6e7e49f404c",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt vor der Altstadt",
+     "en": "Portrait in the old town",
+     "ru": "Портрет на фоне старого города"
+    },
+    "asset": {
+     "_ref": "image-3e519734cbbe9fcc8112c8f862194d97e896de12-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "3d36574701f1",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt vor der Altstadt",
+     "en": "Portrait in the old town",
+     "ru": "Портрет на фоне старого города"
+    },
+    "asset": {
+     "_ref": "image-5091b3fe9f40d1b1c446988a9655f9743cdcab35-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Basel",
+   "en": "Basel",
+   "ru": "Базель"
+  },
+  "title": "Прогулка по Базелю",
+  "year": "2024"
+ },
+ {
+  "_key": "75ac48b202e0",
+  "_type": "story",
+  "caption": {
+   "de": "Eine Hochzeitsgeschichte",
+   "en": "A wedding story",
+   "ru": "Свадебная история"
+  },
+  "category": {
+   "de": "Hochzeit",
+   "en": "Wedding",
+   "ru": "Свадьба"
+  },
+  "city": "titisee",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Braut am See",
+    "en": "A bride by the lake",
+    "ru": "Невеста у озера"
+   },
+   "asset": {
+    "_ref": "image-0ec09b74d58051dcf6e3033d5702b5167aec1371-1066x1600-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "afdb571a314b",
+    "_type": "photo",
+    "alt": {
+     "de": "Braut am See",
+     "en": "A bride by the lake",
+     "ru": "Невеста у озера"
+    },
+    "asset": {
+     "_ref": "image-0ec09b74d58051dcf6e3033d5702b5167aec1371-1066x1600-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "1e8bac50e64e",
+    "_type": "photo",
+    "alt": {
+     "de": "Braut am See",
+     "en": "A bride by the lake",
+     "ru": "Невеста у озера"
+    },
+    "asset": {
+     "_ref": "image-1de5d4c95b725dbdad3ebb6ef54996c434e8ecaa-2048x1365-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "3aad0274d72e",
+    "_type": "photo",
+    "alt": {
+     "de": "Braut am See",
+     "en": "A bride by the lake",
+     "ru": "Невеста у озера"
+    },
+    "asset": {
+     "_ref": "image-e18b555d718b1162987cd22925be69f0fc5d33f9-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Titisee",
+   "en": "Lake Titisee",
+   "ru": "Озеро Титизее"
+  },
+  "title": "Свадебная история",
+  "year": "2023"
+ },
+ {
+  "_key": "df30c91d99f9",
+  "_type": "story",
+  "caption": {
+   "de": "Eine Familiengeschichte",
+   "en": "A family story",
+   "ru": "Семейная история"
+  },
+  "category": {
+   "de": "Familie",
+   "en": "Family",
+   "ru": "Семья"
+  },
+  "city": "baden-baden",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Familienshooting im Park",
+    "en": "Family photoshoot in the park",
+    "ru": "Семейная съёмка в парке"
+   },
+   "asset": {
+    "_ref": "image-79980a8cc435be4ac1d1b7affbf47442eb32c8c7-800x1200-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "5101f1ac30dd",
+    "_type": "photo",
+    "alt": {
+     "de": "Familienshooting im Park",
+     "en": "Family photoshoot in the park",
+     "ru": "Семейная съёмка в парке"
+    },
+    "asset": {
+     "_ref": "image-79980a8cc435be4ac1d1b7affbf47442eb32c8c7-800x1200-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "b9f027b2abba",
+    "_type": "photo",
+    "alt": {
+     "de": "Familienshooting im Park",
+     "en": "Family photoshoot in the park",
+     "ru": "Семейная съёмка в парке"
+    },
+    "asset": {
+     "_ref": "image-bcb09f9ed855badd85a95a26c83143dc3580bf71-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "62422beca434",
+    "_type": "photo",
+    "alt": {
+     "de": "Familienshooting im Park",
+     "en": "Family photoshoot in the park",
+     "ru": "Семейная съёмка в парке"
+    },
+    "asset": {
+     "_ref": "image-e65f3f349b2841ee731d715c98ad961e5f48b31f-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Baden-Baden",
+   "en": "Baden-Baden",
+   "ru": "Баден-Баден"
+  },
+  "title": "Семейная история",
+  "year": "2024"
+ },
+ {
+  "_key": "820a1573ff39",
+  "_type": "story",
+  "caption": {
+   "de": "Goldene Stunde in den Bergen",
+   "en": "Golden hour in the mountains",
+   "ru": "Золотой час в горах"
+  },
+  "category": {
+   "de": "Paarshooting",
+   "en": "Couple",
+   "ru": "Лавстори"
+  },
+  "city": "schwarzwald",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Paar bei Sonnenuntergang",
+    "en": "A couple at sunset",
+    "ru": "Пара на закате"
+   },
+   "asset": {
+    "_ref": "image-8e171ff84b3d5da5a2b636c379630de002d7479e-800x1200-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "47057ae5c05a",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar bei Sonnenuntergang",
+     "en": "A couple at sunset",
+     "ru": "Пара на закате"
+    },
+    "asset": {
+     "_ref": "image-8e171ff84b3d5da5a2b636c379630de002d7479e-800x1200-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "2399b4e40b3b",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar bei Sonnenuntergang",
+     "en": "A couple at sunset",
+     "ru": "Пара на закате"
+    },
+    "asset": {
+     "_ref": "image-ddda50efc677bb37c93c6e8df73011fb0a089fc4-2048x1365-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "499ee71409ff",
+    "_type": "photo",
+    "alt": {
+     "de": "Paar bei Sonnenuntergang",
+     "en": "A couple at sunset",
+     "ru": "Пара на закате"
+    },
+    "asset": {
+     "_ref": "image-48d677cd4cc3b08b564da19d3ffe69565fc1a7bd-1363x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Schwarzwald",
+   "en": "Black Forest",
+   "ru": "Шварцвальд"
+  },
+  "title": "Золотой час в горах",
+  "year": "2023"
+ },
+ {
+  "_key": "a0e46b3a476f",
+  "_type": "story",
+  "caption": {
+   "de": "Studioporträt",
+   "en": "Studio portrait",
+   "ru": "Студийный портрет"
+  },
+  "category": {
+   "de": "Porträt",
+   "en": "Portrait",
+   "ru": "Портрет"
+  },
+  "city": "freiburg",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Porträt im Studio",
+    "en": "Portrait in the studio",
+    "ru": "Портрет в студии"
+   },
+   "asset": {
+    "_ref": "image-9dd2374360910018c1485c36e0d07299aeca1857-800x1200-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "5069147a2c8f",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt im Studio",
+     "en": "Portrait in the studio",
+     "ru": "Портрет в студии"
+    },
+    "asset": {
+     "_ref": "image-9dd2374360910018c1485c36e0d07299aeca1857-800x1200-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "f0ab9f6a9239",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt im Studio",
+     "en": "Portrait in the studio",
+     "ru": "Портрет в студии"
+    },
+    "asset": {
+     "_ref": "image-bc6844c92f54d7cff7e30cc366209b976c7edec4-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "d42b8d2d133b",
+    "_type": "photo",
+    "alt": {
+     "de": "Porträt im Studio",
+     "en": "Portrait in the studio",
+     "ru": "Портрет в студии"
+    },
+    "asset": {
+     "_ref": "image-03d542d653096711cd0876e2cf9690f4caf34210-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Freiburg",
+   "en": "Freiburg",
+   "ru": "Фрайбург"
+  },
+  "title": "Студийный портрет",
+  "year": "2024"
+ },
+ {
+  "_key": "3400d3970102",
+  "_type": "story",
+  "caption": {
+   "de": "Schluchsee im Abendlicht",
+   "en": "Schluchsee in the evening light",
+   "ru": "Озеро Шлюхзее в лучах"
+  },
+  "category": {
+   "de": "Natur",
+   "en": "Nature",
+   "ru": "Природа"
+  },
+  "city": "titisee",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Filmreife Natur am See",
+    "en": "Cinematic scenery by the lake",
+    "ru": "Киношная природа у озера"
+   },
+   "asset": {
+    "_ref": "image-1de5d4c95b725dbdad3ebb6ef54996c434e8ecaa-2048x1365-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "391140b4bbe7",
+    "_type": "photo",
+    "alt": {
+     "de": "Filmreife Natur am See",
+     "en": "Cinematic scenery by the lake",
+     "ru": "Киношная природа у озера"
+    },
+    "asset": {
+     "_ref": "image-1de5d4c95b725dbdad3ebb6ef54996c434e8ecaa-2048x1365-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "554c756f3666",
+    "_type": "photo",
+    "alt": {
+     "de": "Filmreife Natur am See",
+     "en": "Cinematic scenery by the lake",
+     "ru": "Киношная природа у озера"
+    },
+    "asset": {
+     "_ref": "image-e18b555d718b1162987cd22925be69f0fc5d33f9-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "d1325da4fcc8",
+    "_type": "photo",
+    "alt": {
+     "de": "Filmreife Natur am See",
+     "en": "Cinematic scenery by the lake",
+     "ru": "Киношная природа у озера"
+    },
+    "asset": {
+     "_ref": "image-0ec09b74d58051dcf6e3033d5702b5167aec1371-1066x1600-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Schluchsee",
+   "en": "Schluchsee",
+   "ru": "Шлюхзее"
+  },
+  "title": "Озеро Шлюхзее в лучах",
+  "year": "2024"
+ },
+ {
+  "_key": "660ca75d57ee",
+  "_type": "story",
+  "caption": {
+   "de": "Emotionen und Licht",
+   "en": "Emotion and light",
+   "ru": "Эмоции и свет"
+  },
+  "category": {
+   "de": "Porträt",
+   "en": "Portrait",
+   "ru": "Портрет"
+  },
+  "city": "basel",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Emotionales Porträt",
+    "en": "Emotional portrait",
+    "ru": "Эмоциональный портрет"
+   },
+   "asset": {
+    "_ref": "image-d1cdab129caa5b51ef21d5ca7a56d5405943dc6b-1365x2048-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "297672dc7baf",
+    "_type": "photo",
+    "alt": {
+     "de": "Emotionales Porträt",
+     "en": "Emotional portrait",
+     "ru": "Эмоциональный портрет"
+    },
+    "asset": {
+     "_ref": "image-d1cdab129caa5b51ef21d5ca7a56d5405943dc6b-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "cff85b58578a",
+    "_type": "photo",
+    "alt": {
+     "de": "Emotionales Porträt",
+     "en": "Emotional portrait",
+     "ru": "Эмоциональный портрет"
+    },
+    "asset": {
+     "_ref": "image-03d542d653096711cd0876e2cf9690f4caf34210-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "451021ecb538",
+    "_type": "photo",
+    "alt": {
+     "de": "Emotionales Porträt",
+     "en": "Emotional portrait",
+     "ru": "Эмоциональный портрет"
+    },
+    "asset": {
+     "_ref": "image-351eefed7988c59be201bcdb1a66b5579b687b9f-1066x1600-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Basel",
+   "en": "Basel",
+   "ru": "Базель"
+  },
+  "title": "Эмоции и свет",
+  "year": "2024"
+ },
+ {
+  "_key": "7a87026c1267",
+  "_type": "story",
+  "caption": {
+   "de": "Gassen und Kaffee",
+   "en": "Little streets and coffee",
+   "ru": "Улочки и кофе"
+  },
+  "category": {
+   "de": "Stadt",
+   "en": "City",
+   "ru": "Город"
+  },
+  "city": "freiburg",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Altstadt-Ästhetik",
+    "en": "Old town aesthetics",
+    "ru": "Эстетика старого города"
+   },
+   "asset": {
+    "_ref": "image-cec65de8fdcc62403ffde08557e3feadd24ad2a9-1365x2048-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "9fd31aad4027",
+    "_type": "photo",
+    "alt": {
+     "de": "Altstadt-Ästhetik",
+     "en": "Old town aesthetics",
+     "ru": "Эстетика старого города"
+    },
+    "asset": {
+     "_ref": "image-cec65de8fdcc62403ffde08557e3feadd24ad2a9-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "1ca84d8f7725",
+    "_type": "photo",
+    "alt": {
+     "de": "Altstadt-Ästhetik",
+     "en": "Old town aesthetics",
+     "ru": "Эстетика старого города"
+    },
+    "asset": {
+     "_ref": "image-1e9d198e61e14fd7d4e444617ecb32a7a30089fd-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "088c843e66f8",
+    "_type": "photo",
+    "alt": {
+     "de": "Altstadt-Ästhetik",
+     "en": "Old town aesthetics",
+     "ru": "Эстетика старого города"
+    },
+    "asset": {
+     "_ref": "image-d54b5a91181adecc6b85b8cdc1e4e002dc625dd5-1066x1600-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Freiburg",
+   "en": "Freiburg",
+   "ru": "Фрайбург"
+  },
+  "title": "Улочки и кофе",
+  "year": "2024"
+ },
+ {
+  "_key": "fa960a7d6bd1",
+  "_type": "story",
+  "caption": {
+   "de": "Warme Umarmungen",
+   "en": "Warm hugs",
+   "ru": "Теплые объятия"
+  },
+  "category": {
+   "de": "Familie",
+   "en": "Family",
+   "ru": "Семья"
+  },
+  "city": "baden-baden",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Warme Momente im Park",
+    "en": "Warm moments in the park",
+    "ru": "Теплые моменты в парке"
+   },
+   "asset": {
+    "_ref": "image-bcb09f9ed855badd85a95a26c83143dc3580bf71-1365x2048-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "8f921348e347",
+    "_type": "photo",
+    "alt": {
+     "de": "Warme Momente im Park",
+     "en": "Warm moments in the park",
+     "ru": "Теплые моменты в парке"
+    },
+    "asset": {
+     "_ref": "image-bcb09f9ed855badd85a95a26c83143dc3580bf71-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "212827949334",
+    "_type": "photo",
+    "alt": {
+     "de": "Warme Momente im Park",
+     "en": "Warm moments in the park",
+     "ru": "Теплые моменты в парке"
+    },
+    "asset": {
+     "_ref": "image-e65f3f349b2841ee731d715c98ad961e5f48b31f-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "18e966c987c9",
+    "_type": "photo",
+    "alt": {
+     "de": "Warme Momente im Park",
+     "en": "Warm moments in the park",
+     "ru": "Теплые моменты в парке"
+    },
+    "asset": {
+     "_ref": "image-79980a8cc435be4ac1d1b7affbf47442eb32c8c7-800x1200-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Baden-Baden",
+   "en": "Baden-Baden",
+   "ru": "Баден-Баден"
+  },
+  "title": "Теплые объятия",
+  "year": "2024"
+ },
+ {
+  "_key": "a2db652790f1",
+  "_type": "story",
+  "caption": {
+   "de": "Urbane Geometrie",
+   "en": "Urban geometry",
+   "ru": "Городская геометрия"
+  },
+  "category": {
+   "de": "Stadt",
+   "en": "City",
+   "ru": "Город"
+  },
+  "city": "freiburg",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Straßen und Terrassen",
+    "en": "Streets and terraces",
+    "ru": "Улицы и террасы"
+   },
+   "asset": {
+    "_ref": "image-1e9d198e61e14fd7d4e444617ecb32a7a30089fd-1365x2048-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "eef7c8e2cff7",
+    "_type": "photo",
+    "alt": {
+     "de": "Straßen und Terrassen",
+     "en": "Streets and terraces",
+     "ru": "Улицы и террасы"
+    },
+    "asset": {
+     "_ref": "image-1e9d198e61e14fd7d4e444617ecb32a7a30089fd-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "4423c0cc1784",
+    "_type": "photo",
+    "alt": {
+     "de": "Straßen und Terrassen",
+     "en": "Streets and terraces",
+     "ru": "Улицы и террасы"
+    },
+    "asset": {
+     "_ref": "image-3e519734cbbe9fcc8112c8f862194d97e896de12-1365x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "1d2e562c3c91",
+    "_type": "photo",
+    "alt": {
+     "de": "Straßen und Terrassen",
+     "en": "Streets and terraces",
+     "ru": "Улицы и террасы"
+    },
+    "asset": {
+     "_ref": "image-5091b3fe9f40d1b1c446988a9655f9743cdcab35-1365x2048-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Freiburg",
+   "en": "Freiburg",
+   "ru": "Фрайбург"
+  },
+  "title": "Городская геометрия",
+  "year": "2024"
+ },
+ {
+  "_key": "47974c48f282",
+  "_type": "story",
+  "caption": {
+   "de": "Gipfel des Schwarzwalds",
+   "en": "Black Forest peaks",
+   "ru": "Вершины Шварцвальда"
+  },
+  "category": {
+   "de": "Natur",
+   "en": "Nature",
+   "ru": "Природа"
+  },
+  "city": "schwarzwald",
+  "cover": {
+   "_type": "photo",
+   "alt": {
+    "de": "Sonnenuntergang über den Bergkämmen",
+    "en": "Sunset over the mountain ridges",
+    "ru": "Закат над горными хребтами"
+   },
+   "asset": {
+    "_ref": "image-ddda50efc677bb37c93c6e8df73011fb0a089fc4-2048x1365-avif",
+    "_type": "reference"
+   }
+  },
+  "images": [
+   {
+    "_key": "a3fa728a3b5c",
+    "_type": "photo",
+    "alt": {
+     "de": "Sonnenuntergang über den Bergkämmen",
+     "en": "Sunset over the mountain ridges",
+     "ru": "Закат над горными хребтами"
+    },
+    "asset": {
+     "_ref": "image-ddda50efc677bb37c93c6e8df73011fb0a089fc4-2048x1365-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "342fa637e756",
+    "_type": "photo",
+    "alt": {
+     "de": "Sonnenuntergang über den Bergkämmen",
+     "en": "Sunset over the mountain ridges",
+     "ru": "Закат над горными хребтами"
+    },
+    "asset": {
+     "_ref": "image-48d677cd4cc3b08b564da19d3ffe69565fc1a7bd-1363x2048-avif",
+     "_type": "reference"
+    }
+   },
+   {
+    "_key": "965a5dfd596a",
+    "_type": "photo",
+    "alt": {
+     "de": "Sonnenuntergang über den Bergkämmen",
+     "en": "Sunset over the mountain ridges",
+     "ru": "Закат над горными хребтами"
+    },
+    "asset": {
+     "_ref": "image-8e171ff84b3d5da5a2b636c379630de002d7479e-800x1200-avif",
+     "_type": "reference"
+    }
+   }
+  ],
+  "location": {
+   "de": "Schwarzwald",
+   "en": "Black Forest",
+   "ru": "Шварцвальд"
+  },
+  "title": "Вершины Шварцвальда",
+  "year": "2024"
+ }
+]

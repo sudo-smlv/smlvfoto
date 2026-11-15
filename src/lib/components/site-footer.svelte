@@ -8,7 +8,7 @@
 
 	const navItems = $derived([
 		{ id: 'about', label: content.nav.about },
-		{ id: 'portfolio', label: content.nav.portfolio },
+		...(content.portfolio.items.length ? [{ id: 'portfolio', label: content.nav.portfolio }] : []),
 		{ id: 'services', label: content.nav.services },
 		{ id: 'locations', label: content.nav.locations },
 		{ id: 'photobooks', label: content.nav.photobooks },

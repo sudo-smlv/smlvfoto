@@ -72,7 +72,10 @@
 <main class="overflow-x-clip">
 	<Hero />
 	<About />
-	<Portfolio />
+	<!-- The stories block only appears once there is at least one story in Sanity. -->
+	{#if content.portfolio.items.length}
+		<Portfolio />
+	{/if}
 	<Services />
 	<Locations />
 	<Photobooks />
