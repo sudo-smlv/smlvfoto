@@ -1,155 +1,103 @@
 <script lang="ts">
 	import { useI18n, type PortfolioStory } from '$lib/i18n.svelte';
 	import { fill } from '$lib/content/build';
+	import AllStoriesDialog from './all-stories-dialog.svelte';
+
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { AspectRatio } from '$lib/components/ui/aspect-ratio';
-	import AllStoriesDialog from './all-stories-dialog.svelte';
-	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
-	import Images from '@lucide/svelte/icons/images';
-
 	const t = $derived(content.portfolio);
+
 	let allStoriesOpen = $state(false);
 	let selectedStory = $state<PortfolioStory | null>(null);
 
-	// Exactly maximum 6 latest photos on the main page
+	// The six newest stories hang on the "wall"; each one is pinned a little differently.
 	const mainItems = $derived(t.items.slice(0, 6));
-
-	const layoutPatterns = [
-		{ span: 'lg:col-span-7 lg:row-span-2', aspect: 'aspect-[4/5] sm:aspect-[4/3] lg:aspect-auto' },
-		{ span: 'lg:col-span-5', aspect: 'aspect-[4/5] sm:aspect-[4/3] lg:aspect-[16/9]' },
-		{ span: 'lg:col-span-5', aspect: 'aspect-[4/5] sm:aspect-[4/3] lg:aspect-[16/9]' },
-		{ span: 'lg:col-span-4', aspect: 'aspect-[4/5] sm:aspect-[4/3]' },
-		{ span: 'lg:col-span-4', aspect: 'aspect-[4/5] sm:aspect-[4/3]' },
-		{ span: 'lg:col-span-4', aspect: 'aspect-[4/5] sm:aspect-[4/3]' }
+	const pins = [
+		{ tilt: '-rotate-[3deg]', tape: 'left-6 -rotate-[8deg]', offset: 'lg:mt-0' },
+		{ tilt: 'rotate-[2deg]', tape: 'right-8 rotate-[6deg]', offset: 'lg:mt-16' },
+		{ tilt: '-rotate-[1.5deg]', tape: 'left-1/2 -translate-x-1/2 rotate-[2deg]', offset: 'lg:mt-6' },
+		{ tilt: 'rotate-[2.5deg]', tape: 'left-1/2 -translate-x-1/2 -rotate-[3deg]', offset: 'lg:-mt-6' },
+		{ tilt: '-rotate-[2deg]', tape: 'right-6 rotate-[8deg]', offset: 'lg:mt-10' },
+		{ tilt: 'rotate-[1.5deg]', tape: 'left-8 -rotate-[5deg]', offset: 'lg:mt-0' }
 	] as const;
 
-	const cols = $derived(
-		mainItems.map((item, idx) => {
-			const pattern = layoutPatterns[idx % layoutPatterns.length];
-			return {
-				item,
-				span: pattern.span,
-				aspect: pattern.aspect
-			};
-		})
-	);
+	function open(story: PortfolioStory | null) {
+		selectedStory = story;
+		allStoriesOpen = true;
+	}
 </script>
 
-<section
-	id="portfolio"
-	class="bg-background py-16 sm:py-24 lg:py-32"
-	aria-labelledby="portfolio-title"
->
-	<div class="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
-		<header
-			class="flex flex-col items-start justify-between gap-4 sm:gap-6 md:flex-row md:items-end"
-		>
-			<div class="max-w-2xl">
-				<p
-					class="font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase sm:text-xs"
-				>
-					{content.sectionLabels.portfolio}
-				</p>
-				<h2
-					id="portfolio-title"
-					class="mt-3 sm:mt-4 font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight text-balance leading-[0.95]"
-				>
-					{t.heading}
-				</h2>
-				<p class="text-muted-foreground mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg">{t.intro}</p>
-			</div>
+<section id="portfolio" class="bg-cream relative py-24 sm:py-32" aria-labelledby="portfolio-title">
+	<!-- soft wave where the page paper meets the cream band -->
+	<svg class="text-milk absolute -top-px left-0 h-8 w-full" viewBox="0 0 1200 32" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+		<path d="M0 0h1200v14c-150 18-300-10-450 4S300 30 150 18 0 14 0 14z" />
+	</svg>
 
-			<div
-				class="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground self-start md:self-end"
-			>
-				<span class="font-mono tracking-[0.2em] uppercase"
-					>{fill(t.texts.shownOfTotal, { count: mainItems.length, total: t.items.length })}</span
-				>
-				<span aria-hidden="true">·</span>
-				<span>{t.metaYears}</span>
+	<div class="mx-auto max-w-[1400px] px-5 sm:px-8">
+		<header class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+			<div class="flex max-w-2xl flex-col gap-5">
+				<p class="hand-note">{content.sectionLabels.portfolio}</p>
+				<h2 id="portfolio-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
+				<p class="text-bark-soft text-lg">{t.intro}</p>
 			</div>
+			<p class="font-hand text-bark-soft text-2xl">
+				{fill(t.texts.shownOfTotal, { count: mainItems.length, total: t.items.length })} · {t.metaYears}
+			</p>
 		</header>
 
-		<!-- Responsive Fluid Grid: 1 col on mobile, 2 col on tablet, 12 col bento on desktop -->
-		<div
-			class="mt-10 sm:mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-12 lg:auto-rows-[minmax(0,180px)]"
-		>
-			{#each cols as col, i (i)}
-				<button
-					type="button"
-					class="group relative isolate overflow-hidden rounded-none bg-foreground {col.span} cursor-pointer text-left w-full p-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-					onclick={() => {
-						selectedStory = col.item;
-						allStoriesOpen = true;
-					}}
-				>
-					<AspectRatio ratio={4 / 5} class={col.aspect}>
-						<img
-							src={col.item.src}
-							alt={col.item.alt}
-							loading="lazy"
-							decoding="async"
-							class="absolute inset-0 h-full w-full object-cover grayscale transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
-						/>
-						<div
-							class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent sm:from-black/80 sm:via-black/0 sm:to-black/0 transition-opacity group-hover:from-black/85"
-							aria-hidden="true"
-						></div>
-					</AspectRatio>
-
-					{#if col.item.images && col.item.images.length > 1}
-						<div class="absolute top-3 right-3 sm:top-4 sm:right-4 pointer-events-none z-10">
-							<span
-								class="inline-flex items-center gap-1 font-mono text-[10px] tracking-wider text-white/90 bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-0.5 rounded-full"
-							>
-								<Images class="size-3 text-white/90" />
-								<span>{fill(t.texts.photoCount, { count: col.item.images.length })}</span>
-							</span>
-						</div>
-					{/if}
-
-					<div
-						class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 sm:p-6 pointer-events-none"
+		<ul class="mt-16 grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-14">
+			{#each mainItems as story, i (i)}
+				{@const pin = pins[i % pins.length]}
+				<li class={pin.offset}>
+					<button
+						type="button"
+						onclick={() => open(story)}
+						class="polaroid group relative block w-full text-left transition-transform duration-500 ease-out hover:z-10 hover:-translate-y-2 hover:rotate-0 hover:scale-[1.02] {pin.tilt}"
 					>
-						<div class="text-white">
-							<p class="font-mono text-[10px] tracking-[0.25em] text-white/70 uppercase sm:text-xs">
-								№0{i + 1} · {col.item.location} · {col.item.year}
-							</p>
-							<h3
-								class="font-serif mt-1 text-base sm:text-xl lg:text-2xl leading-tight font-medium"
-							>
-								{col.item.caption}
-							</h3>
-						</div>
-						<span
-							aria-hidden="true"
-							class="text-white/80 translate-y-0 sm:translate-y-1 opacity-90 sm:opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-						>
-							<ArrowUpRight class="size-4 sm:size-6" />
+						<span class="tape -top-3 {pin.tape}" aria-hidden="true"></span>
+						<span class="relative block overflow-hidden">
+							<img
+								src={story.src}
+								alt={story.alt}
+								loading="lazy"
+								decoding="async"
+								class="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+							/>
+							{#if story.images.length > 1}
+								<span
+									class="bg-paper/90 text-bark absolute top-3 right-3 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur"
+								>
+									{fill(t.texts.photoCount, { count: story.images.length })}
+								</span>
+							{/if}
 						</span>
-					</div>
-				</button>
+						<span class="flex items-end justify-between gap-3 px-2 pt-3 pb-4">
+							<span class="flex flex-col">
+								<span class="font-hand text-bark text-[1.75rem] leading-none">{story.caption}</span>
+								<span class="text-bark-soft mt-1.5 text-sm">{story.location} · {story.year}</span>
+							</span>
+							<span
+								class="border-line text-bark group-hover:bg-honey group-hover:border-honey flex size-10 shrink-0 items-center justify-center rounded-full border transition-colors"
+								aria-hidden="true"
+							>
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8" /></svg>
+							</span>
+						</span>
+					</button>
+				</li>
 			{/each}
-		</div>
+		</ul>
 
-		<!-- Minimalist Editorial "Все истории" Button in true site aesthetic -->
-		<div class="mt-12 sm:mt-16 flex justify-center">
+		<div class="mt-20 flex justify-center">
 			<button
 				type="button"
-				class="group relative inline-flex items-center gap-3 border border-foreground/25 hover:border-foreground bg-transparent hover:bg-foreground hover:text-background px-7 py-3.5 transition-all duration-300 font-mono text-[11px] sm:text-xs tracking-[0.25em] uppercase cursor-pointer"
-				onclick={() => {
-					selectedStory = null;
-					allStoriesOpen = true;
-				}}
+				onclick={() => open(null)}
+				class="group bg-fir text-milk hover:bg-fir-soft inline-flex min-h-14 items-center gap-4 rounded-full py-2 pr-2 pl-7 font-semibold transition-colors"
 			>
-				<span>{t.viewAll}</span>
-				<span class="text-muted-foreground group-hover:text-background/70 font-mono text-[10px]">
-					[{t.items.length}]
+				{t.viewAll}
+				<span class="bg-honey text-bark flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-sm font-bold">
+					{t.items.length}
 				</span>
-				<ArrowUpRight
-					class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-				/>
 			</button>
 		</div>
 

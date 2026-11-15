@@ -1,28 +1,25 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { useI18n } from '$lib/i18n.svelte';
+	import { cn } from '$lib/utils';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
 	const site = $derived(i18n.site);
-	import { cn } from '$lib/utils';
-	import Menu from '@lucide/svelte/icons/menu';
-	import X from '@lucide/svelte/icons/x';
-	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
-	import { Button } from '$lib/components/ui/button';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 
 	type Props = { class?: string };
 	let { class: className = '' }: Props = $props();
 
 	const sections = $derived([
-		{ id: 'about', label: content.nav.about, num: '01' },
-		{ id: 'portfolio', label: content.nav.portfolio, num: '02' },
-		{ id: 'services', label: content.nav.services, num: '03' },
-		{ id: 'locations', label: content.nav.locations, num: '04' },
-		{ id: 'photobooks', label: content.nav.photobooks, num: '05' },
-		{ id: 'faq', label: content.nav.faq, num: '06' },
-		{ id: 'contact', label: content.nav.contact, num: '07' }
+		{ id: 'about', label: content.nav.about },
+		{ id: 'portfolio', label: content.nav.portfolio },
+		{ id: 'services', label: content.nav.services },
+		{ id: 'locations', label: content.nav.locations },
+		{ id: 'photobooks', label: content.nav.photobooks },
+		{ id: 'faq', label: content.nav.faq },
+		{ id: 'contact', label: content.nav.contact }
 	]);
 
 	let active = $state<string>('hero');
@@ -30,16 +27,12 @@
 	let mobileOpen = $state(false);
 
 	onMount(() => {
-		const allSections = [{ id: 'hero', label: content.nav.home, num: '00' }, ...sections];
 		const onScroll = () => {
-			scrolled = window.scrollY > 8;
-			const headerHeight = 64;
-			let current = allSections[0].id;
-			for (const s of allSections) {
+			scrolled = window.scrollY > 24;
+			let current = 'hero';
+			for (const s of sections) {
 				const el = document.getElementById(s.id);
-				if (!el) continue;
-				const rect = el.getBoundingClientRect();
-				if (rect.top - headerHeight <= 1) current = s.id;
+				if (el && el.getBoundingClientRect().top - 120 <= 0) current = s.id;
 			}
 			active = current;
 		};
@@ -48,51 +41,42 @@
 		return () => window.removeEventListener('scroll', onScroll);
 	});
 
+	$effect(() => {
+		document.documentElement.style.overflow = mobileOpen ? 'hidden' : '';
+	});
+
 	function go(id: string) {
 		mobileOpen = false;
 		document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 </script>
 
-<header
-	class={cn(
-		'bg-background/95 supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50 w-full backdrop-blur transition-all duration-300',
-		scrolled
-			? 'border-border border-b shadow-[0_1px_0_rgba(0,0,0,0.04)]'
-			: 'border-b border-transparent',
-		className
-	)}
->
-	<div
-		class={cn(
-			'hidden h-8 items-center justify-between border-b border-border/60 font-mono text-[10px] tracking-[0.25em] text-muted-foreground uppercase transition-all duration-300 lg:flex',
-			scrolled ? 'max-h-0 overflow-hidden opacity-0' : 'max-h-8 opacity-100'
-		)}
-	>
-		<div
-			class="mx-auto flex w-full max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8"
-		>
-			<span>{content.footer.basedIn}</span>
-			<span class="flex items-center gap-2">
-				<span class="bg-foreground size-1.5 shrink-0 rounded-full" aria-hidden="true"></span>
-				{content.footer.availability}
-			</span>
-		</div>
-	</div>
-
+<header class={cn('sticky top-0 z-50 w-full px-3 pt-3 sm:px-5', className)}>
 	<nav
-		class="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
 		aria-label={content.a11y.mainNav}
+		class={cn(
+			'mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full border px-3 py-2 transition-all duration-500 sm:px-4',
+			scrolled
+				? 'border-line bg-paper/90 shadow-[0_10px_30px_-18px_rgb(46_36_25/0.45)] backdrop-blur-md'
+				: 'border-transparent bg-transparent'
+		)}
 	>
 		<button
 			type="button"
 			onclick={() => go('hero')}
-			class="font-serif text-xl font-semibold tracking-tight transition-opacity hover:opacity-80 sm:text-2xl"
+			class="flex min-h-11 items-center gap-2.5 rounded-full pr-2 pl-1 text-left"
 		>
-			{site.shortName}<sup class="ml-0.5 text-[0.6em] font-normal align-super">®</sup>
+			<span
+				class="bg-honey text-bark flex size-10 items-center justify-center rounded-full font-display text-xl italic"
+				aria-hidden="true">{site.shortName.charAt(0)}</span
+			>
+			<span class="flex flex-col leading-none">
+				<span class="font-display text-xl font-semibold tracking-tight">{site.shortName}</span>
+				<span class="font-hand text-honey-ink -mt-0.5 text-[1.05rem]">{content.hero.card.body}</span>
+			</span>
 		</button>
 
-		<ul class="hidden items-center gap-1 text-sm md:flex">
+		<ul class="hidden items-center gap-0.5 lg:flex">
 			{#each sections as s (s.id)}
 				<li>
 					<button
@@ -101,104 +85,77 @@
 						aria-current={active === s.id ? 'page' : undefined}
 						onclick={() => go(s.id)}
 						class={cn(
-							'relative px-3 py-2 transition-colors',
-							active === s.id ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+							'relative min-h-11 rounded-full px-3.5 text-[0.92rem] font-medium transition-colors',
+							active === s.id ? 'bg-cream text-bark' : 'text-bark-soft hover:text-bark'
 						)}
 					>
-						{s.label}
 						{#if active === s.id}
-							<span class="bg-foreground absolute inset-x-3 -bottom-px h-px" aria-hidden="true"
+							<span
+								class="bg-honey absolute top-1.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full"
+								aria-hidden="true"
 							></span>
 						{/if}
+						{s.label}
 					</button>
 				</li>
 			{/each}
 		</ul>
 
-		<div class="hidden items-center gap-3 md:flex">
-			<LanguageSwitcher />
-			<Button
-				size="sm"
-				onclick={() => go('contact')}
-				class="bg-foreground text-background hover:bg-foreground/90"
-			>
-				{content.hero.cta}
-				<ArrowUpRight data-icon="inline-end" class="ml-0.5" />
-			</Button>
-		</div>
-
-		<div class="flex items-center gap-2 md:hidden">
+		<div class="flex items-center gap-2">
 			<LanguageSwitcher />
 			<button
 				type="button"
-				class="text-foreground"
+				onclick={() => go('contact')}
+				class="bg-fir text-milk hover:bg-fir-soft hidden min-h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold transition-colors sm:inline-flex"
+			>
+				<span class="bg-honey size-2 rounded-full" aria-hidden="true"></span>
+				{content.hero.cta}
+			</button>
+			<button
+				type="button"
+				class="border-line bg-paper flex size-11 items-center justify-center rounded-full border lg:hidden"
 				aria-label={mobileOpen ? content.a11y.closeMenu : content.a11y.openMenu}
 				aria-expanded={mobileOpen}
 				onclick={() => (mobileOpen = !mobileOpen)}
 			>
-				{#if mobileOpen}
-					<X class="size-6" />
-				{:else}
-					<Menu class="size-6" />
-				{/if}
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+					{#if mobileOpen}
+						<path d="M6 6l12 12M18 6L6 18" />
+					{:else}
+						<path d="M4 8c3-1.5 6 1.5 9 0s5-1.5 7 0M4 16c3-1.5 6 1.5 9 0s5-1.5 7 0" />
+					{/if}
+				</svg>
 			</button>
 		</div>
 	</nav>
 
 	{#if mobileOpen}
 		<div
-			class="border-border bg-background fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t md:hidden"
+			class="bg-fir text-milk fixed inset-0 top-0 -z-10 overflow-y-auto px-6 pt-28 pb-10 lg:hidden"
 			transition:fade={{ duration: 200 }}
 		>
-			<div class="flex h-full flex-col px-4 py-6 sm:px-6">
-				<ul class="flex flex-1 flex-col divide-y divide-border">
-					{#each sections as s (s.id)}
-						<li>
-							<button
-								type="button"
-								onclick={() => go(s.id)}
-								class="group flex w-full items-baseline gap-4 py-4 text-left"
-							>
-								<span
-									class="font-mono text-[10px] tracking-[0.25em] text-muted-foreground tabular-nums sm:text-xs"
-								>
-									{s.num}
-								</span>
-								<span
-									class={cn(
-										'font-serif text-2xl leading-none transition-colors sm:text-3xl',
-										active === s.id
-											? 'text-foreground'
-											: 'text-muted-foreground group-hover:text-foreground'
-									)}
-								>
-									{s.label}
-								</span>
-								<ArrowUpRight
-									class="ml-auto size-5 shrink-0 translate-y-1 text-muted-foreground opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-									aria-hidden="true"
-								/>
-							</button>
-						</li>
-					{/each}
-				</ul>
-
-				<div class="mt-6 flex flex-col gap-3 border-t border-border pt-6">
-					<Button
-						size="lg"
-						class="bg-foreground text-background hover:bg-foreground/90 w-full"
-						onclick={() => go('contact')}
-					>
-						{content.hero.cta}
-						<ArrowUpRight data-icon="inline-end" class="ml-0.5" />
-					</Button>
-					<p
-						class="text-center font-mono text-[10px] tracking-[0.25em] text-muted-foreground uppercase"
-					>
-						{content.footer.availability}
-					</p>
-				</div>
-			</div>
+			<ul class="flex flex-col gap-1">
+				{#each sections as s, i (s.id)}
+					<li in:fly={{ y: 16, delay: 40 * i, duration: 300 }}>
+						<button
+							type="button"
+							onclick={() => go(s.id)}
+							class="flex min-h-14 w-full items-baseline gap-4 text-left"
+						>
+							<span class="font-hand text-honey-light text-2xl">{i + 1}</span>
+							<span class="font-display text-4xl">{s.label}</span>
+						</button>
+					</li>
+				{/each}
+			</ul>
+			<button
+				type="button"
+				onclick={() => go('contact')}
+				class="bg-honey text-bark mt-10 flex min-h-14 w-full items-center justify-center rounded-full text-base font-semibold"
+			>
+				{content.hero.cta}
+			</button>
+			<p class="font-hand text-honey-light mt-6 text-center text-2xl">{content.footer.availability}</p>
 		</div>
 	{/if}
 </header>

@@ -13,7 +13,6 @@
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
 	const site = $derived(i18n.site);
-	import { Separator } from '$lib/components/ui/separator';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -70,21 +69,14 @@
 
 <SiteHeader />
 
-<main>
+<main class="overflow-x-clip">
 	<Hero />
-	<Separator />
 	<About />
-	<Separator />
 	<Portfolio />
-	<Separator />
 	<Services />
-	<Separator />
 	<Locations />
-	<Separator />
 	<Photobooks />
-	<Separator />
 	<Faq />
-	<Separator />
 	<Contact {form} {data} />
 </main>
 

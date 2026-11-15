@@ -1,101 +1,79 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
 	import { useI18n } from '$lib/i18n.svelte';
+
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$lib/components/ui/accordion';
-	import { Button } from '$lib/components/ui/button';
-	import Headset from '@lucide/svelte/icons/headset';
-	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
-
+	const site = $derived(i18n.site);
 	const t = $derived(content.faq);
+	const avatar = $derived(content.hero.card.src);
+
+	let openIndex = $state(0);
 
 	function scrollToContact() {
 		document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
 	}
 </script>
 
-<section id="faq" class="bg-foreground text-background py-20 sm:py-32" aria-labelledby="faq-title">
-	<div class="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
-		<header class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-			<div class="max-w-2xl">
-				<p class="font-mono text-[10px] tracking-[0.3em] text-background/60 uppercase sm:text-xs">
-					{content.sectionLabels.faq}
-				</p>
-				<h2
-					id="faq-title"
-					class="mt-4 font-serif text-4xl leading-[0.95] font-medium tracking-tight text-balance sm:text-5xl lg:text-6xl xl:text-7xl"
-				>
-					{t.heading}
-				</h2>
-				<p class="text-background/70 mt-6 text-base sm:text-lg">{t.intro}</p>
-			</div>
+<section id="faq" class="bg-cream relative py-24 sm:py-32" aria-labelledby="faq-title">
+	<div class="mx-auto grid max-w-[1400px] gap-14 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+		<div class="flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start">
+			<p class="hand-note">{content.sectionLabels.faq}</p>
+			<h2 id="faq-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
+			<p class="text-bark-soft text-lg">{t.intro}</p>
 
-			<div class="text-background/60 flex items-center gap-4 text-xs sm:text-sm">
-				<span class="font-mono tracking-[0.2em] uppercase">{t.coverage}</span>
-			</div>
-		</header>
-
-		<div class="mt-14 grid gap-px sm:mt-20 lg:grid-cols-12">
-			<aside
-				class="flex flex-col gap-8 p-6 sm:gap-10 sm:p-10 lg:col-span-4 lg:p-14 lg:sticky lg:top-16 lg:self-start"
-			>
-				<div
-					class="bg-background text-foreground flex size-14 shrink-0 items-center justify-center rounded-none sm:size-16"
-					aria-hidden="true"
-				>
-					<Headset class="size-6 sm:size-7" />
-				</div>
-
-				<div class="flex flex-col gap-4">
-					<h3 class="font-serif text-2xl leading-tight font-medium sm:text-3xl">
-						{t.sidebar.heading}
-					</h3>
-					<p class="text-background/70 text-sm leading-relaxed sm:text-base">
-						{t.sidebar.body}
-					</p>
-				</div>
-
-				<Button
-					size="lg"
-					class="bg-background text-foreground hover:bg-background/90 w-full"
+			<div class="bg-paper relative mt-4 rotate-[-1.5deg] rounded-2xl p-7 shadow-[0_20px_40px_-26px_rgb(46_36_25/0.5)]">
+				<span class="tape -top-3 left-8 rotate-[-6deg]" aria-hidden="true"></span>
+				<p class="font-hand text-bark text-3xl leading-tight">{t.sidebar.heading}</p>
+				<p class="text-bark-soft mt-3">{t.sidebar.body}</p>
+				<button
+					type="button"
 					onclick={scrollToContact}
+					class="bg-honey text-bark mt-5 min-h-11 rounded-full px-6 font-semibold"
 				>
 					{t.cta}
-					<ArrowUpRight data-icon="inline-end" class="ml-1" />
-				</Button>
-			</aside>
-
-			<div class="lg:col-span-8 lg:pl-px">
-				<Accordion type="single" class="w-full">
-					{#each t.items as item, i (i)}
-						<AccordionItem
-							value={`q-${i}`}
-							class="border-background/15 border-b border-t-0 first:border-t"
-						>
-							<AccordionTrigger
-								class="font-serif hover:no-underline text-background group flex items-center gap-5 py-6 text-left text-lg font-medium sm:text-xl sm:py-8"
-							>
-								<span
-									class="font-mono text-background/45 text-xs tracking-[0.2em] shrink-0 tabular-nums sm:text-sm"
-								>
-									0{i + 1}
-								</span>
-								<span class="flex-1 leading-snug">{item.q}</span>
-							</AccordionTrigger>
-							<AccordionContent
-								class="text-background/70 pl-9 text-base leading-relaxed sm:pl-12 sm:text-lg"
-							>
-								{item.a}
-							</AccordionContent>
-						</AccordionItem>
-					{/each}
-				</Accordion>
+				</button>
 			</div>
+			<p class="font-hand text-bark-soft text-xl">{t.coverage}</p>
 		</div>
+
+		<ul class="flex flex-col gap-5">
+			{#each t.items as item, i (i)}
+				{@const isOpen = openIndex === i}
+				<li class="flex flex-col gap-3">
+					<button
+						type="button"
+						aria-expanded={isOpen}
+						aria-controls="faq-answer-{i}"
+						onclick={() => (openIndex = isOpen ? -1 : i)}
+						class={[
+							'group relative ml-auto flex max-w-[92%] items-center gap-4 rounded-[1.6rem] rounded-br-md px-6 py-4 text-left transition-colors sm:max-w-[80%]',
+							isOpen ? 'bg-fir text-milk' : 'bg-paper text-bark hover:bg-[var(--milk)]'
+						]}
+					>
+						<span class="font-display text-lg leading-snug sm:text-xl">{item.q}</span>
+						<span
+							class={[
+								'flex size-8 shrink-0 items-center justify-center rounded-full transition-transform',
+								isOpen ? 'bg-honey text-bark rotate-45' : 'bg-cream text-bark'
+							]}
+							aria-hidden="true"
+						>
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+						</span>
+					</button>
+
+					{#if isOpen}
+						<div id="faq-answer-{i}" class="flex max-w-[92%] items-end gap-3 sm:max-w-[80%]" transition:slide={{ duration: 260 }}>
+							<img src={avatar} alt="" class="ring-paper size-10 shrink-0 rounded-full object-cover ring-2" />
+							<div class="bg-honey/90 text-bark rounded-[1.6rem] rounded-bl-md px-6 py-4">
+								<p class="font-hand text-bark/70 text-lg leading-none">{site.shortName}</p>
+								<p class="mt-1.5 leading-relaxed">{item.a}</p>
+							</div>
+						</div>
+					{/if}
+				</li>
+			{/each}
+		</ul>
 	</div>
 </section>

@@ -1,130 +1,87 @@
 <script lang="ts">
 	import { useI18n } from '$lib/i18n.svelte';
+
 	const i18n = useI18n();
 	const content = $derived(i18n.content);
-	import { Button } from '$lib/components/ui/button';
-	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
-
 	const t = $derived(content.photobooks);
 
-	// First gallery photo is the large one, the next three form the strip below.
+	// First gallery photo fills the left page, the next three share the right page.
 	const featured = $derived(t.gallery[0] ?? t.hero);
-	const filmstrip = $derived(t.gallery.slice(1, 4));
+	const rest = $derived(t.gallery.slice(1, 4));
 </script>
 
-<section id="photobooks" class="bg-background py-20 sm:py-32" aria-labelledby="photobooks-title">
-	<div class="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
-		<header class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-			<div class="max-w-2xl">
-				<p
-					class="font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase sm:text-xs"
-				>
-					{content.sectionLabels.photobooks}
-				</p>
-				<h2
-					id="photobooks-title"
-					class="mt-4 font-serif text-4xl leading-[0.95] font-medium tracking-tight text-balance sm:text-5xl lg:text-6xl xl:text-7xl"
-				>
-					{t.heading}
-				</h2>
-				<p class="text-muted-foreground mt-6 text-base sm:text-lg">{t.intro}</p>
-			</div>
+<section id="photobooks" class="bg-blush relative py-24 sm:py-32" aria-labelledby="photobooks-title">
+	<div class="mx-auto grid max-w-[1400px] items-center gap-16 px-5 sm:px-8 lg:grid-cols-[1.15fr_0.85fr]">
+		<!-- open book -->
+		<div class="relative">
+			<div class="bg-paper relative grid grid-cols-2 rounded-[1.75rem] p-3 shadow-[0_40px_70px_-36px_rgb(46_36_25/0.6)] sm:p-5">
+				<div class="pointer-events-none absolute inset-y-3 left-1/2 w-10 -translate-x-1/2 bg-gradient-to-r from-transparent via-[rgb(46_36_25/0.14)] to-transparent sm:inset-y-5" aria-hidden="true"></div>
 
-			<div class="text-muted-foreground flex items-center gap-4 text-xs sm:text-sm">
-				<span class="font-mono tracking-[0.2em] uppercase">{t.coverage}</span>
-			</div>
-		</header>
-
-		<div class="mt-14 grid gap-8 sm:mt-16 lg:grid-cols-12 lg:gap-12">
-			<div class="lg:col-span-7">
-				<div
-					class="group relative overflow-hidden rounded-xl bg-card border border-border/40 shadow-sm"
-				>
+				<figure class="flex flex-col gap-2 pr-2 sm:pr-4">
 					<img
 						src={featured.src}
 						alt={featured.alt}
 						loading="lazy"
 						decoding="async"
-						class="aspect-[4/3] w-full object-cover grayscale contrast-[1.02] transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
+						class="aspect-[3/4] w-full rounded-l-xl rounded-r-sm object-cover"
 					/>
-				</div>
-			</div>
+					{#if 'caption' in featured}
+						<figcaption class="font-hand text-bark-soft text-center text-xl">{featured.caption}</figcaption>
+					{/if}
+				</figure>
 
-			<div
-				class="flex flex-col justify-center gap-8 lg:col-span-5 lg:gap-10 lg:sticky lg:top-16 lg:self-start"
-			>
-				<p
-					class="font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase sm:text-xs"
-				>
-					{t.featuresHeading}
-				</p>
-
-				<div class="flex flex-col">
-					{#each t.features as feature, i (i)}
-						<div
-							class="flex flex-col gap-2 border-t border-foreground/10 py-6 first:border-t-0 first:pt-0 sm:py-7"
-						>
-							<div class="flex items-baseline gap-3">
-								<span
-									class="font-mono text-[10px] tracking-[0.2em] text-muted-foreground tabular-nums sm:text-xs"
-								>
-									0{i + 1}
-								</span>
-								<h3 class="font-serif text-xl font-medium sm:text-2xl">
-									{feature.title}
-								</h3>
-							</div>
-							<p class="text-muted-foreground pl-7 text-sm leading-relaxed sm:text-base">
-								{feature.description}
-							</p>
-						</div>
+				<div class="flex flex-col gap-3 pl-2 sm:gap-4 sm:pl-4">
+					{#each rest as item, i (i)}
+						<figure class="flex items-center gap-3">
+							<img
+								src={item.src}
+								alt={item.alt}
+								loading="lazy"
+								decoding="async"
+								class="aspect-square w-1/2 shrink-0 rounded-r-xl rounded-l-sm object-cover sm:w-3/5"
+							/>
+							<figcaption class="font-hand text-bark text-lg leading-tight sm:text-xl">
+								<span class="text-honey-ink block">{t.galleryLabels[i + 1]}</span>
+								{item.caption}
+							</figcaption>
+						</figure>
 					{/each}
 				</div>
-
-				<Button
-					size="lg"
-					class="bg-foreground text-background hover:bg-foreground/90 w-full"
-					onclick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-				>
-					{t.cta}
-					<ArrowUpRight data-icon="inline-end" class="ml-0.5" />
-				</Button>
 			</div>
+			<!-- ribbon bookmark -->
+			<span class="bg-honey absolute -top-3 right-[22%] h-24 w-6 [clip-path:polygon(0_0,100%_0,100%_100%,50%_82%,0_100%)]" aria-hidden="true"></span>
 		</div>
 
-		<div class="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-			{#each filmstrip as item, i (i)}
-				<figure
-					class="group relative overflow-hidden rounded-xl bg-card border border-border/40 shadow-sm transition-all duration-300 hover:shadow-lg"
-				>
-					<div class="aspect-[3/4] sm:aspect-[4/5] w-full overflow-hidden bg-foreground/5 relative">
-						<img
-							src={item.src}
-							alt={item.alt}
-							loading="lazy"
-							decoding="async"
-							class="h-full w-full object-cover object-center grayscale contrast-[1.02] transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
-						/>
-						<div
-							class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"
-							aria-hidden="true"
-						></div>
-					</div>
+		<div class="flex flex-col gap-7">
+			<p class="hand-note">{content.sectionLabels.photobooks}</p>
+			<h2 id="photobooks-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
+			<p class="text-bark-soft text-lg">{t.intro}</p>
 
-					<figcaption
-						class="absolute inset-x-0 bottom-0 p-4 text-white flex items-end justify-between gap-2 pointer-events-none"
-					>
-						<div>
-							<p class="font-mono text-[10px] tracking-[0.25em] text-white/70 uppercase">
-								0{i + 1} · {item.caption}
-							</p>
-							<p class="font-serif text-sm font-medium leading-tight text-white/95 mt-0.5">
-								{item.alt}
-							</p>
-						</div>
-					</figcaption>
-				</figure>
-			{/each}
+			<div class="flex flex-col gap-1">
+				<h3 class="font-hand text-bark text-3xl">{t.featuresHeading}</h3>
+				<ol class="flex flex-col">
+					{#each t.features as feature, i (i)}
+						<li class="border-bark/10 flex gap-5 border-b py-5 last:border-b-0">
+							<span class="bg-paper text-honey-ink font-display flex size-12 shrink-0 items-center justify-center rounded-full text-xl italic">{i + 1}</span>
+							<div class="flex flex-col gap-1">
+								<span class="font-display text-2xl">{feature.title}</span>
+								<span class="text-bark-soft">{feature.description}</span>
+							</div>
+						</li>
+					{/each}
+				</ol>
+			</div>
+
+			<div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+				<button
+					type="button"
+					onclick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+					class="bg-fir text-milk hover:bg-fir-soft min-h-14 rounded-full px-8 font-semibold transition-colors"
+				>
+					{t.cta}
+				</button>
+				<span class="font-hand text-bark-soft text-2xl">{t.coverage}</span>
+			</div>
 		</div>
 	</div>
 </section>

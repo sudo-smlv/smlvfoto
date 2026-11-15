@@ -1,21 +1,8 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { Button } from '$lib/components/ui/button';
-	import { Badge } from '$lib/components/ui/badge';
-	import { AspectRatio } from '$lib/components/ui/aspect-ratio';
+	import { Dialog } from 'bits-ui';
+	import { fade, fly } from 'svelte/transition';
 	import { useI18n, type PortfolioStory } from '$lib/i18n.svelte';
-	const i18n = useI18n();
-	const content = $derived(i18n.content);
-	const tx = $derived(content.portfolio.texts);
 	import { fill } from '$lib/content/build';
-	import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
-	import ChevronLeft from '@lucide/svelte/icons/chevron-left';
-	import ChevronRight from '@lucide/svelte/icons/chevron-right';
-	import MapPin from '@lucide/svelte/icons/map-pin';
-	import Calendar from '@lucide/svelte/icons/calendar';
-	import Eye from '@lucide/svelte/icons/eye';
-	import X from '@lucide/svelte/icons/x';
-	import Images from '@lucide/svelte/icons/images';
 	import { createPortfolioGallery } from '$lib/state/portfolio.svelte';
 
 	let {
@@ -26,7 +13,12 @@
 		initialStory?: PortfolioStory | null;
 	} = $props();
 
+	const i18n = useI18n();
+	const content = $derived(i18n.content);
+	const tx = $derived(content.portfolio.texts);
 	const gallery = createPortfolioGallery(i18n);
+
+	const tilts = ['-rotate-[1.5deg]', 'rotate-[1.2deg]', '-rotate-[0.8deg]', 'rotate-[1.8deg]'];
 
 	$effect(() => {
 		if (open && initialStory) {
@@ -34,379 +26,240 @@
 			gallery.activePhotoIndex = 0;
 		}
 	});
+
+	function bookShoot() {
+		open = false;
+		setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 150);
+	}
 </script>
 
 <svelte:window onkeydown={gallery.handleKeydown} />
 
 <Dialog.Root bind:open>
-	<Dialog.Content
-		class="sm:max-w-6xl sm:h-[90vh] flex flex-col gap-0 p-0 sm:border border-border/80 shadow-2xl sm:rounded-2xl"
-	>
-		<!-- Inner wrapper to clip the grid to Dialog.Content's rounded corners, allowing activeStory to break out -->
-		<div class="flex flex-col h-full w-full rounded-[inherit] overflow-hidden">
-			<!-- Dialog Header with Navigation & Filter Bar -->
-			<div
-				class="flex flex-col gap-2 sm:gap-3 border-b border-border/40 px-3.5 py-2.5 sm:px-8 sm:py-4 bg-card/70 shrink-0"
-			>
-				<div class="flex items-center justify-between gap-3 pr-8 sm:pr-10">
-					<div class="flex items-baseline gap-2 sm:gap-3">
-						<Dialog.Title class="font-serif text-lg sm:text-3xl font-medium tracking-tight">
-							{tx.dialogTitle}
-						</Dialog.Title>
-						<Badge
-							variant="outline"
-							class="font-mono text-[9px] sm:text-xs px-2 py-0 sm:py-0.5 bg-background/80"
-						>
+	<Dialog.Portal>
+		<Dialog.Overlay class="bg-bark/55 fixed inset-0 z-50 backdrop-blur-sm" />
+		<Dialog.Content
+			escapeKeydownBehavior={gallery.activeStory ? 'ignore' : 'close'}
+			class="bg-milk text-bark fixed inset-0 z-50 flex flex-col overflow-hidden outline-none sm:inset-6 sm:rounded-[2rem] sm:shadow-2xl"
+		>
+			<!-- Header -->
+			<div class="border-line flex shrink-0 flex-col gap-4 border-b px-5 pt-5 pb-4 sm:px-10 sm:pt-8">
+				<div class="flex items-start justify-between gap-4">
+					<div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+						<Dialog.Title class="font-display text-3xl sm:text-5xl">{tx.dialogTitle}</Dialog.Title>
+						<span class="font-hand text-honey-ink text-2xl">
 							{fill(tx.shootCount, { count: gallery.filteredStories.length })}
-						</Badge>
+						</span>
 					</div>
-					<Dialog.Description class="sr-only">
-						{fill(tx.shootCountLong, { count: gallery.filteredStories.length })}
-					</Dialog.Description>
-				</div>
-
-			<!-- Filter Chips (Horizontally Scrollable on Mobile) -->
-			<div
-				class="flex items-center gap-1.5 overflow-x-auto pb-0.5 pt-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap"
-			>
-				{#each gallery.filterOptions as f, fi (fi)}
-					<Button
-						variant={gallery.activeFilter === f.id ? 'default' : 'outline'}
-						size="sm"
-						class="text-[11px] sm:text-xs rounded-full h-6 sm:h-7 px-2.5 sm:px-3 font-normal transition-all shrink-0 cursor-pointer"
-						onclick={() => (gallery.activeFilter = f.id)}
+					<Dialog.Close
+						class="border-line bg-paper hover:bg-cream flex size-11 shrink-0 items-center justify-center rounded-full border transition-colors"
 					>
-						{f.label}
-						{#if gallery.activeFilter === f.id}
-							<span class="ml-1 text-[9px] sm:text-[10px] opacity-70"
-								>({gallery.filteredStories.length})</span
-							>
-						{/if}
-					</Button>
-				{/each}
-			</div>
-		</div>
-
-		<!-- Scrollable Stories Grid -->
-		<div class="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 overscroll-contain">
-			{#if gallery.filteredStories.length === 0}
-				<div class="flex flex-col items-center justify-center py-20 text-center gap-3">
-					<p class="font-serif text-2xl text-muted-foreground">{tx.empty}</p>
-					<Button variant="outline" size="sm" onclick={() => (gallery.activeFilter = 'all')}>
-						{tx.showAll}
-					</Button>
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+						<span class="sr-only">{tx.closeViewer}</span>
+					</Dialog.Close>
 				</div>
-			{:else}
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-					{#each gallery.displayedStories as story, i (story.id)}
-						{@const photoCount = story.images && story.images.length > 0 ? story.images.length : 1}
+				<Dialog.Description class="sr-only">
+					{fill(tx.shootCountLong, { count: gallery.filteredStories.length })}
+				</Dialog.Description>
+
+				<div class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+					{#each gallery.filterOptions as f, fi (fi)}
 						<button
 							type="button"
-							class="group relative isolate overflow-hidden rounded-xl bg-foreground border border-border/40 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer text-left w-full p-0 outline-none focus-visible:ring-2 focus-visible:ring-ring [content-visibility:auto] [contain-intrinsic-size:350px]"
-							onclick={() => gallery.openStory(story)}
+							aria-pressed={gallery.activeFilter === f.id}
+							onclick={() => (gallery.activeFilter = f.id)}
+							class={[
+								'min-h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors',
+								gallery.activeFilter === f.id
+									? 'bg-honey border-honey text-bark'
+									: 'border-line bg-paper text-bark-soft hover:text-bark'
+							]}
 						>
-							<AspectRatio ratio={4 / 5} class="overflow-hidden">
-								<img
-									src={story.src}
-									alt={story.alt}
-									loading="lazy"
-									decoding="async"
-									class="h-full w-full object-cover grayscale transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
-								/>
-								<div
-									class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"
-									aria-hidden="true"
-								></div>
-							</AspectRatio>
-
-							<!-- Top Tags & Photo Count Badge -->
-							<div
-								class="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none"
-							>
-								<div class="flex items-center gap-1.5">
-									<span
-										class="font-mono text-[10px] tracking-wider text-white/80 bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full uppercase"
-									>
-										№0{i + 1}
-									</span>
-									{#if story.category}
-										<Badge
-											variant="secondary"
-											class="bg-white/90 text-black text-[10px] px-2 py-0.5 rounded-full font-medium"
-										>
-											{story.category}
-										</Badge>
-									{/if}
-								</div>
-
-								<!-- Multi-Photo Badge indicator -->
-								{#if photoCount > 1}
-									<span
-										class="inline-flex items-center gap-1 font-mono text-[10px] tracking-wider text-white bg-black/60 backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-full"
-									>
-										<Images class="size-3 text-white/90" />
-										<span>{fill(tx.photoCount, { count: photoCount })}</span>
-									</span>
-								{:else}
-									<span
-										class="font-mono text-[9px] tracking-wider text-white/60 bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full"
-									>
-										{fill(tx.photoCount, { count: 1 })}
-									</span>
-								{/if}
-							</div>
-
-							<!-- Bottom Metadata Overlay -->
-							<div
-								class="absolute inset-x-0 bottom-0 p-4 text-white flex flex-col gap-1.5 pointer-events-none"
-							>
-								<div class="flex items-center gap-2 text-[11px] text-white/70 font-mono">
-									<span class="inline-flex items-center gap-1">
-										<MapPin class="size-3" />
-										{story.location}
-									</span>
-									<span>·</span>
-									<span>{story.year}</span>
-								</div>
-
-								<div class="flex items-end justify-between gap-2">
-									<h3
-										class="font-serif text-lg leading-tight font-medium text-white group-hover:text-white/95"
-									>
-										{story.caption}
-									</h3>
-									<span
-										class="size-7 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-									>
-										<Eye class="size-4" />
-									</span>
-								</div>
-							</div>
+							{f.label}
+							{#if gallery.activeFilter === f.id}
+								<span class="ml-1 opacity-70">{gallery.filteredStories.length}</span>
+							{/if}
 						</button>
 					{/each}
 				</div>
+			</div>
 
-				<!-- Infinite Scroll Sentinel & Stream Loader -->
-				{#if gallery.hasMore}
-					<div
-						bind:this={gallery.sentinelEl}
-						class="flex flex-col items-center justify-center py-10 gap-2.5 text-muted-foreground"
-					>
-						<div
-							class="size-5 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground"
-						></div>
-						<p class="font-mono text-[10px] tracking-widest uppercase">
-							{fill(tx.loading, {
-								count: gallery.displayedStories.length,
-								total: gallery.filteredStories.length
-							})}
-						</p>
-					</div>
-				{/if}
-			{/if}
-		</div>
-
-		<!-- Footer CTA -->
-		<div
-			class="border-t border-border/40 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 bg-card/50"
-		>
-			<p class="text-xs text-muted-foreground text-center sm:text-left">
-				{tx.ctaText}
-			</p>
-			<Button
-				size="sm"
-				class="w-full sm:w-auto cursor-pointer"
-				onclick={() => {
-					open = false;
-					setTimeout(() => {
-						document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-					}, 150);
-				}}
-			>
-				<Calendar data-icon="inline-start" class="mr-1.5 size-4" />
-				{tx.ctaButton}
-				<ArrowUpRight data-icon="inline-end" class="ml-1 size-3.5" />
-			</Button>
-		</div>
-	</div>
-
-	<!-- Full-Screen Lightbox View for Active Story with Multi-Photo Gallery Carousel -->
-	{#if gallery.activeStory}
-		<div
-			class="absolute top-1/2 left-1/2 w-[100vw] h-[100dvh] -translate-x-1/2 -translate-y-1/2 z-[100] flex flex-col items-center justify-between bg-black/95 text-white p-3 sm:p-6 lg:p-8 animate-in fade-in-0 duration-200 select-none"
-			role="dialog"
-			tabindex="-1"
-			aria-modal="true"
-			aria-label={gallery.activeStory.caption}
-		>
-		<!-- Top Controls & Story Header -->
-		<div class="w-full flex items-center justify-between z-20 shrink-0 gap-2">
-			<div class="flex items-center gap-2 sm:gap-3 min-w-0">
-				<Badge
-					variant="outline"
-					class="font-mono text-[11px] sm:text-xs border-white/30 text-white bg-black/40 px-2 py-0.5 shrink-0"
-				>
-					{gallery.currentStoryIndex + 1} / {content.portfolio.items.length}
-				</Badge>
-				<div class="truncate">
-					<span class="font-serif text-xs sm:text-base text-white/95 font-medium">
-						{gallery.activeStory.caption}
-					</span>
-					<span class="text-[11px] sm:text-xs text-white/60 font-mono ml-2 hidden sm:inline">
-						· {gallery.activeStory.location} ({gallery.activeStory.year})
-					</span>
-					{#if gallery.currentStoryImages.length > 1}
-						<span
-							class="text-[10px] sm:text-xs text-white/80 bg-white/15 px-2 py-0.5 rounded-full font-mono ml-2"
+			<!-- Grid -->
+			<div class="flex-1 overflow-y-auto overscroll-contain px-5 py-8 sm:px-10">
+				{#if gallery.filteredStories.length === 0}
+					<div class="flex flex-col items-center gap-5 py-24 text-center">
+						<p class="font-hand text-bark-soft text-3xl">{tx.empty}</p>
+						<button
+							type="button"
+							onclick={() => (gallery.activeFilter = 'all')}
+							class="bg-fir text-milk min-h-11 rounded-full px-6 font-semibold"
 						>
-							{fill(tx.frameOf, {
-								current: gallery.activePhotoIndex + 1,
-								total: gallery.currentStoryImages.length
-							})}
-						</span>
+							{tx.showAll}
+						</button>
+					</div>
+				{:else}
+					<ul class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+						{#each gallery.displayedStories as story, i (story.id)}
+							<li>
+								<button
+									type="button"
+									onclick={() => gallery.openStory(story)}
+									class="polaroid group block w-full text-left transition-transform duration-300 hover:-translate-y-1 hover:rotate-0 {tilts[i % tilts.length]} [content-visibility:auto] [contain-intrinsic-size:420px]"
+								>
+									<span class="relative block overflow-hidden">
+										<img
+											src={story.src}
+											alt={story.alt}
+											loading="lazy"
+											decoding="async"
+											class="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+										/>
+										{#if story.category}
+											<span class="bg-paper/90 text-bark absolute top-3 left-3 rounded-full px-3 py-1 text-xs font-semibold">
+												{story.category}
+											</span>
+										{/if}
+										<span class="bg-bark/70 text-milk absolute top-3 right-3 rounded-full px-2.5 py-1 text-xs font-semibold">
+											{fill(tx.photoCount, { count: story.images.length || 1 })}
+										</span>
+									</span>
+									<span class="flex flex-col px-1.5 pt-3 pb-4">
+										<span class="font-hand text-bark text-2xl leading-none">{story.caption}</span>
+										<span class="text-bark-soft mt-1.5 text-sm">{story.location} · {story.year}</span>
+									</span>
+								</button>
+							</li>
+						{/each}
+					</ul>
+
+					{#if gallery.hasMore}
+						<div bind:this={gallery.sentinelEl} class="text-bark-soft flex flex-col items-center gap-3 py-12">
+							<span class="border-line border-t-honey size-6 animate-spin rounded-full border-2" aria-hidden="true"></span>
+							<p class="font-hand text-xl">
+								{fill(tx.loading, { count: gallery.displayedStories.length, total: gallery.filteredStories.length })}
+							</p>
+						</div>
 					{/if}
-				</div>
+				{/if}
 			</div>
 
-			<div class="flex items-center gap-2 shrink-0">
-				<!-- Prev/Next Story Switcher -->
-				<div class="hidden md:flex items-center gap-1 mr-2 border-r border-white/20 pr-3">
-					<Button
-						variant="ghost"
-						size="sm"
-						class="text-white/80 hover:text-white hover:bg-white/10 text-xs h-8 px-2.5 font-mono cursor-pointer"
-						onclick={gallery.prevStoryDirect}
-					>
-						{tx.prevStory}
-					</Button>
-					<Button
-						variant="ghost"
-						size="sm"
-						class="text-white/80 hover:text-white hover:bg-white/10 text-xs h-8 px-2.5 font-mono cursor-pointer"
-						onclick={gallery.nextStoryDirect}
-					>
-						{tx.nextStory}
-					</Button>
-				</div>
-
-				<Button
-					variant="outline"
-					size="sm"
-					class="border-white/30 bg-white/10 text-white hover:bg-white/20 text-xs hidden sm:inline-flex cursor-pointer"
-					onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (val) => open = val)}
+			<!-- Footer -->
+			<div class="bg-cream flex shrink-0 flex-col items-center justify-between gap-3 px-5 py-4 sm:flex-row sm:px-10">
+				<p class="font-hand text-bark text-2xl">{tx.ctaText}</p>
+				<button
+					type="button"
+					onclick={bookShoot}
+					class="bg-honey text-bark min-h-11 w-full rounded-full px-6 font-semibold sm:w-auto"
 				>
-					{tx.bookStory}
-				</Button>
-				<Button
-					variant="ghost"
-					size="icon-sm"
-					class="text-white hover:bg-white/20 rounded-full size-8 sm:size-9 cursor-pointer"
-					onclick={() => (gallery.activeStory = null)}
+					{tx.ctaButton}
+				</button>
+			</div>
+
+			<!-- Lightbox -->
+			{#if gallery.activeStory}
+				<div
+					class="bg-fir text-milk absolute inset-0 z-10 flex flex-col"
+					role="dialog"
+					tabindex="-1"
+					aria-modal="true"
+					aria-label={gallery.activeStory.caption}
+					transition:fade={{ duration: 180 }}
 				>
-					<X class="size-5" />
-					<span class="sr-only">{tx.closeViewer}</span>
-				</Button>
-			</div>
-		</div>
+					<div class="flex shrink-0 items-center justify-between gap-3 px-4 py-4 sm:px-8">
+						<div class="min-w-0">
+							<p class="font-hand text-honey-light truncate text-2xl leading-none sm:text-3xl">
+								{gallery.activeStory.caption}
+							</p>
+							<p class="text-milk/75 mt-1 truncate text-sm">
+								{[
+									gallery.activeStory.location,
+									gallery.activeStory.year,
+									gallery.activeStory.category,
+									gallery.currentStoryImages.length > 1
+										? fill(tx.frameOf, {
+												current: gallery.activePhotoIndex + 1,
+												total: gallery.currentStoryImages.length
+											})
+										: ''
+								]
+									.filter(Boolean)
+									.join(' · ')}
+							</p>
+						</div>
+						<div class="flex shrink-0 items-center gap-2">
+							<button type="button" onclick={gallery.prevStoryDirect} class="text-milk/80 hover:text-milk hidden min-h-11 rounded-full px-3 text-sm font-semibold md:block">{tx.prevStory}</button>
+							<button type="button" onclick={gallery.nextStoryDirect} class="text-milk/80 hover:text-milk hidden min-h-11 rounded-full px-3 text-sm font-semibold md:block">{tx.nextStory}</button>
+							<button
+								type="button"
+								onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (v) => (open = v))}
+								class="bg-honey text-bark hidden min-h-11 rounded-full px-5 text-sm font-semibold sm:block"
+							>
+								{tx.bookStory}
+							</button>
+							<button
+								type="button"
+								onclick={() => (gallery.activeStory = null)}
+								class="bg-milk/10 hover:bg-milk/20 flex size-11 items-center justify-center rounded-full"
+							>
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+								<span class="sr-only">{tx.closeViewer}</span>
+							</button>
+						</div>
+					</div>
 
-		<!-- Middle Presentation Row: Left Arrow + Photo + Right Arrow (100% Reliable Touch on iPad/Mobile) -->
-		<div
-			class="relative flex items-center justify-between w-full flex-1 max-h-[65svh] sm:max-h-[72vh] my-auto overflow-hidden px-1 sm:px-6"
-			role="region"
-			aria-label={tx.viewerLabel}
-		>
-			<!-- Left Arrow Button -->
-			<button
-				type="button"
-				class="z-30 size-11 sm:size-14 rounded-full bg-black/80 hover:bg-black/95 text-white active:bg-black transition-colors flex items-center justify-center backdrop-blur-md border border-white/30 shadow-2xl cursor-pointer select-none shrink-0"
-				onclick={(e) => {
-					e.stopPropagation();
-					gallery.prevPhoto();
-				}}
-				aria-label={tx.prevPhoto}
-			>
-				<ChevronLeft class="size-6 sm:size-7 pointer-events-none" />
-			</button>
+					<div class="relative flex min-h-0 flex-1 items-center justify-center gap-2 px-2 sm:gap-6 sm:px-8" role="region" aria-label={tx.viewerLabel}>
+						<button type="button" onclick={gallery.prevPhoto} aria-label={tx.prevPhoto} class="bg-milk/10 hover:bg-honey hover:text-bark flex size-12 shrink-0 items-center justify-center rounded-full transition-colors">
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+						</button>
+						<div
+							role="presentation"
+							class="flex h-full min-w-0 flex-1 touch-pan-y items-center justify-center"
+							ontouchstart={gallery.handleImageTouchStart}
+							ontouchend={gallery.handleImageTouchEnd}
+						>
+							{#key gallery.currentPhoto}
+								<img
+									src={gallery.currentPhoto}
+									alt={gallery.activeStory.alt}
+									decoding="async"
+									in:fly={{ x: 24, duration: 260 }}
+									class="max-h-full max-w-full rounded-2xl object-contain shadow-2xl select-none"
+								/>
+							{/key}
+						</div>
+						<button type="button" onclick={gallery.nextPhoto} aria-label={tx.nextPhoto} class="bg-milk/10 hover:bg-honey hover:text-bark flex size-12 shrink-0 items-center justify-center rounded-full transition-colors">
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+						</button>
+					</div>
 
-			<!-- Photo Container (Touch Swipe Zone) -->
-			<div
-				role="presentation"
-				class="relative flex items-center justify-center flex-1 h-full px-2 sm:px-4 max-w-full overflow-hidden touch-pan-y"
-				ontouchstart={gallery.handleImageTouchStart}
-				ontouchend={gallery.handleImageTouchEnd}
-			>
-				<img
-					src={gallery.currentPhoto}
-					alt={gallery.activeStory.alt}
-					decoding="async"
-					class="max-h-full max-w-full object-contain rounded-md sm:rounded-lg shadow-2xl transition-all select-none pointer-events-none"
-				/>
-			</div>
-
-			<!-- Right Arrow Button -->
-			<button
-				type="button"
-				class="z-30 size-11 sm:size-14 rounded-full bg-black/80 hover:bg-black/95 text-white active:bg-black transition-colors flex items-center justify-center backdrop-blur-md border border-white/30 shadow-2xl cursor-pointer select-none shrink-0"
-				onclick={(e) => {
-					e.stopPropagation();
-					gallery.nextPhoto();
-				}}
-				aria-label={tx.nextPhoto}
-			>
-				<ChevronRight class="size-6 sm:size-7 pointer-events-none" />
-			</button>
-		</div>
-
-		<!-- Multi-Photo Filmstrip Thumbnails Bar (when story has multiple photos) -->
-		{#if gallery.currentStoryImages.length > 1}
-			<div
-				class="flex items-center justify-center gap-2 py-2 overflow-x-auto max-w-full z-20 shrink-0"
-			>
-				{#each gallery.currentStoryImages as imgUrl, idx (idx)}
-					<button
-						type="button"
-						class="relative size-12 sm:size-14 rounded-md overflow-hidden border-2 transition-all duration-200 cursor-pointer p-0 shrink-0 {gallery.activePhotoIndex ===
-						idx
-							? 'border-white ring-2 ring-white/50 scale-105 opacity-100'
-							: 'border-white/30 opacity-50 hover:opacity-100'}"
-						onclick={() => (gallery.activePhotoIndex = idx)}
-					>
-						<img src={imgUrl} alt={tx.thumbnail} class="h-full w-full object-cover" />
-					</button>
-				{/each}
-			</div>
-		{/if}
-
-		<!-- Bottom Story Info & Action -->
-		<div
-			class="flex flex-col sm:flex-row items-center justify-between w-full max-w-4xl gap-2 sm:gap-3 text-center sm:text-left z-20 shrink-0 pt-1"
-		>
-			<div>
-				<h4 class="font-serif text-base sm:text-xl font-medium">{gallery.activeStory.caption}</h4>
-				<p class="text-[11px] sm:text-xs text-white/70 font-mono mt-0.5">
-					📍 {gallery.activeStory.location} · {gallery.activeStory.year}
-					{#if gallery.activeStory.category}
-						· {gallery.activeStory.category}
-					{/if}
-					{#if gallery.currentStoryImages.length > 1}
-						· {fill(tx.frameOf, {
-							current: gallery.activePhotoIndex + 1,
-							total: gallery.currentStoryImages.length
-						})}
-					{/if}
-				</p>
-			</div>
-
-			<Button
-				size="sm"
-				class="bg-white text-black hover:bg-white/90 text-xs px-5 w-full sm:w-auto h-9 font-medium cursor-pointer"
-				onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (val) => open = val)}
-			>
-				{tx.ctaButton}
-				<ArrowUpRight data-icon="inline-end" class="ml-1.5 size-3.5" />
-			</Button>
-		</div>
-		</div>
-	{/if}
-</Dialog.Content>
+					<div class="flex shrink-0 flex-col items-center gap-3 px-4 py-4">
+						{#if gallery.currentStoryImages.length > 1}
+							<div class="flex max-w-full gap-2 overflow-x-auto">
+								{#each gallery.currentStoryImages as imgUrl, idx (idx)}
+									<button
+										type="button"
+										onclick={() => (gallery.activePhotoIndex = idx)}
+										aria-current={gallery.activePhotoIndex === idx}
+										class={[
+											'size-14 shrink-0 overflow-hidden rounded-xl border-2 transition',
+											gallery.activePhotoIndex === idx ? 'border-honey' : 'border-transparent opacity-55 hover:opacity-100'
+										]}
+									>
+										<img src={imgUrl} alt={tx.thumbnail} class="h-full w-full object-cover" />
+									</button>
+								{/each}
+							</div>
+						{/if}
+						<button
+							type="button"
+							onclick={() => gallery.activeStory && gallery.selectForBooking(gallery.activeStory, (v) => (open = v))}
+							class="bg-honey text-bark min-h-11 w-full rounded-full px-6 text-sm font-semibold sm:hidden"
+						>
+							{tx.ctaButton}
+						</button>
+					</div>
+				</div>
+			{/if}
+		</Dialog.Content>
+	</Dialog.Portal>
 </Dialog.Root>

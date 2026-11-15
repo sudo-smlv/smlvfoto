@@ -1,95 +1,71 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn-svelte/tailwind.css';
-@import '@fontsource-variable/inter';
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * "Family album at golden hour" — warm paper, honey sunlight, forest green.
+ * Colours are taken from the photos themselves: garden light, skin warmth,
+ * Black Forest greens. Every colour the site uses is defined here.
+ */
 :root {
-	--background: oklch(1 0 0); /* pure white */
-	--foreground: oklch(0.15 0 0); /* near black */
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.15 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.15 0 0);
-	--primary: oklch(0.15 0 0); /* black */
-	--primary-foreground: oklch(0.99 0 0);
-	--secondary: oklch(0.96 0 0);
-	--secondary-foreground: oklch(0.15 0 0);
-	--muted: oklch(0.96 0 0);
-	--muted-foreground: oklch(0.5 0 0);
-	--accent: oklch(0.96 0 0);
-	--accent-foreground: oklch(0.15 0 0);
-	--destructive: oklch(0.45 0.2 25);
-	--border: oklch(0.9 0 0);
-	--input: oklch(0.9 0 0);
-	--ring: oklch(0.15 0 0);
-	--chart-1: oklch(0.15 0 0);
-	--chart-2: oklch(0.35 0 0);
-	--chart-3: oklch(0.55 0 0);
-	--chart-4: oklch(0.7 0 0);
-	--chart-5: oklch(0.85 0 0);
-	--radius: 0.5rem;
-	--sidebar: oklch(0.98 0 0);
-	--sidebar-foreground: oklch(0.15 0 0);
-	--sidebar-primary: oklch(0.15 0 0);
-	--sidebar-primary-foreground: oklch(0.99 0 0);
-	--sidebar-accent: oklch(0.96 0 0);
-	--sidebar-accent-foreground: oklch(0.15 0 0);
-	--sidebar-border: oklch(0.9 0 0);
-	--sidebar-ring: oklch(0.15 0 0);
-}
+	--milk: #fbf4e8; /* page ground: warm paper */
+	--paper: #fffaf1; /* raised paper: polaroids, letters */
+	--cream: #f3e6d0; /* soft band behind sections */
+	--blush: #f6d9c2; /* apricot skin warmth */
+	--sage: #dfe5d0; /* garden leaves, light */
+	--honey: #e3a646; /* sunlight: buttons, highlights */
+	--honey-ink: #8f5710; /* honey dark enough for small text (5.4:1 on milk) */
+	--honey-light: #f2c478; /* honey on dark green */
+	--fir: #2f3d2e; /* forest: dark sections */
+	--fir-soft: #43553f;
+	--bark: #2e2419; /* text */
+	--bark-soft: #6a5847; /* secondary text (5.9:1 on milk) */
+	--line: #e3d4bc; /* hairlines on paper */
 
-.dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.87 0 0);
-	--chart-2: oklch(0.556 0 0);
-	--chart-3: oklch(0.439 0 0);
-	--chart-4: oklch(0.371 0 0);
-	--chart-5: oklch(0.269 0 0);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.488 0.243 264.376);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+	/* shadcn tokens mapped to the same palette (toasts, dialog primitives) */
+	--background: var(--milk);
+	--foreground: var(--bark);
+	--card: var(--paper);
+	--card-foreground: var(--bark);
+	--popover: var(--paper);
+	--popover-foreground: var(--bark);
+	--primary: var(--fir);
+	--primary-foreground: var(--milk);
+	--secondary: var(--cream);
+	--secondary-foreground: var(--bark);
+	--muted: var(--cream);
+	--muted-foreground: var(--bark-soft);
+	--accent: var(--blush);
+	--accent-foreground: var(--bark);
+	--destructive: #b3412e;
+	--border: var(--line);
+	--input: var(--line);
+	--ring: var(--honey-ink);
+	--radius: 1rem;
 }
 
 @theme inline {
-	--font-sans: 'Inter Variable', sans-serif;
-	--font-serif: 'Cormorant Garamond', 'Georgia', serif;
-	--color-sidebar-ring: var(--sidebar-ring);
-	--color-sidebar-border: var(--sidebar-border);
-	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-	--color-sidebar-accent: var(--sidebar-accent);
-	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-	--color-sidebar-primary: var(--sidebar-primary);
-	--color-sidebar-foreground: var(--sidebar-foreground);
-	--color-sidebar: var(--sidebar);
-	--color-chart-5: var(--chart-5);
-	--color-chart-4: var(--chart-4);
-	--color-chart-3: var(--chart-3);
-	--color-chart-2: var(--chart-2);
-	--color-chart-1: var(--chart-1);
+	--font-sans: 'Manrope', system-ui, sans-serif;
+	--font-serif: 'Lora', Georgia, serif;
+	--font-display: 'Lora', Georgia, serif;
+	--font-hand: 'Caveat', 'Segoe Print', cursive;
+
+	--color-milk: var(--milk);
+	--color-paper: var(--paper);
+	--color-cream: var(--cream);
+	--color-blush: var(--blush);
+	--color-sage: var(--sage);
+	--color-honey: var(--honey);
+	--color-honey-ink: var(--honey-ink);
+	--color-honey-light: var(--honey-light);
+	--color-fir: var(--fir);
+	--color-fir-soft: var(--fir-soft);
+	--color-bark: var(--bark);
+	--color-bark-soft: var(--bark-soft);
+	--color-line: var(--line);
+
 	--color-ring: var(--ring);
 	--color-input: var(--input);
 	--color-border: var(--border);
@@ -108,37 +84,153 @@
 	--color-card: var(--card);
 	--color-foreground: var(--foreground);
 	--color-background: var(--background);
-	--radius-sm: calc(var(--radius) * 0.6);
-	--radius-md: calc(var(--radius) * 0.8);
+	--radius-sm: calc(var(--radius) * 0.5);
+	--radius-md: calc(var(--radius) * 0.75);
 	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) * 1.4);
-	--radius-2xl: calc(var(--radius) * 1.8);
-	--radius-3xl: calc(var(--radius) * 2.2);
-	--radius-4xl: calc(var(--radius) * 2.6);
+	--radius-xl: calc(var(--radius) * 1.5);
+	--radius-2xl: calc(var(--radius) * 2);
+	--radius-3xl: calc(var(--radius) * 2.5);
+
+	--animate-marquee: marquee 38s linear infinite;
+	--animate-spin-slow: spin 22s linear infinite;
+	--animate-sway: sway 6s ease-in-out infinite;
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes sway {
+	0%,
+	100% {
+		transform: rotate(-3deg);
+	}
+	50% {
+		transform: rotate(2deg);
+	}
 }
 
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
-	body {
-		@apply bg-background text-foreground antialiased;
-	}
 	html {
 		@apply font-sans;
 		scroll-behavior: smooth;
+		scroll-padding-top: 5.5rem;
+	}
+	body {
+		@apply bg-milk text-bark antialiased;
+		/* tilted polaroids and stickers may poke past the edge; never scroll sideways */
+		overflow-x: clip;
 	}
 	h1,
 	h2,
 	h3,
-	h4,
-	h5,
-	h6 {
-		@apply font-serif tracking-tight;
+	h4 {
+		@apply font-display;
+		font-weight: 500;
+		letter-spacing: -0.015em;
+		text-wrap: balance;
 	}
 	button,
 	[role='button'],
-	a[href] {
+	a[href],
+	label[for],
+	select {
 		cursor: pointer;
+	}
+	:focus-visible {
+		outline: 2px solid var(--honey-ink);
+		outline-offset: 3px;
+	}
+	::selection {
+		background: var(--honey-light);
+		color: var(--bark);
+	}
+}
+
+@layer components {
+	/* Small "hand-written" label used above section titles. */
+	.hand-note {
+		font-family: var(--font-hand);
+		font-size: 1.6rem;
+		line-height: 1;
+		color: var(--honey-ink);
+	}
+
+	/* A strip of washi tape holding a photo. */
+	.tape {
+		position: absolute;
+		width: 92px;
+		height: 26px;
+		background: color-mix(in srgb, var(--honey-light) 70%, transparent);
+		box-shadow: 0 1px 2px rgb(46 36 25 / 0.12);
+		mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent 0)
+			0 0 / 100% 100%;
+	}
+
+	/* Polaroid frame. */
+	.polaroid {
+		background: var(--paper);
+		padding: 10px 10px 0;
+		box-shadow:
+			0 1px 1px rgb(46 36 25 / 0.06),
+			0 14px 30px -10px rgb(46 36 25 / 0.28);
+	}
+
+	/* Ticket with perforated side edges (price list). */
+	.ticket {
+		--hole: 11px;
+		mask:
+			radial-gradient(circle var(--hole) at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+			radial-gradient(circle var(--hole) at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+	}
+
+	/* Lined letter paper (contact form). */
+	.letter-lines {
+		background-image: repeating-linear-gradient(
+			to bottom,
+			transparent 0 39px,
+			color-mix(in srgb, var(--line) 80%, transparent) 39px 40px
+		);
+	}
+
+	/* Field underline used in the letter form. */
+	.ink-field {
+		width: 100%;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 1.5px solid var(--line);
+		padding: 0.55rem 0 0.5rem;
+		font-size: 1rem;
+		color: var(--bark);
+		transition: border-color 0.2s;
+	}
+	.ink-field::placeholder {
+		color: color-mix(in srgb, var(--bark-soft) 70%, transparent);
+	}
+	.ink-field:focus {
+		outline: none;
+		border-bottom-color: var(--honey-ink);
+	}
+	.ink-field[aria-invalid='true'] {
+		border-bottom-color: var(--destructive);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
 	}
 }
