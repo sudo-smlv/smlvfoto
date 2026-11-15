@@ -14,11 +14,11 @@
 	];
 </script>
 
-<section id="about" class="relative py-24 sm:py-32" aria-labelledby="about-title">
+<section id="about" class="relative screen" aria-labelledby="about-title">
 	<div
-		class="mx-auto grid max-w-[1400px] items-center gap-16 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24"
+		class="mx-auto grid w-full max-w-[1400px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20"
 	>
-		<div class="relative mx-auto w-full max-w-[460px]">
+		<div class="relative mx-auto w-full max-w-[min(440px,50svh)]">
 			<div class="bg-sage absolute -inset-4 rotate-[4deg] rounded-[46%_54%_42%_58%/55%_45%_55%_45%]" aria-hidden="true"></div>
 			<img
 				src={t.portrait.src}
@@ -36,9 +36,9 @@
 			</p>
 		</div>
 
-		<div class="flex flex-col gap-8">
+		<div class="flex flex-col gap-6">
 			<p class="hand-note">{content.sectionLabels.about}</p>
-			<h2 id="about-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
+			<h2 id="about-title" class="text-4xl leading-[1.05] lg:text-[clamp(2.25rem,5.4svh,3rem)]">{t.heading}</h2>
 			<blockquote class="border-honey relative border-l-0 pl-0">
 				<svg class="text-honey -mb-4 h-12 w-14" viewBox="0 0 48 40" fill="currentColor" aria-hidden="true"><path d="M0 40V22C0 9 7 2 19 0l2 6c-7 2-10 6-10 13h9v21H0zm27 0V22C27 9 34 2 46 0l2 6c-7 2-10 6-10 13h9v21H27z" /></svg>
 				<p class="font-display text-bark text-2xl leading-snug italic sm:text-[1.9rem]">{t.statement}</p>

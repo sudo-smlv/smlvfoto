@@ -17,11 +17,11 @@
 	}
 </script>
 
-<section id="faq" class="bg-cream relative py-24 sm:py-32" aria-labelledby="faq-title">
-	<div class="mx-auto grid max-w-[1400px] gap-14 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+<section id="faq" class="bg-cream relative screen" aria-labelledby="faq-title">
+	<div class="mx-auto grid w-full max-w-[1400px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
 		<div class="flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start">
 			<p class="hand-note">{content.sectionLabels.faq}</p>
-			<h2 id="faq-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
+			<h2 id="faq-title" class="text-4xl leading-[1.05] lg:text-[clamp(2.25rem,5.4svh,3rem)]">{t.heading}</h2>
 			<p class="text-bark-soft text-lg">{t.intro}</p>
 
 			<div class="bg-paper relative mt-4 rotate-[-1.5deg] rounded-2xl p-7 shadow-[0_20px_40px_-26px_rgb(46_36_25/0.5)]">
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 
-		<ul class="flex flex-col gap-5">
+		<ul class="flex flex-col gap-3.5">
 			{#each t.items as item, i (i)}
 				{@const isOpen = openIndex === i}
 				<li class="flex flex-col gap-3">

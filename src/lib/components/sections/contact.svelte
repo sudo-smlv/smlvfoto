@@ -30,17 +30,17 @@
 	]);
 </script>
 
-{#snippet channelList()}
-	<ul class="flex flex-wrap gap-3">
+{#snippet channelList(compact = false)}
+	<ul class={compact ? 'grid gap-2.5 sm:grid-cols-3' : 'flex flex-wrap justify-center gap-3'}>
 		{#each channels as channel, i (i)}
 			<li>
 				<a
 					href={channel.href}
 					target={channel.external ? '_blank' : undefined}
 					rel={channel.external ? 'noopener noreferrer' : undefined}
-					class="bg-paper hover:bg-honey group inline-flex min-h-14 items-center gap-3 rounded-full py-2 pr-5 pl-2 shadow-[0_10px_24px_-16px_rgb(46_36_25/0.5)] transition-all hover:rotate-0 {channel.tilt}"
+					class={['bg-paper hover:bg-honey group flex min-h-13 items-center gap-2.5 rounded-full py-1.5 pr-4 pl-1.5 shadow-[0_10px_24px_-16px_rgb(46_36_25/0.5)] transition-colors', !compact && channel.tilt]}
 				>
-					<span class="bg-fir text-milk flex size-10 items-center justify-center rounded-full" aria-hidden="true">
+					<span class="bg-fir text-milk flex size-10 shrink-0 items-center justify-center rounded-full" aria-hidden="true">
 						{#if i === 0}
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z" /></svg>
 						{:else if i === 1}
@@ -49,9 +49,9 @@
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="M3 7l9 6 9-6" /></svg>
 						{/if}
 					</span>
-					<span class="flex flex-col leading-tight">
+					<span class="flex min-w-0 flex-col leading-tight">
 						<span class="text-bark text-sm font-bold">{channel.label}</span>
-						<span class="text-bark-soft group-hover:text-bark text-sm">{channel.hint}</span>
+						<span class="text-bark-soft group-hover:text-bark truncate text-xs">{channel.hint}</span>
 					</span>
 				</a>
 			</li>
@@ -59,36 +59,36 @@
 	</ul>
 {/snippet}
 
-<section id="contact" class="relative py-24 sm:py-32" aria-labelledby="contact-title">
-	<div class="mx-auto grid max-w-[1400px] items-start gap-16 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-		<div class="flex flex-col gap-8 lg:sticky lg:top-28">
-			<div class="flex flex-col gap-5">
+<section id="contact" class="relative screen" aria-labelledby="contact-title">
+	<div class="mx-auto grid w-full max-w-[1400px] items-start gap-10 px-5 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+		<div class="flex flex-col gap-6">
+			<div class="flex flex-col gap-3">
 				<p class="hand-note">{content.sectionLabels.contact}</p>
-				<h2 id="contact-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
-				<p class="text-bark-soft text-lg">{t.intro}</p>
+				<h2 id="contact-title" class="text-4xl leading-[1.05] lg:text-[clamp(2.25rem,5.4svh,3rem)]">{t.heading}</h2>
+				<p class="text-bark-soft">{t.intro}</p>
 				<p class="font-hand text-honey-ink text-2xl">{t.coverage}</p>
 			</div>
 
-			<div class="flex flex-col gap-4">
-				<h3 class="font-hand text-bark text-3xl">{t.processHeading}</h3>
-				<ol class="relative flex flex-col gap-6 pl-2">
-					<span class="border-honey/70 absolute top-4 bottom-4 left-[1.6rem] border-l-2 border-dashed" aria-hidden="true"></span>
+			<div class="flex flex-col gap-3">
+				<h3 class="font-hand text-bark text-2xl">{t.processHeading}</h3>
+				<ol class="grid gap-x-6 gap-y-4 sm:grid-cols-2">
 					{#each t.process as step, i (i)}
-						<li class="relative flex gap-5">
-							<span class="bg-honey text-bark ring-milk font-display relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full text-lg italic ring-4">{i + 1}</span>
-							<div class="flex flex-col gap-1 pt-1.5">
-								<span class="font-display text-xl">{step.title}</span>
-								<span class="text-bark-soft">{step.description}</span>
+						<li class="flex gap-3">
+							<span class="bg-honey text-bark font-display flex size-9 shrink-0 items-center justify-center rounded-full text-base italic">{i + 1}</span>
+							<div class="flex flex-col">
+								<span class="font-display text-lg leading-snug">{step.title}</span>
+								<span class="text-bark-soft text-sm">{step.description}</span>
 							</div>
 						</li>
 					{/each}
 				</ol>
 			</div>
 
-			<div class="flex flex-col gap-4">
-				<h3 class="font-hand text-bark text-3xl">{t.channelsHeading}</h3>
-				{@render channelList()}
+			<div class="flex flex-col gap-3">
+				<h3 class="font-hand text-bark text-2xl">{t.channelsHeading}</h3>
+				{@render channelList(true)}
 			</div>
+
 		</div>
 
 		<!-- the letter -->
@@ -97,7 +97,7 @@
 				<img src={squareCrop(content.about.portrait, 200)} alt="" class="aspect-square w-full rounded-sm object-cover" />
 			</div>
 
-			<div class="rounded-[2rem] px-6 pt-10 pb-8 sm:px-12 sm:pt-14 sm:pb-12">
+			<div class="rounded-[2rem] px-6 pt-9 pb-8 sm:px-10 sm:pt-11 sm:pb-9">
 				<div class="flex flex-col gap-1 pr-24">
 					<h3 class="font-hand text-bark text-4xl leading-none sm:text-5xl">{t.formHeading}</h3>
 					<span class="text-bark-soft text-sm font-semibold">{t.formMeta}</span>
@@ -123,9 +123,9 @@
 						action="?/contact"
 						novalidate
 						use:enhance={formState.createSubmitEnhance()}
-						class="mt-10 flex flex-col gap-7"
+						class="mt-7 flex flex-col gap-5"
 					>
-						<div class="grid gap-7 sm:grid-cols-2 sm:gap-x-10">
+						<div class="grid gap-5 sm:grid-cols-2 sm:gap-x-10">
 							<div class="flex flex-col gap-1">
 								<label for="name" class="text-bark-soft text-sm font-semibold">{f.fields.name}</label>
 								<input id="name" name="name" type="text" autocomplete="name" required maxlength={80} bind:value={formState.name} aria-invalid={!!formState.fieldErrors.name} aria-describedby={formState.fieldErrors.name ? 'name-error' : undefined} placeholder={f.placeholders.name} class="ink-field" />
@@ -157,7 +157,7 @@
 
 						<div class="flex flex-col gap-1">
 							<label for="message" class="text-bark-soft text-sm font-semibold">{f.fields.message}</label>
-							<textarea id="message" name="message" rows={4} maxlength={1000} bind:value={formState.message} aria-invalid={!!formState.fieldErrors.message} placeholder={f.placeholders.message} class="ink-field letter-lines resize-y border-b-0 bg-local py-0 leading-[40px]"></textarea>
+							<textarea id="message" name="message" rows={3} maxlength={1000} bind:value={formState.message} aria-invalid={!!formState.fieldErrors.message} placeholder={f.placeholders.message} class="ink-field letter-lines resize-y border-b-0 bg-local py-0 leading-[40px]"></textarea>
 							{#if formState.fieldErrors.message}<p class="text-destructive text-sm">{formState.fieldErrors.message}</p>{/if}
 						</div>
 

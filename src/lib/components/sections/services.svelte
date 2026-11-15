@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import { useI18n } from '$lib/i18n.svelte';
 	import { createServicesState } from '$lib/state/services.svelte';
 
@@ -7,11 +8,23 @@
 	const t = $derived(content.services);
 	const srv = createServicesState(i18n);
 
-	const badgeRing = $derived(`${t.popularBadge} · `.repeat(t.popularBadge.length < 16 ? 3 : 2));
+	// Which package is open on the right; starts on the popular one.
+	let picked = $state<number | null>(null);
+	const activeIndex = $derived(picked ?? Math.max(0, srv.packages.indexOf(srv.popular)));
+	const active = $derived(srv.packages[activeIndex]);
 
 	// Delivery time is often already one of the bullet points; show it separately only when it isn't.
 	function deliveryNotListed(p: { features: readonly string[]; deliveryDays: string }) {
 		return Boolean(p.deliveryDays) && !p.features.some((f) => f.includes(p.deliveryDays));
+	}
+
+	function onKey(e: KeyboardEvent) {
+		const n = srv.packages.length;
+		if (e.key === 'ArrowDown' || e.key === 'ArrowRight') picked = (activeIndex + 1) % n;
+		else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') picked = (activeIndex - 1 + n) % n;
+		else return;
+		e.preventDefault();
+		document.getElementById(`pkg-tab-${picked}`)?.focus();
 	}
 </script>
 
@@ -19,103 +32,97 @@
 	<svg class="mt-1 shrink-0 {cls}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13c2 1.5 3.5 3 5 5 3-6 6.5-9.5 11-12" /></svg>
 {/snippet}
 
-<section id="services" class="bg-fir text-milk relative overflow-hidden py-24 sm:py-32" aria-labelledby="services-title">
+<section id="services" class="screen bg-fir text-milk relative overflow-hidden" aria-labelledby="services-title">
 	<div class="pointer-events-none absolute -bottom-60 -left-60 size-[44rem] rounded-full bg-[radial-gradient(circle,rgb(227_166_70/0.16),transparent_65%)]" aria-hidden="true"></div>
 
-	<div class="relative mx-auto max-w-[1400px] px-5 sm:px-8">
-		<header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-			<div class="flex max-w-2xl flex-col gap-5">
+	<div class="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+		<header class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+			<div class="flex max-w-2xl flex-col gap-3">
 				<p class="font-hand text-honey-light text-[1.6rem] leading-none">{content.sectionLabels.services}</p>
-				<h2 id="services-title" class="text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">{t.heading}</h2>
-				<p class="text-milk/80 text-lg">{t.subheading}</p>
+				<h2 id="services-title" class="text-4xl leading-[1.05] lg:text-[clamp(2.25rem,5.4svh,3rem)]">{t.heading}</h2>
 			</div>
-			<p class="text-milk/70 flex items-center gap-2 text-sm">
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
-				{t.coverage}
-			</p>
+			<p class="text-milk/75 max-w-md text-[0.95rem]">{t.subheading}</p>
 		</header>
 
-		<!--
-			Three-column grid: the two lighter packages side by side, the premium one wide underneath,
-			and the popular package on the right spanning both rows, so the columns end together.
-		-->
-		<div class="mt-16 grid gap-6 lg:grid-flow-row-dense lg:grid-cols-3">
-			{#each srv.others as p, i (i)}
-				{@const wide = srv.others.length % 2 === 1 && i === srv.others.length - 1}
-				<article class="ticket bg-paper text-bark flex flex-col gap-5 rounded-3xl p-7 sm:p-8 {wide ? 'lg:col-span-2' : ''}">
-					<div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-						<div class="flex flex-col gap-1.5">
-							<p class="font-hand text-honey-ink text-2xl leading-none">{p.label}</p>
-							<h3 class="text-3xl sm:text-[2.1rem]">{p.name}</h3>
-							<p class="text-bark-soft font-semibold">{p.tagline}</p>
+		<div class="mt-6 grid gap-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-6">
+			<!-- package list -->
+			<div role="tablist" aria-label={t.heading} aria-orientation="vertical" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1" tabindex="-1" onkeydown={onKey}>
+				{#each srv.packages as p, i (i)}
+					{@const selected = i === activeIndex}
+					{@const popular = p === srv.popular}
+					<button
+						type="button"
+						role="tab"
+						id="pkg-tab-{i}"
+						aria-selected={selected}
+						aria-controls="pkg-panel"
+						tabindex={selected ? 0 : -1}
+						onclick={() => (picked = i)}
+						class={[
+							'ticket group relative flex min-h-[clamp(4.25rem,9.5svh,5.25rem)] items-center justify-between gap-4 rounded-2xl px-6 py-4 text-left transition-colors [--hole:9px]',
+							selected ? (popular ? 'bg-honey text-bark' : 'bg-paper text-bark') : 'bg-fir-soft/70 text-milk hover:bg-fir-soft'
+						]}
+					>
+						<span class="flex min-w-0 flex-col">
+							<span class="flex items-center gap-2">
+								<span class={['font-display text-2xl leading-tight', selected ? '' : 'text-milk']}>{p.name}</span>
+								{#if popular}
+									<span class={['rounded-full px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wide uppercase', selected ? 'bg-bark text-honey-light' : 'bg-honey text-bark']}>{p.label}</span>
+								{/if}
+							</span>
+							<span class={['truncate text-sm', selected ? 'text-bark/75' : 'text-milk/70']}>{p.tagline}</span>
+						</span>
+						<span class="font-display shrink-0 text-3xl">€{srv.formatter.format(p.price.amount)}</span>
+					</button>
+				{/each}
+			</div>
+
+			<!-- selected package -->
+			{#if active}
+				{@const popular = active === srv.popular}
+				<div
+					id="pkg-panel"
+					role="tabpanel"
+					aria-labelledby="pkg-tab-{activeIndex}"
+					class={['relative flex flex-col rounded-[2rem] p-7 sm:p-8', popular ? 'bg-honey text-bark' : 'bg-paper text-bark']}
+				>
+					{#key activeIndex}
+						<div class="flex h-full flex-col" in:fade={{ duration: 200 }}>
+							<div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
+								<div class="flex flex-col gap-1">
+									<p class={['font-hand text-2xl leading-none', popular ? 'text-bark' : 'text-honey-ink']}>
+										{popular ? t.popularBadge : active.label}
+									</p>
+									<h3 class="text-4xl">{active.name}</h3>
+									<p class="font-semibold">{active.tagline}</p>
+								</div>
+								<div class="flex flex-col sm:items-end">
+									<span class="font-display text-[3.25rem] leading-none">€{srv.formatter.format(active.price.amount)}</span>
+									<span class={['mt-1 text-xs font-semibold', popular ? 'text-bark/70' : 'text-bark-soft']}>{t.priceUnit}</span>
+								</div>
+							</div>
+
+							<p class={['mt-3 max-w-2xl text-[0.95rem]', popular ? 'text-bark/80' : 'text-bark-soft']}>{active.description}</p>
+
+							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2', popular ? 'border-bark/15' : 'border-line']}>
+								{#each active.features as feature, fi (fi)}
+									<li class="flex gap-2.5">{@render check(popular ? 'text-bark' : 'text-honey-ink')}<span>{feature}</span></li>
+								{/each}
+							</ul>
+
+							<div class="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5">
+								<span class="font-hand text-xl">{deliveryNotListed(active) ? active.deliveryDays : t.coverage}</span>
+								<button
+									type="button"
+									onclick={() => srv.selectPackage(active.id)}
+									class={['min-h-13 rounded-full px-8 py-3.5 font-semibold transition-colors', popular ? 'bg-bark text-milk hover:bg-fir' : 'bg-fir text-milk hover:bg-fir-soft']}
+								>
+									{active.cta}
+								</button>
+							</div>
 						</div>
-						<div class="flex flex-col">
-							<span class="font-display text-5xl leading-none">€{srv.formatter.format(p.price.amount)}</span>
-							<span class="text-bark-soft mt-1.5 text-xs font-semibold">{t.priceUnit}</span>
-						</div>
-					</div>
-					<p class="text-bark-soft text-[0.95rem]">{p.description}</p>
-					<ul class="border-line grid gap-x-6 gap-y-2.5 border-t-2 border-dashed pt-5 text-[0.93rem] {wide ? 'sm:grid-cols-2' : ''}">
-						{#each p.features as feature, fi (fi)}
-							<li class="flex gap-2.5">{@render check('text-honey-ink')}<span>{feature}</span></li>
-						{/each}
-					</ul>
-					<div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2">
-						{#if deliveryNotListed(p)}
-							<span class="font-hand text-bark-soft text-xl">{p.deliveryDays}</span>
-						{/if}
-						<button
-							type="button"
-							onclick={() => srv.selectPackage(p.id)}
-							class="bg-fir text-milk hover:bg-fir-soft ml-auto min-h-11 rounded-full px-6 text-sm font-semibold transition-colors"
-						>
-							{p.cta}
-						</button>
-					</div>
-				</article>
-			{/each}
-
-			{#if srv.popular}
-				{@const p = srv.popular}
-				<article class="bg-honey text-bark relative order-first flex flex-col rounded-[2.5rem] p-8 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.6)] sm:p-10 lg:order-none lg:col-start-3 lg:row-span-2 lg:row-start-1">
-					<div class="absolute -top-8 -right-3 flex size-28 items-center justify-center rounded-full bg-[var(--milk)] sm:-right-6 sm:size-32" aria-hidden="true">
-						<svg viewBox="0 0 100 100" class="animate-spin-slow absolute inset-0 size-full">
-							<defs><path id="popular-ring" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
-							<text class="fill-[var(--honey-ink)] font-sans text-[8px] font-bold tracking-[0.16em] uppercase"><textPath href="#popular-ring" textLength="230" lengthAdjust="spacingAndGlyphs">{badgeRing}</textPath></text>
-						</svg>
-						<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" class="text-honey"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" /></svg>
-					</div>
-					<p class="sr-only">{t.popularBadge}</p>
-
-					<p class="font-hand text-2xl">{p.label}</p>
-					<h3 class="mt-2 text-5xl sm:text-6xl">{p.name}</h3>
-					<p class="mt-3 text-lg font-semibold">{p.tagline}</p>
-					<p class="text-bark/80 mt-3">{p.description}</p>
-
-					<div class="mt-8 flex flex-wrap items-end gap-x-4 gap-y-1">
-						<span class="font-display text-7xl leading-none">€{srv.formatter.format(p.price.amount)}</span>
-						<span class="text-bark/75 pb-2 text-sm font-semibold">{t.priceUnit}</span>
-					</div>
-
-					<ul class="border-bark/15 mt-8 flex flex-col gap-3.5 border-t pt-8">
-						{#each p.features as feature, fi (fi)}
-							<li class="flex gap-3">{@render check('text-bark')}<span>{feature}</span></li>
-						{/each}
-					</ul>
-
-					<div class="mt-auto flex flex-wrap items-center justify-between gap-4 pt-10">
-						{#if deliveryNotListed(p)}
-							<span class="font-hand text-2xl">{p.deliveryDays}</span>
-						{/if}
-						<button
-							type="button"
-							onclick={() => srv.selectPackage(p.id)}
-							class="bg-bark text-milk hover:bg-fir ml-auto min-h-14 rounded-full px-8 font-semibold transition-colors"
-						>
-							{p.cta}
-						</button>
-					</div>
-				</article>
+					{/key}
+				</div>
 			{/if}
 		</div>
 	</div>
