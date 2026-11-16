@@ -28,12 +28,13 @@ export class ContactState {
 		}
 	}
 
-	packageOptions = $derived(
-		this.i18n.content.services.packages.map((p: any) => ({
+	packageOptions = $derived([
+		...this.i18n.content.services.packages.map((p: any) => ({
 			value: p.id,
 			label: `${p.name} — €${p.price.amount}`
-		}))
-	);
+		})),
+		...this.i18n.content.contact.orderOptions
+	]);
 
 	selectedPackageLabel = $derived(
 		this.packageOptions.find((o: any) => o.value === this.pkg)?.label ?? this.i18n.content.contact.form.placeholders.package
@@ -48,7 +49,10 @@ export class ContactState {
 
 	init(data?: { prefill?: { package: string | null } }) {
 		if (typeof window !== 'undefined') {
-			const validPackages = this.i18n.content.services.packages.map((p: any) => p.id);
+			const validPackages = [
+				...this.i18n.content.services.packages.map((p: any) => p.id),
+				...this.i18n.content.contact.orderOptions.map((o: any) => o.value)
+			];
 			
 			const fromQuery = new URLSearchParams(window.location.search).get('package');
 			const fromPrefill = data?.prefill?.package;

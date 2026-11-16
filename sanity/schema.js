@@ -433,6 +433,8 @@
           ],
         },
         { name: 'cta', title: 'Кнопка', type: 'localeString' },
+        { name: 'printsNote', title: 'Строка про печать фото (под кнопкой)', type: 'localeString' },
+        { name: 'printsCta', title: 'Ссылка «Заказать печать фото»', type: 'localeString' },
       ],
     },
 
@@ -495,6 +497,23 @@
             { name: 'errorGeneric', title: 'Ошибка: не удалось отправить', type: 'localeString' },
             { name: 'rateLimitedTitle', title: 'Слишком много попыток: заголовок', type: 'localeString' },
             { name: 'rateLimitedDescription', title: 'Слишком много попыток: текст', type: 'localeString' },
+          ],
+        },
+        {
+          name: 'orderOptions',
+          title: 'Дополнительные варианты в поле «Пакет» (фотокнига, печать…)',
+          description: 'Код: photobook — на него ведёт кнопка «Заказать фотокнигу», prints — ссылка «Заказать печать фото».',
+          type: 'array',
+          of: [
+            {
+              name: 'orderOption',
+              title: 'Вариант',
+              type: 'object',
+              fields: [
+                { name: 'value', title: 'Код (латиницей)', type: 'string' },
+                { name: 'label', title: 'Название в списке', type: 'localeString' },
+              ],
+            },
           ],
         },
         {

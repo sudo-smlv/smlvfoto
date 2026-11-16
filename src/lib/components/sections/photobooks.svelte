@@ -35,6 +35,18 @@
 	}
 
 	let touchX = 0;
+
+	// Opens the contact form with the matching choice in its "package" field.
+	function order(option: string) {
+		const valid = content.contact.orderOptions.some((o) => o.value === option);
+		if (valid) {
+			const url = new URL(window.location.href);
+			url.searchParams.set('package', option);
+			history.replaceState(null, '', url);
+			window.dispatchEvent(new CustomEvent('contact:select-package', { detail: { id: option } }));
+		}
+		document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+	}
 </script>
 
 <svelte:window onkeydown={onKey} />
@@ -60,13 +72,27 @@
 				<div class="flex flex-wrap items-center gap-x-5 gap-y-2">
 					<button
 						type="button"
-						onclick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+						onclick={() => order('photobook')}
 						class="bg-fir text-milk hover:bg-fir-soft min-h-12 shrink-0 rounded-full px-7 font-semibold transition-colors"
 					>
 						{t.cta}
 					</button>
 					<span class="font-hand text-bark-soft text-xl leading-tight">{t.coverage}</span>
 				</div>
+				{#if t.printsNote}
+					<p class="text-bark-soft text-sm">
+						{t.printsNote}
+						{#if t.printsCta}
+							<button
+								type="button"
+								onclick={() => order('prints')}
+								class="text-bark decoration-honey ml-1 font-semibold underline decoration-2 underline-offset-4 hover:decoration-[3px]"
+							>
+								{t.printsCta}
+							</button>
+						{/if}
+					</p>
+				{/if}
 			</div>
 		</header>
 	</div>

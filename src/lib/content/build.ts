@@ -94,6 +94,8 @@ export type HomeDoc = {
 		heroImage?: CmsImage;
 		gallery?: { image?: CmsImage; more?: CmsImage[]; caption?: string; size?: string }[];
 		cta?: string;
+		printsNote?: string;
+		printsCta?: string;
 	};
 	faq?: {
 		heading?: string;
@@ -115,6 +117,7 @@ export type HomeDoc = {
 		formMeta?: string;
 		form?: Partial<Record<FormTextKey, string>>;
 		email?: Partial<Record<EmailTextKey, string>>;
+		orderOptions?: { value?: string; label?: string }[];
 	};
 	footer?: Partial<Record<FooterTextKey, string>>;
 	nav?: Partial<Record<NavKey, string>>;
@@ -443,7 +446,9 @@ export function buildContent(home: HomeDoc) {
 			features: (photobooks.features ?? []).map((f) => ({ title: s(f.title), description: s(f.description) })),
 			hero: img(photobooks.heroImage),
 			gallery,
-			cta: s(photobooks.cta)
+			cta: s(photobooks.cta),
+			printsNote: s(photobooks.printsNote),
+			printsCta: s(photobooks.printsCta)
 		},
 		portfolio: {
 			heading: s(portfolio.heading),
@@ -470,6 +475,10 @@ export function buildContent(home: HomeDoc) {
 			items: (faq.items ?? []).map((i) => ({ q: s(i.title), a: s(i.description) }))
 		},
 		contact: {
+			// Extra choices in the form's "package" field (photobook, prints…) priced on request.
+			orderOptions: (contact.orderOptions ?? [])
+				.filter((o) => o.value && o.label)
+				.map((o) => ({ value: s(o.value), label: s(o.label) })),
 			heading: s(contact.heading),
 			intro: s(contact.intro),
 			coverage: s(contact.coverage),

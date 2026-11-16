@@ -65,7 +65,11 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const data = Object.fromEntries(formData);
 		const { content, site } = await getContent(params.lang);
-		const parsed = contactSchema(content.services.packages.map((p) => p.id)).safeParse(data);
+		const choices = new Map<string, string>([
+			...content.services.packages.map((p) => [p.id, p.name] as [string, string]),
+			...content.contact.orderOptions.map((o) => [o.value, o.label] as [string, string])
+		]);
+		const parsed = contactSchema([...choices.keys()]).safeParse(data);
 
 		if (data.hp && data.hp.toString().length > 0) {
 			return fail(400, { ok: false, formError: 'spam' });
@@ -92,13 +96,15 @@ export const actions: Actions = {
 		}
 
 		const id = crypto.randomUUID();
+		// Show the readable name of the chosen package/option in the email and Telegram.
+		const choice = parsed.data.package ? (choices.get(parsed.data.package) ?? parsed.data.package) : null;
 		const e = content.email;
-		const subject = e.subject(parsed.data.package ?? null);
+		const subject = e.subject(choice);
 		const body = [
 			`${e.labels.name}: ${parsed.data.name}`,
 			`${e.labels.contact}: ${parsed.data.contact}`,
 			`${e.labels.city}: ${parsed.data.city ?? e.emptyValue}`,
-			`${e.labels.package}: ${parsed.data.package ?? e.emptyValue}`,
+			`${e.labels.package}: ${choice ?? e.emptyValue}`,
 			`${e.labels.message}: ${parsed.data.message ?? e.emptyValue}`,
 			`${e.labels.id}: ${id}`
 		].join('\n');
@@ -109,7 +115,7 @@ export const actions: Actions = {
 <b>Имя:</b> ${parsed.data.name}
 <b>Контакт:</b> ${parsed.data.contact}
 <b>Город:</b> ${parsed.data.city || '—'}
-<b>Пакет:</b> ${parsed.data.package || '—'}
+<b>Пакет:</b> ${choice || '—'}
 
 <b>Сообщение:</b>
 ${parsed.data.message || '—'}
