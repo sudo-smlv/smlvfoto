@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Dialog } from 'bits-ui';
 	import { fly } from 'svelte/transition';
+	import { focusCrop } from '$lib/actions/focus-crop';
 	import { useI18n } from '$lib/i18n.svelte';
 	import { fill } from '$lib/content/build';
 	import type { CmsImage } from '$lib/content/localize';
@@ -94,6 +95,7 @@
 						height={item.height}
 						loading="lazy"
 						decoding="async"
+						use:focusCrop={item.focus}
 						class="h-[clamp(240px,52svh,420px)] w-auto object-cover lg:h-full lg:w-full lg:transition-transform lg:duration-700 lg:group-hover:scale-[1.03]"
 					/>
 					{#if item.photos.length > 1}

@@ -360,6 +360,7 @@ export function buildContent(home: HomeDoc) {
 			alt: image.alt,
 			width: image.width,
 			height: image.height,
+			focus: image.focus,
 			caption: s(g.caption),
 			size: g.size === 'featured' ? 'featured' : 'medium',
 			// The card photo first, then any extra photos shown when the card is opened.
