@@ -89,7 +89,7 @@
 					id="pkg-panel"
 					role="tabpanel"
 					aria-labelledby="pkg-tab-{activeIndex}"
-					class={['relative flex flex-col rounded-[2rem] p-7 sm:p-8 lg:row-span-2 lg:px-8 lg:py-6', popular ? 'bg-honey text-bark' : 'bg-paper text-bark']}
+					class={['relative flex flex-col rounded-[2rem] p-7 sm:p-8 lg:row-span-2 lg:px-8 lg:py-5', popular ? 'bg-honey text-bark' : 'bg-paper text-bark']}
 				>
 					{#key activeIndex}
 						<div class="flex h-full flex-col" in:fade={{ duration: 200 }}>
@@ -114,7 +114,7 @@
 
 							<p class={['mt-3 max-w-2xl text-[0.95rem] lg:text-sm', popular ? 'text-bark/80' : 'text-bark-soft']}>{active.description}</p>
 
-							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2 lg:gap-y-1.5 lg:text-sm', popular ? 'border-bark/15' : 'border-line']}>
+							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2 lg:gap-y-1 lg:text-sm', popular ? 'border-bark/15' : 'border-line']}>
 								{#each active.features as feature, fi (fi)}
 									<li class="flex gap-2.5">{@render check(popular ? 'text-bark' : 'text-honey-ink')}<span>{feature}</span></li>
 								{/each}
