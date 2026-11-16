@@ -92,7 +92,7 @@ export type HomeDoc = {
 		featuresHeading?: string;
 		features?: Item[];
 		heroImage?: CmsImage;
-		gallery?: { image?: CmsImage; caption?: string; size?: string }[];
+		gallery?: { image?: CmsImage; more?: CmsImage[]; caption?: string; size?: string }[];
 		cta?: string;
 	};
 	faq?: {
@@ -361,7 +361,9 @@ export function buildContent(home: HomeDoc) {
 			width: image.width,
 			height: image.height,
 			caption: s(g.caption),
-			size: g.size === 'featured' ? 'featured' : 'medium'
+			size: g.size === 'featured' ? 'featured' : 'medium',
+			// The card photo first, then any extra photos shown when the card is opened.
+			photos: [image, ...(g.more ?? []).map(img)].filter((p) => p.src)
 		};
 	});
 

@@ -425,6 +425,7 @@
               fields: [
                 { name: 'title', title: 'Название в списке редактора', type: 'string' },
                 { name: 'image', title: 'Фото', type: 'photo' },
+                { name: 'more', title: 'Ещё фото (видны при открытии карточки)', type: 'array', of: [{ type: 'photo' }], options: { layout: 'grid' } },
                 { name: 'caption', title: 'Подпись', type: 'localeString' },
                 { name: 'size', title: 'Размер', type: 'string', options: { list: [{ title: 'Большое', value: 'featured' }, { title: 'Среднее', value: 'medium' }] } },
               ],
