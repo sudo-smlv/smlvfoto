@@ -93,6 +93,8 @@
     { name: 'instagramUrl', title: 'Ссылка на Instagram', type: 'url' },
     { name: 'seoDescription', title: 'Описание сайта для Google и соцсетей', type: 'localeText' },
     { name: 'ogImage', title: 'Картинка для превью ссылки в соцсетях', type: 'image' },
+    { name: 'impressumUrl', title: 'Ссылка на Impressum', type: 'url' },
+    { name: 'impressumLabel', title: 'Название ссылки на Impressum', type: 'localeString' },
   ],
 }
 

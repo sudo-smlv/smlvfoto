@@ -137,6 +137,8 @@ export type SettingsDoc = {
 	instagramUrl?: string;
 	seoDescription?: string;
 	ogImage?: CmsImage;
+	impressumUrl?: string;
+	impressumLabel?: string;
 };
 
 type PortfolioTextKey =
@@ -570,7 +572,9 @@ export function buildSite(settings: SettingsDoc) {
 		telegram: s(settings.telegram),
 		instagram: { handle: s(settings.instagramHandle), url: s(settings.instagramUrl) },
 		ogImage: settings.ogImage?.src ?? '',
-		description: s(settings.seoDescription)
+		description: s(settings.seoDescription),
+		// Legal notice hosted by an external provider; shown in the menu and footer.
+		impressum: { url: s(settings.impressumUrl), label: s(settings.impressumLabel) || 'Impressum' }
 	};
 }
 

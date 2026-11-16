@@ -63,6 +63,14 @@
 							<button type="button" onclick={() => go(item.id)} class="text-milk/80 hover:text-milk min-h-9 text-left">{item.label}</button>
 						</li>
 					{/each}
+					{#if site.impressum.url}
+						<li>
+							<a href={site.impressum.url} target="_blank" rel="noopener noreferrer" class="text-milk/80 hover:text-milk inline-flex min-h-9 items-center gap-1.5">
+								{site.impressum.label}
+								<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>
+							</a>
+						</li>
+					{/if}
 				</ul>
 			</nav>
 
@@ -99,7 +107,12 @@
 		</div>
 
 		<div class="text-milk/75 relative mt-20 flex flex-col items-center justify-between gap-2 text-sm sm:flex-row">
-			<span>© {year} {site.shortName}. {t.rights}</span>
+			<span>
+				© {year} {site.shortName}. {t.rights}
+				{#if site.impressum.url}
+					· <a href={site.impressum.url} target="_blank" rel="noopener noreferrer" class="hover:text-milk underline underline-offset-4">{site.impressum.label}</a>
+				{/if}
+			</span>
 			<span class="font-hand text-milk text-xl">{t.madeWith}</span>
 		</div>
 	</div>

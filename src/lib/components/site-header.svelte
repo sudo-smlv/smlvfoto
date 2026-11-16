@@ -56,7 +56,7 @@
 		aria-label={content.a11y.mainNav}
 		class={cn(
 			'mx-auto flex max-w-[1400px] items-center justify-between gap-3 rounded-full border px-3 py-2 transition-all duration-500 sm:px-4',
-			scrolled
+			scrolled || mobileOpen
 				? 'border-line bg-paper/90 backdrop-blur-md'
 				: 'border-transparent bg-transparent'
 		)}
@@ -147,6 +147,19 @@
 						</button>
 					</li>
 				{/each}
+				{#if site.impressum.url}
+					<li in:fly={{ y: 16, delay: 40 * sections.length, duration: 300 }}>
+						<a
+							href={site.impressum.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-milk/70 hover:text-milk mt-2 flex min-h-12 items-center gap-2 text-xl"
+						>
+							{site.impressum.label}
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>
+						</a>
+					</li>
+				{/if}
 			</ul>
 			<button
 				type="button"
