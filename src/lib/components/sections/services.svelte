@@ -75,7 +75,7 @@
 									<span class={['rounded-full px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wide uppercase', selected ? 'bg-bark text-honey-light' : 'bg-honey text-bark']}>{p.label}</span>
 								{/if}
 							</span>
-							<span class={['truncate text-sm', selected ? 'text-bark/75' : 'text-milk/70']}>{p.tagline}</span>
+							<span class={['line-clamp-2 text-sm lg:line-clamp-1', selected ? 'text-bark/75' : 'text-milk/70']}>{p.tagline}</span>
 						</span>
 						<span class="font-display shrink-0 text-2xl sm:text-3xl">€{srv.formatter.format(p.price.amount)}</span>
 					</button>
@@ -114,7 +114,7 @@
 
 							<p class={['mt-3 max-w-2xl text-[0.95rem] lg:text-sm', popular ? 'text-bark/80' : 'text-bark-soft']}>{active.description}</p>
 
-							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2 lg:gap-y-1 lg:text-sm', popular ? 'border-bark/15' : 'border-line']}>
+							<ul class={['mt-4 grid gap-x-8 gap-y-2 border-t pt-4 text-[0.95rem] sm:grid-cols-2 lg:mt-3 lg:pt-3 lg:gap-y-1 lg:text-sm lg:leading-snug', popular ? 'border-bark/15' : 'border-line']}>
 								{#each active.features as feature, fi (fi)}
 									<li class="flex gap-2.5">{@render check(popular ? 'text-bark' : 'text-honey-ink')}<span>{feature}</span></li>
 								{/each}

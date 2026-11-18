@@ -38,21 +38,21 @@
 			</div>
 		</div>
 
-		<ul class="flex flex-col gap-3.5">
+		<ul class="flex flex-col gap-3.5 lg:gap-[clamp(0.5rem,1.2svh,0.875rem)]">
 			{#each t.items as item, i (i)}
 				{@const isOpen = openIndex === i}
-				<li class="flex flex-col gap-3">
+				<li class="flex flex-col gap-3 lg:gap-2">
 					<button
 						type="button"
 						aria-expanded={isOpen}
 						aria-controls="faq-answer-{i}"
 						onclick={() => (openIndex = isOpen ? -1 : i)}
 						class={[
-							'group relative ml-auto flex max-w-[92%] items-center gap-4 rounded-[1.6rem] rounded-br-md px-6 py-4 text-left transition-colors sm:max-w-[80%]',
+							'group relative ml-auto flex max-w-[92%] items-center gap-4 rounded-[1.6rem] rounded-br-md px-6 py-4 text-left transition-colors sm:max-w-[80%] lg:max-w-[90%] lg:py-[clamp(0.6rem,1.5svh,1rem)]',
 							isOpen ? 'bg-fir text-milk' : 'bg-paper text-bark hover:bg-[var(--milk)]'
 						]}
 					>
-						<span class="font-display text-lg leading-snug sm:text-xl">{item.q}</span>
+						<span class="font-display text-lg leading-snug sm:text-xl lg:text-[clamp(1.05rem,2.4svh,1.25rem)]">{item.q}</span>
 						<span
 							class={[
 								'flex size-8 shrink-0 items-center justify-center rounded-full transition-transform',
@@ -67,9 +67,9 @@
 					{#if isOpen}
 						<div id="faq-answer-{i}" class="flex max-w-[92%] items-end gap-3 sm:max-w-[80%]" transition:slide={{ duration: 260 }}>
 							<img src={avatar} alt="" class="ring-paper size-11 shrink-0 rounded-full object-cover ring-2" />
-							<div class="bg-honey/90 text-bark rounded-[1.6rem] rounded-bl-md px-6 py-4">
+							<div class="bg-honey/90 text-bark rounded-[1.6rem] rounded-bl-md px-6 py-4 lg:py-2.5">
 								<p class="font-hand text-bark/70 text-lg leading-none">{site.shortName}</p>
-								<p class="mt-1.5 leading-relaxed">{item.a}</p>
+								<p class="mt-1.5 leading-relaxed lg:text-[clamp(0.9rem,2svh,1rem)] lg:leading-normal">{item.a}</p>
 							</div>
 						</div>
 					{/if}
