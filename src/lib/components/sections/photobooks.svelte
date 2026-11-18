@@ -106,7 +106,7 @@
 	>
 		{#each items as item, i (i)}
 			<li
-				class="group relative shrink-0 snap-start overflow-hidden rounded-2xl lg:shrink lg:flex-[1_1_0%] lg:transition-[flex-grow] lg:duration-500 lg:ease-out lg:hover:grow-[2.6]"
+				class="group relative shrink-0 snap-start overflow-hidden rounded-2xl ring-1 ring-bark/10 shadow-[0_10px_30px_-18px_rgb(46_36_25/0.45)] lg:shrink lg:flex-[1_1_0%] lg:transition-[flex-grow] lg:duration-500 lg:ease-out lg:hover:grow-[2.6]"
 			>
 				<button
 					type="button"
